@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="it">
     <head>
-        <title>Base</title>
+        <title><?php echo $templateParams["titolo"]; ?></title>
         <link rel="stylesheet" type="text/css" href="../../css/style.css" />
     </head>
     <body>
