@@ -1,0 +1,7 @@
+img {
+    max-width: 50px;
+}
+
+label > img {
+    max-width: 20px;
+}
