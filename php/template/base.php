@@ -30,7 +30,20 @@
                 <a href="<?php echo PAGES_DIR ?>profile.php"><img src="<?php echo RESOURCES_DIR ?>profile.png" alt="Profilo"/></a>
             <?php endif; ?>
         </header>
-        
+        <main>
+            <?php if(isset($templateParams["main_content"])) {
+                foreach($templateParams["main_content"] as $content){
+                    require($content);
+                }
+            } ?>
+        </main>
+        <aside>
+            <?php if(isset($templateParams["side_content"])) {
+                foreach($templateParams["side_content"] as $content){
+                    require($content);
+                }
+            } ?>
+        </aside>
         <footer>
             <p>Tecnologie Web - A.A. 2024/2025</p>
         </footer>
