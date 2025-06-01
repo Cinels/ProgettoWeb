@@ -1,9 +1,6 @@
 -- Tipo 1 console
 -- Tipo 2 controller
 -- Tipo 3 videogioco
--- Venditore 1 Nintendo
--- Venditore 2 Sony
--- Venditore 3 P
 
 insert into prodotto
 values
