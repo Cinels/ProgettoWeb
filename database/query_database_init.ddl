@@ -52,11 +52,11 @@ create table DETTAGLIO_ORDINE (
      constraint IDDETTAGLIO_ORDINE primary key (idOrdine, idProdotto));
 
 create table IMMAGINE (
-     nome char(1) not null,
-     numeroProgressivo char(1) not null,
+     nome varchar(30) not null,
      idProdotto int not null,
+     numeroProgressivo int not null,
      link varchar(100) not null,
-     constraint IDIMMAGINE primary key (numeroProgressivo, idProdotto));
+     constraint IDIMMAGINE primary key (idProdotto, numeroProgressivo));
 
 create table LISTA_PREFERITI (
      idCliente varchar(40) not null,

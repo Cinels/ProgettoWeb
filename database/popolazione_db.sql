@@ -55,4 +55,93 @@ VALUES
 ('Grand Theft Auto V: Premium Edition', 19.99, 100, 'Vivi la vita criminale a Los Santos in questa edizione completa.', 'PEGI 18', true, 3, 'venditore@negozio.it'),
 ('Assassin’s Creed Mirage', 19.99, 100, 'Torna alle origini della serie con questa avventura ambientata a Baghdad.', 'PEGI 18', true, 3, 'venditore@negozio.it');
 
+insert into PIATTOFORMA
+VALUES
+(1, 'Nintendo Switch', 'Nintendo'),
+(2, 'PS5', 'Sony'),
+(3, 'Xbox', 'Microsoft'),
+(4, 'Steam Deck', 'Valve')
 
+-- Console e controller (prodotti 1-11)
+INSERT INTO COMPATIBILITA (codiceProdotto, codicePiattaforma)
+VALUES
+-- Nintendo Switch
+(1, 1), (2, 1), (3, 1),
+-- PS5
+(4, 2), (5, 2),
+-- Xbox
+(6, 3), (7, 3),
+-- Steam Deck
+(8, 4),
+-- Controller
+(9, 2), (10, 1), (11, 1), (12, 3);
+
+-- Giochi Nintendo Switch (prodotti 13-21)
+INSERT INTO COMPATIBILITA (codiceProdotto, codicePiattaforma)
+VALUES
+(13, 1), (14, 1), (15, 1), (16, 1), (17, 1), (18, 1), (19, 1), (20, 1), (21, 1);
+
+-- Giochi PS5 (prodotti 22-30)
+INSERT INTO COMPATIBILITA (codiceProdotto, codicePiattaforma)
+VALUES
+(22, 2), (23, 2), (24, 2), (25, 2), (26, 2), (27, 2), (28, 2), (29, 2), (30, 2);
+
+-- Giochi Xbox (prodotti 31-39)
+INSERT INTO COMPATIBILITA (codiceProdotto, codicePiattaforma)
+VALUES
+(31, 3), (32, 3), (33, 3), (34, 3), (35, 3), (36, 3), (37, 3), (38, 3), (39, 3);
+
+-- Console
+INSERT INTO IMMAGINE (nome, idProdotto, numeroProgressivo, link) VALUES
+('nintendo_switch_1', 1, 1, 'resources/database_img/Console/nintendo_switch_1.jpg'),
+('nintendo_switch_2', 1, 2, 'resources/database_img/Console/nintendo_switch_2.jpg'),
+('nintendo_switch_lite_1', 2, 1, 'resources/database_img/Console/nintendo_switch_lite_1.jpg'),
+('nintendo_switch_lite_2', 2, 2, 'resources/database_img/Console/nintendo_switch_lite_2.jpg'),
+('nintendo_switch_oled_1', 3, 1, 'resources/database_img/Console/nintendo_switch_oled_1.jpg'),
+('nintendo_switch_oled_2', 3, 2, 'resources/database_img/Console/nintendo_switch_oled_2.png'),
+('ps5_1', 4, 1, 'resources/database_img/Console/ps5_1.jpg'),
+('ps5_2', 4, 2, 'resources/database_img/Console/ps5_2.jpg'),
+('ps5_pro_1', 5, 1, 'resources/database_img/Console/ps5_pro_1.jpg'),
+('ps5_pro_2', 5, 2, 'resources/database_img/Console/ps5_pro_2.jpg'),
+('steam_deck_1', 8, 1, 'resources/database_img/Console/steam_deck_1.jpg'),
+('xbox_S_1', 6, 1, 'resources/database_img/Console/xbox_S_1.jpg'),
+('xbox_S_2', 6, 2, 'resources/database_img/Console/xbox_S_2.jpg'),
+('xbox_x_1', 7, 1, 'resources/database_img/Console/xbox_x_1.jpg'),
+('xbox_x_2', 7, 2, 'resources/database_img/Console/xbox_x_2.jpg');
+
+-- Controller
+INSERT INTO IMMAGINE (nome, idProdotto, numeroProgressivo, link) VALUES
+('controller_ps5_1', 9, 1, 'resources/database_img/Controller/controller_ps5_1.jpg'),
+('controller_switch_1', 11, 1, 'resources/database_img/Controller/controller_switch_1.jpg'),
+('controller_xbox_1', 12, 1, 'resources/database_img/Controller/controller_xbox_1.jpg'),
+('joycon_switch_1', 10, 1, 'resources/database_img/Controller/joycon_switch_1.jpg');
+
+-- Videogiochi
+INSERT INTO IMMAGINE (nome, idProdotto, numeroProgressivo, link) VALUES
+('zelda_botw', 13, 1, 'resources/database_img/Videogiochi/zelda_botw.jpg'),
+('super_mario_odyssey', 14, 1, 'resources/database_img/Videogiochi/super_mario_odyssey.jpg'),
+('animal_crossing', 15, 1, 'resources/database_img/Videogiochi/animal_crossing.jpg'),
+('mario_kart_8_dx', 16, 1, 'resources/database_img/Videogiochi/mario_kart_8_dx.jpg'),
+('smash', 17, 1, 'resources/database_img/Videogiochi/smash.jpg'),
+('pokemon_leggende_arceus', 18, 1, 'resources/database_img/Videogiochi/pokemon_leggende_arceus.jpg'),
+('kirby_terra_perduta', 19, 1, 'resources/database_img/Videogiochi/kirby_terra_perduta.jpg'),
+('super_mario_3d_world', 20, 1, 'resources/database_img/Videogiochi/super_mario_3d_world.jpg'),
+('51_worldwide_games', 21, 1, 'resources/database_img/Videogiochi/51_worldwide_games.jpg'),
+('marvel_spiderman_2', 22, 1, 'resources/database_img/Videogiochi/marvel_spiderman_2.jpg'),
+('hogwarts_legacy_ps5', 23, 1, 'resources/database_img/Videogiochi/hogwarts_legacy_ps5.jpg'),
+('last_of_us_2_ps5', 24, 1, 'resources/database_img/Videogiochi/last_of_us_2_ps5.jpg'),
+('assassins_creed_mirage_ps5', 25, 1, 'resources/database_img/Videogiochi/assassins_creed_mirage_ps5.jpg'),
+('gran_turismo_7_ps5', 26, 1, 'resources/database_img/Videogiochi/gran_turismo_7_ps5.jpg'),
+('astrobot', 27, 1, 'resources/database_img/Videogiochi/astrobot.jpg'),
+('cyberpunk_ps5', 28, 1, 'resources/database_img/Videogiochi/cyberpunk_ps5.jpg'),
+('baldurs_gate_3_ps5', 29, 1, 'resources/database_img/Videogiochi/baldurs_gate_3_ps5.jpg'),
+('final_fantasy_vii_ps5', 30, 1, 'resources/database_img/Videogiochi/final_fantasy_vii_ps5.jpg'),
+('hogwarts_legacy_xbox', 31, 1, 'resources/database_img/Videogiochi/hogwarts_legacy_xbox.jpg'),
+('rdr2_xbox', 32, 1, 'resources/database_img/Videogiochi/rdr2_xbox.jpg'),
+('cyberpunk_xbox', 33, 1, 'resources/database_img/Videogiochi/cyberpunk_xbox.jpg'),
+('forza_horizon_5_xbox', 34, 1, 'resources/database_img/Videogiochi/forza_horizon_5_xbox.jpg'),
+('metaphor_re_fantazio_xbox', 35, 1, 'resources/database_img/Videogiochi/metaphor_re_fantazio_xbox.jpg'),
+('halo_infinite_xbox', 36, 1, 'resources/database_img/Videogiochi/halo_infinite_xbox.jpg'),
+('f1_24', 37, 1, 'resources/database_img/Videogiochi/f1_24.jpg'),
+('gta_v_xbox', 38, 1, 'resources/database_img/Videogiochi/gta_v_xbox.jpg'),
+('assassins_creed_mirage_xbox', 39, 1, 'resources/database_img/Videogiochi/assassins_creed_mirage_xbox.jpg');
