@@ -197,7 +197,7 @@ alter table PRODOTTO add constraint FKvende
      foreign key (idVenditore)
      references VENDITORE (email);
 
-alter table RECENSIONE add constraint FKs(i)u(m)
+alter table RECENSIONE add constraint FKsu
      foreign key (idProdotto)
      references PRODOTTO (idProdotto);
 
