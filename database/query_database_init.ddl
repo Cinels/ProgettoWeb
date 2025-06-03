@@ -3,7 +3,7 @@
 -- *--------------------------------------------
 -- * DB-MAIN version: 11.0.2              
 -- * Generator date: Sep 14 2021              
--- * Generation date: Wed May 28 11:42:23 2025 
+-- * Generation date: Tue Jun  3 16:55:45 2025 
 -- * LUN file: C:\Users\manto\Documents\Università\Tecnologie_web\WEB_DB.lun 
 -- * Schema: negozio_logico/1-1 
 -- ********************************************* 
@@ -41,7 +41,7 @@ create table CRONOLOGIA_PRODOTTI (
 
 create table CRONOLOGIA_RICERCA (
      idCliente varchar(40) not null,
-     idRicerca int not null,
+     idRicerca date not null,
      testo varchar(50) not null,
      constraint IDCRONOLOGIA_RICERCA primary key (idCliente, idRicerca));
 
@@ -52,9 +52,11 @@ create table DETTAGLIO_ORDINE (
      constraint IDDETTAGLIO_ORDINE primary key (idOrdine, idProdotto));
 
 create table IMMAGINE (
-     idImmagine int not null,
+     nome char(1) not null,
+     numeroProgressivo char(1) not null,
+     idProdotto int not null,
      link varchar(100) not null,
-     constraint IDIMMAGINE primary key (idImmagine));
+     constraint IDIMMAGINE primary key (numeroProgressivo, idProdotto));
 
 create table LISTA_PREFERITI (
      idCliente varchar(40) not null,
@@ -158,6 +160,10 @@ alter table DETTAGLIO_ORDINE add constraint FKcon_ORD
      references ORDINE (idOrdine);
 
 alter table DETTAGLIO_ORDINE add constraint FKcon_PRO
+     foreign key (idProdotto)
+     references PRODOTTO (idProdotto);
+
+alter table IMMAGINE add constraint FKR
      foreign key (idProdotto)
      references PRODOTTO (idProdotto);
 
