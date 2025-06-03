@@ -21,7 +21,7 @@
                 <label for="password">Password:</label><input type="password" id="password" name="password" />
             </li>
             <li>
-                <label for="password">Conferma Password:</label><input type="password" id="password" name="password" />
+                <label for="check_password">Conferma Password:</label><input type="password" id="check_password" name="check_password" />
             </li>
             <li>
                 <input type="checkbox" id="terms" name="terms" value="terms" />
