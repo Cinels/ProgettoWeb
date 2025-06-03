@@ -12,17 +12,17 @@
 -- Database Section
 -- ________________ 
 
-create database negozio_logico;
-use negozio_logico;
+create database progetto_web;
+use progetto_web;
 
 
 -- Tables Section
 -- _____________ 
 
 create table CARRELLO (
-     idProdotto int not null,
+     idProdotto int auto_increment not null,
      idCliente varchar(40) not null,
-     quantità int not null,
+     quantita int not null,
      constraint IDCARRELLO primary key (idCliente, idProdotto));
 
 create table CLIENTE (
@@ -48,7 +48,7 @@ create table CRONOLOGIA_RICERCA (
 create table DETTAGLIO_ORDINE (
      idProdotto int not null,
      idOrdine int not null,
-     quantità int not null,
+     quantita int not null,
      constraint IDDETTAGLIO_ORDINE primary key (idOrdine, idProdotto));
 
 create table IMMAGINE (
@@ -64,7 +64,7 @@ create table LISTA_PREFERITI (
      constraint IDLISTA_PREFERITI primary key (idCliente, idProdotto));
 
 create table NOTIFICA (
-     idNotifica int not null,
+     idNotifica int auto_increment not null,
      tipo varchar(20) not null,
      testo varchar(500) not null,
      letta char not null,
@@ -72,7 +72,7 @@ create table NOTIFICA (
      constraint IDNOTIFICA primary key (idNotifica));
 
 create table ORDINE (
-     idOrdine int not null,
+     idOrdine int auto_increment not null,
      dataOrdine date not null,
      statoOrdine int not null,
      dataArrivoPrevista date not null,
@@ -81,25 +81,25 @@ create table ORDINE (
      constraint IDORDINE_ID primary key (idOrdine));
 
 create table PIATTAFORMA (
-     idPiattaforma int not null,
+     idPiattaforma int auto_increment not null,
      nome varchar(30) not null,
      azienda varchar(30) not null,
      constraint IDPIATTAFORMA primary key (idPiattaforma));
 
 create table PRODOTTO (
-     idProdotto int not null,
+     idProdotto int auto_increment not null,
      nome varchar(50) not null,
      prezzo int not null,
-     quantitàDisponibile int not null,
-     descrizione varchar(300) not null,
-     proprietà varchar(300) not null,
+     quantitaDisponibile int not null,
+     descrizione varchar(500) not null,
+     proprieta varchar(300) not null,
      offerta char not null,
      tipo int not null,
      idVenditore varchar(40) not null,
      constraint IDPRODOTTO_ID primary key (idProdotto));
 
 create table RECENSIONE (
-     idRecensione int not null,
+     idRecensione int auto_increment not null,
      descrizione varchar(300),
      voto int not null,
      idProdotto int not null,
@@ -111,7 +111,7 @@ create table UTENTE (
      email varchar(40) not null,
      nome varchar(30) not null,
      cognome varchar(30) not null,
-     password varchar(32) not null,
+     password varchar(64) not null,
      fotoProfilo varchar(100),
      constraint IDUTENTE primary key (email));
 
