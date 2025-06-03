@@ -1,5 +1,5 @@
 <?php
-class DatabaseHelper{
+class DatabaseHelper {
     private $db;
     private $isLogged = false;
     private $user = null;
@@ -49,7 +49,7 @@ class DatabaseHelper{
     public function singIn($image, $name, $surname, $email, $password) {
         if (isEmailAvailable($email)) {
             $encryptedPassword = hash('sha256', $password);
-            $query = "INSERT INTO UTENTE (email, nome, cognome, password, fotoProfilo) VALUE (?, ?, ?, ?, ?);";
+            $query = "INSERT INTO UTENTE (email, nome, cognome, password, fotoProfilo) VALUE (?, ?, ?, ?, ?)";
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('sssss', $email, $name, $surname, $encryptedPassword, $image);
             $stmt->execute();
@@ -66,6 +66,179 @@ class DatabaseHelper{
         $user = null;
     }
 
+    public function getNotifications() {
+        $query = "SELECT idNotifica, tipo, testo, letta FROM NOTIFICA WHERE idUtente = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('s', $user['email']);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MSQLI_ASSOC);
+    }
+
+    public function readNotification($idNotification) {
+        $query = "UPDATE NOTIFICA SET letta = true WHERE idNotifica = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('i', $idNotification);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MSQLI_ASSOC);
+    }
+
+    public function unreadNotification($idNotification) {
+        $query = "UPDATE NOTIFICA SET letta = false WHERE idNotifica = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('i', $idNotification);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MSQLI_ASSOC);
+    }
+
+    public function deleteNotification($idNotification) {
+        $query = "DELETE FROM NOTIFICA WHERE idNotifica = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('i', $idNotification);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MSQLI_ASSOC);
+    }
+
+    public function modifyPassword($oldPassword, $newPassword) {
+        $encryptedPassword = hash('sha256', $oldPassword);
+        $query = "SELECT email, password FROM UTENTE WHERE email = ? AND password = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('ss', $user['email'], $encryptedPassword);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if(count($result->fetch_all(MYSQLI_ASSOC)) == 1) {
+            $encryptedPassword = hash('sha256', $newPassword);
+            $query = "UPDATE UTENTE SET password = ? WHERE email = ?";
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('ss', $encryptedPassword, $user['email']);
+            $stmt->execute();
+            $result = $stmt->get_result();
+        }
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getProduct($id) {
+        $query = "SELECT idProdotto, nome, prezzo, quantitaDisponibile, descrizione, proprieta, offerta, tipo, idVenditore FROM PRODOTTO WHERE idProdotto = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('i', $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getProductImages($id) {
+        $query = "SELECT idImmagine, link FROM IMMAGINE WHERE idProdotto = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('i', $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function addToFavourites($idProdotto) {
+        if (isLogged() && getUserType()=="client") {
+            $query = "INSERT INTO LISTA_PREFERITI (idCliente, idProdotto) VALUE (?, ?)";
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('si', $user['email'], $idProdotto);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            return $result->fetch_all(MYSQLI_ASSOC);
+        }
+    }
+
+    public function removeFromFavourites($idProdotto) {
+        if (isLogged() && getUserType()=="client") {
+            $query = "DELETE FROM LISTA_PREFERITI WHERE idCliente = ? AND idProdotto = ?";
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('si', $user['email'], $idProdotto);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            return $result->fetch_all(MYSQLI_ASSOC);
+        }
+    }
+
+    public function addToCart($idProdotto, $n) {
+        if (isLogged() && getUserType()=="client") {
+            $query = "SELECT quantita FROM CARRELLO WHERE idProdotto = ? AND idCliente = ?";
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('is', $idProdotto, $user['email']);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            if (count($result->fetch_all(MYSQLI_ASSOC)) == 0) {
+                $query = "INSERT INTO CARRELLO (idProdotto, idCliente, quantita) VALUE (?, ?, ?)";
+                $stmt = $this->db->prepare($query);
+                $stmt->bind_param('isi', $idProdotto, $user['email'], $n);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                return $result->fetch_all(MYSQLI_ASSOC);
+            } else {
+                $quantity = $result->fetch_all(MYSQLI_ASSOC)['quantita'];
+                $query = "UPDATE CARRELLO SET quanita = ? WHERE idProdotto = ? AND idCliente = ?";
+                $stmt = $this->db->prepare($query);
+                $stmt->bind_param('iis', $n + $quantity, $idProdotto, $user['email']);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                return $result->fetch_all(MYSQLI_ASSOC);
+            }
+        }
+    }
+
+    public function removeFromCart($idProdotto) {
+        if (isLogged() && getUserType()=="client") {
+            $query = "DELETE FROM CARRELLO WHERE idProdotto = ? AND idCliente = ?";
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('is', $idProdotto, $user['email']);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            return $result->fetch_all(MYSQLI_ASSOC);            
+        }
+    }
+     
+    public function removeOneFromCart($idProdotto) {
+        if (isLogged() && getUserType()=="client") {
+            $query = "SELECT quantita FROM CARRELLO WHERE idProdotto = ? AND idCliente = ?";
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('is', $idProdotto, $user['email']);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $quantity = $result->fetch_all(MYSQLI_ASSOC)['quantita'];
+            if ($quantity > 2) {
+                $query = "UPDATE CARRELLO SET quantita = ? WHERE idProdotto = ? AND idCliente = ?";
+                $stmt = $this->db->prepare($query);
+                $stmt->bind_param('iis', $quantity - 1, $idProdotto, $user['email']);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                return $result->fetch_all(MYSQLI_ASSOC);
+            } else {
+                removeFromCart($idProdotto);
+            }
+        }
+    }
+
+    public function getProductForUpdate($id) {
+        if (isLogged() && getUserType() == "vendor") {
+            $query = "SELECT nome, prezzo, quantitaDisponibile, descrizione, proprieta, offerta, tipo FROM PRODOTTO WHERE idProdotto = ?";
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('i', $id);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            return $result->fetch_all(MYSQLI_ASSOC);
+        }
+    }
+
+    public function updateProduct($id, $nome, $prezzo, $quantita, $descrizione, $proprieta, $offerta, $tipo) {
+        if (isLogged() && getUserType() == "vendor") {
+            $query = "UPDATE PRODOTTO SET nome = ?, prezzo = ?, quantitaDisponibile = ?, descrizione = ?, proprieta = ?, tipo = ? WHERE idProdotto = ?"
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('sdissiii', $nome, $prezzo, $quantita, $descrizione, $proprieta, $offerta, $tipo, $id); // TODO gestisci dato booleano
+            $stmt->execute();
+            $result = $stmt->get_result();
+            return $result->fetch_all(MYSQLI_ASSOC);
+        }
+    }
 
     private function isEmailAvailable() {
         $query = "SELECT email FROM UTENTE WHERE email = ?";
