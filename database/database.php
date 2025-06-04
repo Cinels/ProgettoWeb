@@ -32,10 +32,11 @@ class DatabaseHelper {
         $stmt->bind_param('ss', $email, $encryptedPassword);
         $stmt->execute();
         $result = $stmt->get_result();
+        $data = $result->fetch_all(MYSQLI_ASSOC);
 
-        if (count($result->fetch_all(MYSQLI_ASSOC)) == 1) {
+        if (count($data) == 1) {
             $isLogged = true;
-            $user = $result->fetch_all(MYSQLI_ASSOC);
+            $user = $data;
             if(isClientProfile($email)) {
                 $userType = "client";
             } else {
@@ -46,7 +47,7 @@ class DatabaseHelper {
         }
     }
 
-    public function singIn($image, $name, $surname, $email, $password) {
+    public function signIn($image, $name, $surname, $email, $password) {
         if (isEmailAvailable($email)) {
             $encryptedPassword = hash('sha256', $password);
             $query = "INSERT INTO UTENTE (email, nome, cognome, password, fotoProfilo) VALUE (?, ?, ?, ?, ?)";
@@ -290,8 +291,13 @@ class DatabaseHelper {
     }
 
     public function getOrderDetails($idOrdine) {
-        if (isLogged() && getUserType()=="client") {
-            $query = "SELECT P.idProdotto, nome, prezzo, offerta, descrizione, quantita FROM PRODOTTO P, DETTAGLI_ORDINE D WHERE P.idProdotto = D.idProdotto AND D.idOrdine = ?"; //manca media recensioni
+        if (isLogged()) {
+            $query = "SELECT nome, prezzo, offerta, P.descrizione, quantita, avg(voto) as media_recensioni"
+                        ."FROM PRODOTTO P, DETTAGLIO_ORDINE D, RECENSIONE R"
+                        ."WHERE P.idProdotto = D.idProdotto"
+                        ."AND P.idProdotto = R.idprodotto"
+                        ."AND D.idOrdine = 1"
+                        ."group by P.idProdotto, nome, prezzo, offerta, P.descrizione, quantita"
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('s', $user['email']);
             $stmt->execute();
@@ -340,6 +346,26 @@ class DatabaseHelper {
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    public function getVendorProducts() {
+        if (isLogged() && getUserType() == "vendor") {
+            $query = "SELECT nome, prezzo, offerta, link FROM PRODOTTO P, IMMAGINE I WHERE P.idProdotto = I.idProdotto AND idVenditore = ? AND numeroProgressivo = ?";
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('si', $user['email'], 1);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            return $result->fetch_all(MYSQLI_ASSOC);
+        }
+    }
+
+    public function updateOrderState($id, $new_state) {
+        if (isLogged() && getUserType() == "vendor") {
+            $query = "UPDATE ordini SET statoOrdine = ? WHERE idOrdine = ?"
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('ii', $new_state, $id);
+            $stmt->execute();
+        }
+    }
+
     public function getProductForUpdate($id) {
         if (isLogged() && getUserType() == "vendor") {
             $query = "SELECT nome, prezzo, quantitaDisponibile, descrizione, proprieta, offerta, tipo FROM PRODOTTO WHERE idProdotto = ?";
@@ -355,13 +381,21 @@ class DatabaseHelper {
         if (isLogged() && getUserType() == "vendor") {
             $query = "UPDATE PRODOTTO SET nome = ?, prezzo = ?, quantitaDisponibile = ?, descrizione = ?, proprieta = ?, tipo = ? WHERE idProdotto = ?";
             $stmt = $this->db->prepare($query);
-            $stmt->bind_param('sdissiii', $nome, $prezzo, $quantita, $descrizione, $proprieta, $offerta, $tipo, $id); // TODO gestisci dato booleano
+            $intOfferta = (int)$offerta;
+            $stmt->bind_param('sdissiii', $nome, $prezzo, $quantita, $descrizione, $proprieta, $intOfferta, $tipo, $id);
             $stmt->execute();
-            $result = $stmt->get_result();
-            return $result->fetch_all(MYSQLI_ASSOC);
         }
     }
 
+    public function insertProduct($nome, $prezzo, $quantita, $descrizione, $proprieta, $offerta, $tipo) {
+        if (isLogged() && getUserType() == "vendor") {
+            $query = "INSERT INTO PRODOTTO VALUE (?, ?, ?, ?, ?, ?, ?, ?)";
+            $stmt = $this->db->prepare($query);
+            $intOfferta = (int)$offerta;
+            $stmt->bind_param('sdissiis', $nome, $prezzo, $quantita, $descrizione, $proprieta, $intOfferta, $tipo, $user['email']);
+            $stmt->execute();
+        }
+    }
 
     private function isEmailAvailable() {
         $query = "SELECT email FROM UTENTE WHERE email = ?";
