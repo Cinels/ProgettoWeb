@@ -20,7 +20,7 @@ use progetto_web;
 -- _____________ 
 
 create table CARRELLO (
-     idProdotto int auto_increment not null,
+     idProdotto int not null,
      idCliente varchar(40) not null,
      quantita int not null,
      constraint IDCARRELLO primary key (idCliente, idProdotto));
