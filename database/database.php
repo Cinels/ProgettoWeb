@@ -67,57 +67,67 @@ class DatabaseHelper {
     }
 
     public function getNotifications() {
-        $query = "SELECT idNotifica, tipo, testo, letta FROM NOTIFICA WHERE idUtente = ?";
-        $stmt = $this->db->prepare($query);
-        $stmt->bind_param('s', $user['email']);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        return $result->fetch_all(MSQLI_ASSOC);
+        if (isLogged()) {
+            $query = "SELECT idNotifica, tipo, testo, letta FROM NOTIFICA WHERE idUtente = ?";
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('s', $user['email']);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            return $result->fetch_all(MSQLI_ASSOC);
+        }
     }
 
     public function readNotification($idNotification) {
-        $query = "UPDATE NOTIFICA SET letta = true WHERE idNotifica = ?";
-        $stmt = $this->db->prepare($query);
-        $stmt->bind_param('i', $idNotification);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        return $result->fetch_all(MSQLI_ASSOC);
+        if (isLogged()) {
+            $query = "UPDATE NOTIFICA SET letta = true WHERE idNotifica = ?";
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('i', $idNotification);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            return $result->fetch_all(MSQLI_ASSOC);
+        }
     }
 
     public function unreadNotification($idNotification) {
-        $query = "UPDATE NOTIFICA SET letta = false WHERE idNotifica = ?";
-        $stmt = $this->db->prepare($query);
-        $stmt->bind_param('i', $idNotification);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        return $result->fetch_all(MSQLI_ASSOC);
+        if (isLogged()) {
+            $query = "UPDATE NOTIFICA SET letta = false WHERE idNotifica = ?";
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('i', $idNotification);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            return $result->fetch_all(MSQLI_ASSOC);
+        }
     }
 
     public function deleteNotification($idNotification) {
-        $query = "DELETE FROM NOTIFICA WHERE idNotifica = ?";
-        $stmt = $this->db->prepare($query);
-        $stmt->bind_param('i', $idNotification);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        return $result->fetch_all(MSQLI_ASSOC);
+        if (isLogged()) {
+            $query = "DELETE FROM NOTIFICA WHERE idNotifica = ?";
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('i', $idNotification);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            return $result->fetch_all(MSQLI_ASSOC);
+        }
     }
 
     public function modifyPassword($oldPassword, $newPassword) {
-        $encryptedPassword = hash('sha256', $oldPassword);
-        $query = "SELECT email, password FROM UTENTE WHERE email = ? AND password = ?";
-        $stmt = $this->db->prepare($query);
-        $stmt->bind_param('ss', $user['email'], $encryptedPassword);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        if(count($result->fetch_all(MYSQLI_ASSOC)) == 1) {
-            $encryptedPassword = hash('sha256', $newPassword);
-            $query = "UPDATE UTENTE SET password = ? WHERE email = ?";
+        if (isLogged()) {
+            $encryptedPassword = hash('sha256', $oldPassword);
+            $query = "SELECT email, password FROM UTENTE WHERE email = ? AND password = ?";
             $stmt = $this->db->prepare($query);
-            $stmt->bind_param('ss', $encryptedPassword, $user['email']);
+            $stmt->bind_param('ss', $user['email'], $encryptedPassword);
             $stmt->execute();
             $result = $stmt->get_result();
+            if(count($result->fetch_all(MYSQLI_ASSOC)) == 1) {
+                $encryptedPassword = hash('sha256', $newPassword);
+                $query = "UPDATE UTENTE SET password = ? WHERE email = ?";
+                $stmt = $this->db->prepare($query);
+                $stmt->bind_param('ss', $encryptedPassword, $user['email']);
+                $stmt->execute();
+                $result = $stmt->get_result();
+            }
+            return $result->fetch_all(MYSQLI_ASSOC);
         }
-        return $result->fetch_all(MYSQLI_ASSOC);
     }
 
     public function getProduct($id) {
@@ -219,13 +229,17 @@ class DatabaseHelper {
     }
 
     public function moveToCart($idProdotto) {
-        removeFromFavourites($idProdotto);
-        addToCart($idProdotto, 1);
+        if (isLogged() && getUserType()=="client") {
+            removeFromFavourites($idProdotto);
+            addToCart($idProdotto, 1);
+        }
     }
 
     public function moveToFavourites($idProdotto) {
-        removeFromCart($idProdotto);
-        addToFavourites($idProdotto);
+        if (isLogged() && getUserType()=="client") {
+            removeFromCart($idProdotto);
+            addToFavourites($idProdotto);
+        }
     }
 
     public function getProductsOnSale($n) {
@@ -254,48 +268,58 @@ class DatabaseHelper {
     }
 
     public function getYourInterestProducts($n) {
-        $query = "SELECT P.idProdotto, nome, prezzo, offerta FROM PRODOTTO P, CRONOLOGIA_PRODOTTI C WHERE P.idProdotto = C.idProdotto AND C.idCliente = ? LIMIT ?";
-        $stmt = $this->db->prepare($query);
-        $stmt->bind_param('si', $user['email'], $n);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC);
+        if (isLogged() && getUserType()=="client") {
+            $query = "SELECT P.idProdotto, nome, prezzo, offerta FROM PRODOTTO P, CRONOLOGIA_PRODOTTI C WHERE P.idProdotto = C.idProdotto AND C.idCliente = ? LIMIT ?";
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('si', $user['email'], $n);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            return $result->fetch_all(MYSQLI_ASSOC);
+        }
     }
 
     public function getOrders() {
-        $query = "SELECT idOrdine, dataOrdine, statoOrdine, dataArrivoPrevista FROM ORDINI WHERE idCliente = ?"; //manca venditore
-        $stmt = $this->db->prepare($query);
-        $stmt->bind_param('s', $user['email']);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC);
+        if (isLogged() && getUserType()=="client") {
+            $query = "SELECT idOrdine, dataOrdine, statoOrdine, dataArrivoPrevista FROM ORDINI WHERE idCliente = ?"; //manca venditore
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('s', $user['email']);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            return $result->fetch_all(MYSQLI_ASSOC);
+        }
     }
 
     public function getOrderDetails($idOrdine) {
-        $query = "SELECT P.idProdotto, nome, prezzo, offerta, descrizione, quantita FROM PRODOTTO P, DETTAGLI_ORDINE D WHERE P.idProdotto = D.idProdotto AND D.idOrdine = ?"; //manca media recensioni
-        $stmt = $this->db->prepare($query);
-        $stmt->bind_param('s', $user['email']);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC);
+        if (isLogged() && getUserType()=="client") {
+            $query = "SELECT P.idProdotto, nome, prezzo, offerta, descrizione, quantita FROM PRODOTTO P, DETTAGLI_ORDINE D WHERE P.idProdotto = D.idProdotto AND D.idOrdine = ?"; //manca media recensioni
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('s', $user['email']);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            return $result->fetch_all(MYSQLI_ASSOC);
+        }
     }
 
     public function getCart() {
-        $query = "SELECT P.idProdotto, nome, prezzo, offerta, quantita, idVenditore FROM PRODOTTO P, CARRELLO C WHERE P.idProdotto = C.idProdotto AND C.idCliente = ?"; //manca media recensioni e data consegna
-        $stmt = $this->db->prepare($query);
-        $stmt->bind_param('s', $user['email']);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC);
+        if (isLogged() && getUserType()=="client") {
+            $query = "SELECT P.idProdotto, nome, prezzo, offerta, quantita, idVenditore FROM PRODOTTO P, CARRELLO C WHERE P.idProdotto = C.idProdotto AND C.idCliente = ?"; //manca media recensioni e data consegna
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('s', $user['email']);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            return $result->fetch_all(MYSQLI_ASSOC);
+        }
     }
 
     public function getFavourites() {
-        $query = "SELECT P.idProdotto, nome, prezzo, offerta, idVenditore FROM PRODOTTO P, LISTA_PREFERITI L WHERE P.idProdotto = L.idProdotto AND L.idCliente = ?"; //manca media recensioni e data consegna
-        $stmt = $this->db->prepare($query);
-        $stmt->bind_param('s', $user['email']);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC);
+        if (isLogged() && getUserType()=="client") {
+            $query = "SELECT P.idProdotto, nome, prezzo, offerta, idVenditore FROM PRODOTTO P, LISTA_PREFERITI L WHERE P.idProdotto = L.idProdotto AND L.idCliente = ?"; //manca media recensioni e data consegna
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('s', $user['email']);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            return $result->fetch_all(MYSQLI_ASSOC);
+        }
     }
 
     public function getReviewsVotes($idProdotto) {
