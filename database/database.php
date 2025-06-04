@@ -121,7 +121,7 @@ class DatabaseHelper {
     }
 
     public function getProduct($id) {
-        $query = "SELECT idProdotto, nome, prezzo, quantitaDisponibile, descrizione, proprieta, offerta, tipo, idVenditore FROM PRODOTTO WHERE idProdotto = ?";
+        $query = "SELECT idProdotto, nome, prezzo, quantitaDisponibile, descrizione, proprieta, offerta, tipo, idVenditore FROM PRODOTTO WHERE idProdotto = ?"; //manca media recensioni
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('i', $id);
         $stmt->execute();
@@ -218,6 +218,104 @@ class DatabaseHelper {
         }
     }
 
+    public function moveToCart($idProdotto) {
+        removeFromFavourites($idProdotto);
+        addToCart($idProdotto, 1);
+    }
+
+    public function moveToFavourites($idProdotto) {
+        removeFromCart($idProdotto);
+        addToFavourites($idProdotto);
+    }
+
+    public function getProductsOnSale($n) {
+        $query = "SELECT idProdotto, nome, prezzo, offerta FROM PRODOTTO WHERE offerta > 0 ORDER BY offerta desc LIMIT ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('i', $n);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getRelatedProducts($idProdotto, $n) {
+        $query = "SELECT idPiattaforma FROM COMPATIBILITA WHERE idProdotto = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('i', $idProdotto);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $idPiattaforma = $result->fetch_all(MYSQLI_ASSOC)['idPiattaforma'];
+
+        $query = "SELECT P.idProdotto, nome, prezzo, offerta FROM PRODOTTO P, COMPATIBILITA C WHERE P.idProdotto = C.idProdotto AND C.idPiattaforma = ? AND NOT C.idProdotto = ? LIMIT ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('iii', $idPiattaforma, $idProdotto, $n);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getYourInterestProducts($n) {
+        $query = "SELECT P.idProdotto, nome, prezzo, offerta FROM PRODOTTO P, CRONOLOGIA_PRODOTTI C WHERE P.idProdotto = C.idProdotto AND C.idCliente = ? LIMIT ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('si', $user['email'], $n);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getOrders() {
+        $query = "SELECT idOrdine, dataOrdine, statoOrdine, dataArrivoPrevista FROM ORDINI WHERE idCliente = ?"; //manca venditore
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('s', $user['email']);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getOrderDetails($idOrdine) {
+        $query = "SELECT P.idProdotto, nome, prezzo, offerta, descrizione, quantita FROM PRODOTTO P, DETTAGLI_ORDINE D WHERE P.idProdotto = D.idProdotto AND D.idOrdine = ?"; //manca media recensioni
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('s', $user['email']);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getCart() {
+        $query = "SELECT P.idProdotto, nome, prezzo, offerta, quantita, idVenditore FROM PRODOTTO P, CARRELLO C WHERE P.idProdotto = C.idProdotto AND C.idCliente = ?"; //manca media recensioni e data consegna
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('s', $user['email']);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getFavourites() {
+        $query = "SELECT P.idProdotto, nome, prezzo, offerta, idVenditore FROM PRODOTTO P, LISTA_PREFERITI L WHERE P.idProdotto = L.idProdotto AND L.idCliente = ?"; //manca media recensioni e data consegna
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('s', $user['email']);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getReviewsVotes($idProdotto) {
+        $query = "SELECT voto FROM RECENSIONI WHERE idProdotto = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('i', $idProdotto);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getReviews($idProdotto, $n) {
+        $query = "SELECT voto, descrizione FROM RECENSIONI WHERE idProdotto = ? LIMIT ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('ii', $idProdotto, $n);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
     public function getProductForUpdate($id) {
         if (isLogged() && getUserType() == "vendor") {
             $query = "SELECT nome, prezzo, quantitaDisponibile, descrizione, proprieta, offerta, tipo FROM PRODOTTO WHERE idProdotto = ?";
@@ -239,6 +337,7 @@ class DatabaseHelper {
             return $result->fetch_all(MYSQLI_ASSOC);
         }
     }
+
 
     private function isEmailAvailable() {
         $query = "SELECT email FROM UTENTE WHERE email = ?";
