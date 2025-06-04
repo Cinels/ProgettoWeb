@@ -3,8 +3,8 @@
 -- *--------------------------------------------
 -- * DB-MAIN version: 11.0.2              
 -- * Generator date: Sep 14 2021              
--- * Generation date: Tue Jun  3 16:55:45 2025 
--- * LUN file: C:\Users\manto\Documents\Università\Tecnologie_web\WEB_DB.lun 
+-- * Generation date: Thu Jun  5 01:33:41 2025 
+-- * LUN file: C:\xampp\htdocs\ProgettoWeb\database\database.lun 
 -- * Schema: negozio_logico/1-1 
 -- ********************************************* 
 
@@ -12,8 +12,8 @@
 -- Database Section
 -- ________________ 
 
-create database progetto_web;
-use progetto_web;
+create database negozio_logico;
+use negozio_logico;
 
 
 -- Tables Section
@@ -41,9 +41,9 @@ create table CRONOLOGIA_PRODOTTI (
 
 create table CRONOLOGIA_RICERCA (
      idCliente varchar(40) not null,
-     idRicerca date not null,
+     oraRicerca date not null,
      testo varchar(50) not null,
-     constraint IDCRONOLOGIA_RICERCA primary key (idCliente, idRicerca));
+     constraint IDCRONOLOGIA_RICERCA primary key (idCliente, oraRicerca));
 
 create table DETTAGLIO_ORDINE (
      idProdotto int not null,
@@ -54,7 +54,7 @@ create table DETTAGLIO_ORDINE (
 create table IMMAGINE (
      nome varchar(30) not null,
      idProdotto int not null,
-     numeroProgressivo int not null,
+     numeroProgressivo char(1) not null,
      link varchar(100) not null,
      constraint IDIMMAGINE primary key (idProdotto, numeroProgressivo));
 
@@ -64,7 +64,7 @@ create table LISTA_PREFERITI (
      constraint IDLISTA_PREFERITI primary key (idCliente, idProdotto));
 
 create table NOTIFICA (
-     idNotifica int auto_increment not null,
+     idNotifica int not null,
      tipo varchar(20) not null,
      testo varchar(500) not null,
      letta char not null,
@@ -72,34 +72,36 @@ create table NOTIFICA (
      constraint IDNOTIFICA primary key (idNotifica));
 
 create table ORDINE (
-     idOrdine int auto_increment not null,
+     idOrdine int not null,
      dataOrdine date not null,
      statoOrdine int not null,
      dataArrivoPrevista date not null,
      tipoPagamento int not null,
      idCliente varchar(40) not null,
+     idVenditore varchar(40) not null,
+     costoTotale int not null,
      constraint IDORDINE_ID primary key (idOrdine));
 
 create table PIATTAFORMA (
-     idPiattaforma int auto_increment not null,
+     idPiattaforma int not null,
      nome varchar(30) not null,
      azienda varchar(30) not null,
      constraint IDPIATTAFORMA primary key (idPiattaforma));
 
 create table PRODOTTO (
-     idProdotto int auto_increment not null,
+     idProdotto int not null,
      nome varchar(50) not null,
      prezzo int not null,
      quantitaDisponibile int not null,
      descrizione varchar(500) not null,
      proprieta varchar(300) not null,
-     offerta char not null,
+     offerta int not null,
      tipo int not null,
      idVenditore varchar(40) not null,
      constraint IDPRODOTTO_ID primary key (idProdotto));
 
 create table RECENSIONE (
-     idRecensione int auto_increment not null,
+     idRecensione int not null,
      descrizione varchar(300),
      voto int not null,
      idProdotto int not null,
@@ -187,6 +189,10 @@ alter table NOTIFICA add constraint FKriceve
 alter table ORDINE add constraint FKeffettua
      foreign key (idCliente)
      references CLIENTE (email);
+
+alter table ORDINE add constraint FKgestisce
+     foreign key (idVenditore)
+     references VENDITORE (email);
 
 -- Not implemented
 -- alter table PRODOTTO add constraint IDPRODOTTO_CHK
