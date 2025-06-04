@@ -42,7 +42,7 @@ class DatabaseHelper {
                 $userType = "vendor";
             }
         } else {
-            $templateParams["errorelogin"] = "Email o Password errati"
+            $templateParams["errorelogin"] = "Email o Password errati";
         }
     }
 
@@ -353,7 +353,7 @@ class DatabaseHelper {
 
     public function updateProduct($id, $nome, $prezzo, $quantita, $descrizione, $proprieta, $offerta, $tipo) {
         if (isLogged() && getUserType() == "vendor") {
-            $query = "UPDATE PRODOTTO SET nome = ?, prezzo = ?, quantitaDisponibile = ?, descrizione = ?, proprieta = ?, tipo = ? WHERE idProdotto = ?"
+            $query = "UPDATE PRODOTTO SET nome = ?, prezzo = ?, quantitaDisponibile = ?, descrizione = ?, proprieta = ?, tipo = ? WHERE idProdotto = ?";
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('sdissiii', $nome, $prezzo, $quantita, $descrizione, $proprieta, $offerta, $tipo, $id); // TODO gestisci dato booleano
             $stmt->execute();

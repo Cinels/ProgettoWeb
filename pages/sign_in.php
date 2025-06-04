@@ -1,4 +1,5 @@
 <?php
+require_once("../database/init.php");
 $templateParams["titolo"] = "Registrati";
 $templateParams["main_content"] = ["sign_in.php"];
 

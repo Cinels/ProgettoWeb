@@ -1,4 +1,5 @@
 <?php
+require_once("../database/init.php");
 $templateParams["titolo"] = "Il Puzzo";
 $templateParams["main_content"] = ["home.php"];
 if(true/* not login venditore */) {

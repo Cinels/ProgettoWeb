@@ -1,4 +1,5 @@
 <?php
+require_once("../database/init.php");
 $templateParams["titolo"] = "Risultati";
 $templateParams["main_content"] = ["results.php"];
 if(true/* not login venditore */) {
