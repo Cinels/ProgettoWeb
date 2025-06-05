@@ -1,4 +1,3 @@
-<?php require("../utils/paths.php"); ?>
 <!DOCTYPE html>
 <html lang="it">
     <head>

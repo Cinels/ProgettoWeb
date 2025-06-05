@@ -44,7 +44,7 @@ class DatabaseHelper {
         if (count($data) == 1) {
             $this->is_logged = true;
             $this->user = $data[0];
-            if(isClientProfile($email)) {
+            if($this->isClientProfile($email)) {
                 $this->userType = "client";
             } else {
                 $this->userType = "vendor";
@@ -56,7 +56,7 @@ class DatabaseHelper {
     }
 
     public function signIn($name, $surname, $email, $password, $image) {
-        if (isEmailAvailable($email)) {
+        if ($this->isEmailAvailable($email)) {
             $encryptedPassword = hash('sha256', $password);
             $query = "INSERT INTO UTENTE (email, nome, cognome, password, fotoProfilo) VALUE (?, ?, ?, ?, ?)";
             $stmt = $this->db->prepare($query);
