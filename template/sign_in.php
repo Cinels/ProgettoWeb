@@ -7,33 +7,24 @@
         <ul>
             <li>
                 <input type="image" src="<?php echo RESOURCES_DIR ?>add_B.png" alt="Submit">
-            </li>
-            <li>
+            </li><li>
                 <label for="name">Nome:</label><input type="text" id="name" name="name" />
-            </li>
-            <li>
+            </li><li>
                 <label for="surname">Cognome:</label><input type="text" id="surname" name="surname" />
-            </li>
-            <li>
+            </li><li>
                 <label for="email">Email:</label><input type="email" id="email" name="email" />
-            </li>
-            <li>
+            </li><li>
                 <label for="password">Password:</label><input type="password" id="password" name="password" />
-            </li>
-            <li>
+            </li><li>
                 <label for="check_password">Conferma Password:</label><input type="password" id="check_password" name="check_password" />
-            </li>
-            <li>
+            </li><li>
                 <input type="checkbox" id="terms" name="terms" value="accept" />
                 <label for="terms">Accetto <a href=#>i termini e le condizioni</a></label>
-            </li>
-            <li>
+            </li><li>
                 <input type="submit" name="submit" value="Registrati" />
-            </li>
-            <li>
+            </li><li>
                 <p>o</p>
-            </li>
-            <li>
+            </li><li>
                 <a href="<?php echo PAGES_DIR ?>login.php"><input type="button" value="Accedi" /></a>
             </li>
         </ul>
