@@ -14,13 +14,13 @@
                 <input type="text" name="search"/>
             </label>
 
-            <?php if(false/* no login */): ?>
+            <?php if(!$dbh->isLogged()): ?>
                 <a href="<?php echo PAGES_DIR ?>login.php"><img src="<?php echo RESOURCES_DIR ?>header/cuore.png" alt="Lista Preferiti"/></a>
                 <a href="<?php echo PAGES_DIR ?>login.php"><img src="<?php echo RESOURCES_DIR ?>header/carrello.png" alt="Carrello"/></a>
                 <a href="<?php echo PAGES_DIR ?>login.php"><img src="<?php echo RESOURCES_DIR ?>header/ciamioncino.png" alt="Ordini"/></a>
                 <a href="<?php echo PAGES_DIR ?>login.php"><img src="<?php echo RESOURCES_DIR ?>header/utente.png" alt="Profilo"/></a>
             <?php else: ?>
-                <?php if(true/* login cliente */): ?>
+                <?php if($dbh->getUserType() == "client"): ?>
                     <a href="<?php echo PAGES_DIR ?>favourite.php"><img src="<?php echo RESOURCES_DIR ?>header/cuore.png" alt="Lista Preferiti"/></a>
                     <a href="<?php echo PAGES_DIR ?>cart.php"><img src="<?php echo RESOURCES_DIR ?>header/carrello.png" alt="Carrello"/></a>
                 <?php else: ?>

@@ -1,7 +1,7 @@
 <?php
 class DatabaseHelper {
     private $db;
-    private $isLogged = false;
+    private $is_logged = false;
     private $user = null;
     private $userType = null;
 
@@ -17,18 +17,20 @@ class DatabaseHelper {
      * Creazione di un ordine
      * Creazione di una notifica
      * Inserimento cronologia ricerca
+     * controllo se un prodotto è nei preferiti
+     * controllo se un prodotto è nel carrello
      */
 
     public function isLogged() {
-        return $isLogged;
+        return $this->is_logged;
     }
     
     public function getUserType() {
-        return $userType;
+        return $this->userType;
     }
 
     public function getProfileImage() {
-        return $user['fotoProfilo'];
+        return $this->user['fotoProfilo'];
     }
 
     public function checkLogin($email, $password){
@@ -41,7 +43,7 @@ class DatabaseHelper {
         $data = $result->fetch_all(MYSQLI_ASSOC);
 
         if (count($data) == 1) {
-            $isLogged = true;
+            $is_logged = true;
             $user = $data[0];
             if(isClientProfile($email)) {
                 $userType = "client";
@@ -69,7 +71,7 @@ class DatabaseHelper {
     }
 
     public function logout() {
-        $isLogged = false;
+        $is_logged = false;
         $user = null;
     }
 

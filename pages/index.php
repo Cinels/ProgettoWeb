@@ -2,7 +2,7 @@
 require_once("../database/init.php");
 $templateParams["titolo"] = "Il Puzzo";
 $templateParams["main_content"] = ["home.php"];
-if(true/* not login venditore */) {
+if(!($dbh->isLogged() && $dbh->getUserType() == "vendor")) {
     $templateParams["side_content"] = ["aside/on_sale.php", "aside/trends.php", "aside/your_interests.php"];
 }
 
