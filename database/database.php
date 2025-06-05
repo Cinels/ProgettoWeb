@@ -12,6 +12,12 @@ class DatabaseHelper {
         }        
     }
 
+    /**
+     * Query mancanti:
+     * Creazione di un ordine
+     * Creazione di una notifica
+     * Inserimento cronologia ricerca
+     */
 
     public function isLogged() {
         return $isLogged;
@@ -279,9 +285,38 @@ class DatabaseHelper {
         }
     }
 
+    public function getProductsFromResearch($searched) {
+        $query = "SELECT nome, prezzo, offerta, link"
+            ."FROM PRODOTTO P, IMMAGINE I"
+            ."WHERE P.idProdotto = I.idProdotto"
+            ."AND nome LIKE %?% AND numeroProgressivo = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('si', $searched, 1);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getTrendProducts() {
+        $query = "SELECT P.nome, prezzo, offerta, link"
+                ."FROM PRODOTTO P, IMMAGINE I, ORDINE O, DETTAGLIO_ORDINE D"
+                ."WHERE P.idProdotto = I.idProdotto"
+                ."AND O.idOrdine = D.idOrdine"
+                ."AND D.idProdotto = P.idProdotto"
+                ."AND numeroProgressivo = 1"
+                ."group by P.idProdotto, nome, prezzo, offerta, link"
+                ."order by sum(D.quantita)"
+                ."limit ?";
+        stmt = $this->db->prepare($query);
+        $stmt->bind_param('i', 10);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
     public function getOrders() {
         if (isLogged() && getUserType()=="client") {
-            $query = "SELECT idOrdine, dataOrdine, statoOrdine, dataArrivoPrevista FROM ORDINI WHERE idCliente = ?"; //manca venditore
+            $query = "SELECT idOrdine, dataOrdine, statoOrdine, dataArrivoPrevista, idVenditore, costoTotale FROM ORDINI WHERE idCliente = ?"; //manca venditore
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('s', $user['email']);
             $stmt->execute();
