@@ -5,9 +5,9 @@
     <a href="#Reviews"><?php echo $result["media_recensioni"] ?><img src="<?php echo RESOURCES_DIR ?>Marco_semplice_W.png" alt=""/></a>
     <?php if($result["sconto"] > 0) {
         $sale = $result["prezzo"] - $result["prezzo"]*$result["sconto"];
-        echo "<ins>$sale</ins>€ <del>$result['prezzo']€</del>";
+        echo "<ins>".$sale."</ins>€ <del>".$result['prezzo']."€</del>";
     } else {
-        echo "<p>$result['prezzo']€</p>";
+        echo "<p>".$result['prezzo']."€</p>";
     }?>
     <!-- gestione della quantità -->
     <p>Consegna prevista per x</p>

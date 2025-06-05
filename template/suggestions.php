@@ -7,9 +7,9 @@
                     <p><?php echo $result["nome"] ?></p>
                     <?php if($result["sconto"] > 0) {
                     $sale = $result["prezzo"] - $result["prezzo"]*$result["sconto"];
-                    echo "<ins>$sale</ins>€ <del>$result['prezzo']€</del>";
+                    echo "<ins>".$sale."</ins><del>".$result['prezzo']."</del>€";
                 } else {
-                    echo "<p>$result['prezzo']€</p>";
+                    echo "<p>".$result['prezzo']."€</p>";
                 }?>
                 </a></li>
             <?php endforeach;
