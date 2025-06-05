@@ -9,10 +9,12 @@
         <header>
             <a href="<?php echo PAGES_DIR ?>index.php"><img src="<?php echo RESOURCES_DIR ?>header/logo.png" alt="Pagina Principale"/></a>
 
-            <label>
-                <img src="<?php echo RESOURCES_DIR ?>header/search.png" alt="Cerca"/>
-                <input type="text" name="search"/>
-            </label>
+            <form action="<?php echo PAGES_DIR ?>results.php" method="GET">
+                <label>
+                    <img src="<?php echo RESOURCES_DIR ?>header/search.png" alt="Cerca"/>
+                    <input type="text" name="search"/>
+                </label>
+            </form>
 
             <?php if(!$dbh->isLogged()): ?>
                 <a href="<?php echo PAGES_DIR ?>login.php"><img src="<?php echo RESOURCES_DIR ?>header/cuore.png" alt="Lista Preferiti"/></a>
