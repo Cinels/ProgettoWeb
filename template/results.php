@@ -13,8 +13,8 @@
                             <a href="<?php $dbh->removeFromFavourites($result["idProdotto"]) ?>"><img src="<?php echo RESOURCES_DIR ?>cuore_B.png" alt="Rimuovi dai Preferiti"/></a>
                         <?php endif;
                     endif; ?>
-                    <?php if($result["sconto"] > 0) {
-                        $sale = $result["prezzo"] - $result["prezzo"]*$result["sconto"];
+                    <?php if($result["offerta"] > 0) {
+                        $sale = $result["prezzo"] - $result["prezzo"]*$result["offerta"];
                         echo "<ins>$sale</ins>€ <del>$result['prezzo']€</del>";
                     } else {
                         echo "<p>$result['prezzo']€</p>";

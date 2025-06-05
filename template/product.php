@@ -3,8 +3,8 @@
     <img src="<?php echo $result["link"]?>" alt="Immagine Prodotto"/><br/>
     <p><?php echo $result["nome"] ?></p>
     <a href="#Reviews"><?php echo $result["media_recensioni"] ?><img src="<?php echo RESOURCES_DIR ?>Marco_semplice_W.png" alt=""/></a>
-    <?php if($result["sconto"] > 0) {
-        $sale = $result["prezzo"] - $result["prezzo"]*$result["sconto"];
+    <?php if($result["offerta"] > 0) {
+        $sale = $result["prezzo"] - $result["prezzo"]*$result["offerta"];
         echo "<ins>".$sale."</ins>€ <del>".$result['prezzo']."€</del>";
     } else {
         echo "<p>".$result['prezzo']."€</p>";
