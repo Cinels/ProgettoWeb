@@ -1,12 +1,12 @@
 <section>
-    <form action="javascript:history.go(-2)" method="POST">
-        <h2>Login</h2>
+    <form action="#" method="POST">
+        <h2>Registrati</h2>
         <?php if(isset($templateParams["erroresignin"])): ?>
             <p><?php echo $templateParams["erroresignin"]; ?></p>
         <?php endif; ?>
         <ul>
             <li>
-                <input type="image" src="<?php echo RESOURCES_DIR ?>add_T.png" alt="Submit" width="48" height="48">
+                <input type="image" src="<?php echo RESOURCES_DIR ?>add_B.png" alt="Submit">
             </li>
             <li>
                 <label for="name">Nome:</label><input type="text" id="name" name="name" />
@@ -24,11 +24,17 @@
                 <label for="check_password">Conferma Password:</label><input type="password" id="check_password" name="check_password" />
             </li>
             <li>
-                <input type="checkbox" id="terms" name="terms" value="terms" />
-                <label for="terms">Accetto<a href=#>i termini e le condizioni</a></label>
+                <input type="checkbox" id="terms" name="terms" value="accept" />
+                <label for="terms">Accetto <a href=#>i termini e le condizioni</a></label>
             </li>
             <li>
                 <input type="submit" name="submit" value="Registrati" />
+            </li>
+            <li>
+                <p>o</p>
+            </li>
+            <li>
+                <a href="<?php echo PAGES_DIR ?>login.php"><input type="button" value="Accedi" /></a>
             </li>
         </ul>
     </form>
