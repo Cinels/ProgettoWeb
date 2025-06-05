@@ -4,7 +4,6 @@ class DatabaseHelper {
     private $is_logged = false;
     private $user = null;
     private $userType = null;
-    private $imgProgressiveNumber = 1;
 
     public function __construct($servername, $username, $password, $dbname, $port){
         $this->db = new mysqli($servername, $username, $password, $dbname, $port);
@@ -256,10 +255,10 @@ class DatabaseHelper {
 
     public function getProductsOnSale($n) {
         $query = "SELECT P.idProdotto, P.nome, prezzo, offerta, link FROM PRODOTTO P, IMMAGINE I "
-        ."WHERE offerta > 0 AND P.idProdotto = I.idProdotto AND I.numeroProgressivo = ? "
+        ."WHERE offerta > 0 AND P.idProdotto = I.idProdotto AND I.numeroProgressivo = 1 "
         ."ORDER BY offerta desc LIMIT ?";
         $stmt = $this->db->prepare($query);
-        $stmt->bind_param('ii', $imgProgressiveNumber, $n);
+        $stmt->bind_param('i', $n);
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
@@ -274,10 +273,10 @@ class DatabaseHelper {
         $idPiattaforma = $result->fetch_all(MYSQLI_ASSOC)['idPiattaforma'];
 
         $query = "SELECT P.idProdotto, nome, prezzo, offerta, link FROM PRODOTTO P, COMPATIBILITA C, IMMAGINE I"
-                ."WHERE P.idProdotto = C.idProdotto AND C.idPiattaforma = ? AND NOT C.idProdotto = ? AND P.idProdotto = I.idProdotto AND I.numeroProgressivo = ?"
+                ."WHERE P.idProdotto = C.idProdotto AND C.idPiattaforma = ? AND NOT C.idProdotto = ? AND P.idProdotto = I.idProdotto AND I.numeroProgressivo = 1"
                 ."LIMIT ?";
         $stmt = $this->db->prepare($query);
-        $stmt->bind_param('iiii', $idPiattaforma, $idProdotto, $imgProgressiveNumber, $n);
+        $stmt->bind_param('iii', $idPiattaforma, $idProdotto, $n);
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
@@ -286,10 +285,10 @@ class DatabaseHelper {
     public function getYourInterestProducts($n) {
         $query = "SELECT P.idProdotto, P.nome, prezzo, offerta, link "
                 ."FROM PRODOTTO P, CRONOLOGIA_PRODOTTI C, IMMAGINE I "
-                ."WHERE P.idProdotto = C.idProdotto AND C.idCliente = ? AND P.idProdotto = I.idProdotto AND I.numeroProgressivo = ? "
+                ."WHERE P.idProdotto = C.idProdotto AND C.idCliente = ? AND P.idProdotto = I.idProdotto AND I.numeroProgressivo = 1 "
                 ."LIMIT ?";
         $stmt = $this->db->prepare($query);
-        $stmt->bind_param('sii', $user['email'], $imgProgressiveNumber, $n);
+        $stmt->bind_param('si', $user['email'], $n);
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
@@ -302,7 +301,7 @@ class DatabaseHelper {
             ."AND numeroProgressivo = 1 "
             ."AND (P.nome LIKE %?% OR PI.nome LIKE %?% OR PI.azienda LIKE %?%)";
         $stmt = $this->db->prepare($query);
-        $stmt->bind_param('si', $searched, $imgProgressiveNumber);
+        $stmt->bind_param('sss', $searched, $searched, $searched);
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
@@ -314,12 +313,12 @@ class DatabaseHelper {
                 ."WHERE P.idProdotto = I.idProdotto "
                 ."AND O.idOrdine = D.idOrdine "
                 ."AND D.idProdotto = P.idProdotto "
-                ."AND numeroProgressivo = ? "
+                ."AND numeroProgressivo = 1 "
                 ."group by P.idProdotto, nome, prezzo, offerta, link "
                 ."order by sum(D.quantita) "
                 ."limit ?";
         $stmt = $this->db->prepare($query);
-        $stmt->bind_param('ii', $imgProgressiveNumber, $n);
+        $stmt->bind_param('i', $n);
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
@@ -407,9 +406,9 @@ class DatabaseHelper {
 
     public function getVendorProducts() {
         if (isLogged() && getUserType() == "vendor") {
-            $query = "SELECT nome, prezzo, offerta, link FROM PRODOTTO P, IMMAGINE I WHERE P.idProdotto = I.idProdotto AND idVenditore = ? AND numeroProgressivo = ?";
+            $query = "SELECT nome, prezzo, offerta, link FROM PRODOTTO P, IMMAGINE I WHERE P.idProdotto = I.idProdotto AND idVenditore = ? AND numeroProgressivo = 1";
             $stmt = $this->db->prepare($query);
-            $stmt->bind_param('si', $user['email'], 1);
+            $stmt->bind_param('s', $user['email']);
             $stmt->execute();
             $result = $stmt->get_result();
             return $result->fetch_all(MYSQLI_ASSOC);
