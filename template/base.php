@@ -42,7 +42,8 @@
         <aside>
             <?php if(isset($templateParams["side_content"])) {
                 foreach($templateParams["side_content"] as $content){
-                    require($content);
+                    $templateParams["results"] = $content;
+                    require("suggestions.php");
                 }
             } ?>
         </aside>
