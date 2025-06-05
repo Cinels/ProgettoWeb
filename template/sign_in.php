@@ -6,7 +6,7 @@
         <?php endif; ?>
         <ul>
             <li>
-                <input type="image" src="<?php echo RESOURCES_DIR ?>add_B.png" alt="Submit">
+                <label for="image">URL Immagine:</label><input type="text" id="image" name="image" />
             </li><li>
                 <label for="name">Nome:</label><input type="text" id="name" name="name" />
             </li><li>
