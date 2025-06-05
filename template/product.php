@@ -4,7 +4,7 @@
     <p><?php echo $result["nome"] ?></p>
     <a href="#Reviews"><?php echo $result["media_recensioni"] ?><img src="<?php echo RESOURCES_DIR ?>Marco_semplice_W.png" alt=""/></a>
     <?php if($result["offerta"] > 0) {
-        $sale = $result["prezzo"] - $result["prezzo"]*$result["offerta"];
+        $sale = $result["prezzo"] - $result["prezzo"]*($result["offerta"]/100);
         echo "<ins>".$sale."</ins>€ <del>".$result['prezzo']."€</del>";
     } else {
         echo "<p>".$result['prezzo']."€</p>";
