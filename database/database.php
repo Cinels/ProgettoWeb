@@ -296,10 +296,10 @@ class DatabaseHelper {
                         ."FROM PRODOTTO P, DETTAGLIO_ORDINE D, RECENSIONE R"
                         ."WHERE P.idProdotto = D.idProdotto"
                         ."AND P.idProdotto = R.idprodotto"
-                        ."AND D.idOrdine = 1"
+                        ."AND D.idOrdine = ?"
                         ."group by P.idProdotto, nome, prezzo, offerta, P.descrizione, quantita"
             $stmt = $this->db->prepare($query);
-            $stmt->bind_param('s', $user['email']);
+            $stmt->bind_param('i', $idOrdine);
             $stmt->execute();
             $result = $stmt->get_result();
             return $result->fetch_all(MYSQLI_ASSOC);
@@ -326,15 +326,6 @@ class DatabaseHelper {
             $result = $stmt->get_result();
             return $result->fetch_all(MYSQLI_ASSOC);
         }
-    }
-
-    public function getReviewsVotes($idProdotto) {
-        $query = "SELECT voto FROM RECENSIONI WHERE idProdotto = ?";
-        $stmt = $this->db->prepare($query);
-        $stmt->bind_param('i', $idProdotto);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC);
     }
 
     public function getReviews($idProdotto, $n) {
