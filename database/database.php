@@ -18,6 +18,7 @@ class DatabaseHelper {
      * Creazione di un ordine
      * Creazione di una notifica
      * Inserimento cronologia ricerca
+     * aggiungere dove si calcola la media delle recensioni anche un get num recensioni
      */
 
     public function isLogged() {
@@ -296,9 +297,10 @@ class DatabaseHelper {
 
     public function getProductsFromResearch($searched) {
         $query = "SELECT p.idProdotto, P.nome, prezzo, offerta, link "
-            ."FROM PRODOTTO P, IMMAGINE I "
+            ."FROM PRODOTTO P, IMMAGINE I, PIATTAFORMA PI "
             ."WHERE P.idProdotto = I.idProdotto "
-            ."AND nome LIKE %?% AND numeroProgressivo = 1";
+            ."AND numeroProgressivo = 1 "
+            ."AND (P.nome LIKE %?% OR PI.nome LIKE %?% OR PI.azienda LIKE %?%)";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('si', $searched, $imgProgressiveNumber);
         $stmt->execute();
