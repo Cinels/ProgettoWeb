@@ -5,17 +5,27 @@
                 <li>
                     <img src="<?php echo $result["link"]?>" alt="Immagine Prodotto"/><br/>
                     <p><?php echo $result["nome"] ?></p>
+
                     <?php if($dbh->isLogged() && $dhb->getUserType() == "client"): 
-                        if(true/* prodotto non nei preferiti */): ?>
-                            <a href="#"><img src="<?php echo RESOURCES_DIR ?>cuore.png" alt="Aggiungi ai Preferiti"/></a>
+                        if($dbh->isProductFavourite($result["idProdotto"])): ?>
+                            <a href="<?php $dbh->addToFavourites($result["idProdotto"]) ?>"><img src="<?php echo RESOURCES_DIR ?>cuore.png" alt="Aggiungi ai Preferiti"/></a>
                         <?php else: ?>
-                            <a href="#"><img src="<?php echo RESOURCES_DIR ?>cuore_B.png" alt="Aggiungi ai Preferiti"/></a>
+                            <a href="<?php $dbh->removeFromFavourites($result["idProdotto"]) ?>"><img src="<?php echo RESOURCES_DIR ?>cuore_B.png" alt="Rimuovi dai Preferiti"/></a>
                         <?php endif;
                     endif; ?>
-                    <p><?php echo $result["prezzo"] ?>€</p> <!-- gestisci sconto -->
-                    <?php if($dbh->isLogged() && $dhb->getUserType() == "client"): ?>
-                        <a href="#"><img src="<?php echo RESOURCES_DIR ?>carrello.png" alt="Aggiungi al Carrello"/></a>
-                    <?php endif; ?>
+                    <?php if($result["sconto"] > 0) {
+                        $sale = $result["prezzo"] - $result["prezzo"]*$result["sconto"];
+                        echo "<ins>$sale</ins>€ <del>$result['prezzo']€</del>";
+                    } else {
+                        echo "<p>$result['prezzo']€</p>";
+                    }?>
+                    <?php if($dbh->isLogged() && $dhb->getUserType() == "client"): 
+                        if($dbh->isProductInCart($result["idProdotto"])): ?>
+                            <a href="<?php $dbh->addToCart($result["idProdotto"], 1) ?>"><img src="<?php echo RESOURCES_DIR ?>carrello.png" alt="Aggiungi al Carrello"/></a>
+                        <?php else: ?>
+                            <a href="<?php $dbh->removeFromCart($result["idProdotto"]) ?>"><img src="<?php echo RESOURCES_DIR ?>carrello.png" alt="Rimuovi dal Carrello"/></a>
+                        <?php endif;
+                    endif; ?>
                 </li>
             <?php endforeach;
         endif; ?>
