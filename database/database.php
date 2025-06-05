@@ -18,8 +18,6 @@ class DatabaseHelper {
      * Creazione di un ordine
      * Creazione di una notifica
      * Inserimento cronologia ricerca
-     * controllo se un prodotto è nei preferiti
-     * controllo se un prodotto è nel carrello
      */
 
     public function isLogged() {
@@ -44,19 +42,20 @@ class DatabaseHelper {
         $data = $result->fetch_all(MYSQLI_ASSOC);
 
         if (count($data) == 1) {
-            $is_logged = true;
-            $user = $data[0];
+            $this->is_logged = true;
+            $this->user = $data[0];
             if(isClientProfile($email)) {
-                $userType = "client";
+                $this->userType = "client";
             } else {
-                $userType = "vendor";
+                $this->userType = "vendor";
             }
-        } else {
-            $templateParams["errorelogin"] = "Email o Password errati";
+            return true;
         }
+
+        return false;
     }
 
-    public function signIn($image, $name, $surname, $email, $password) {
+    public function signIn($name, $surname, $email, $password, $image) {
         if (isEmailAvailable($email)) {
             $encryptedPassword = hash('sha256', $password);
             $query = "INSERT INTO UTENTE (email, nome, cognome, password, fotoProfilo) VALUE (?, ?, ?, ?, ?)";
@@ -68,7 +67,9 @@ class DatabaseHelper {
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('s', $email);
             $stmt->execute();
+            return true;
         }
+        return false;
     }
 
     public function logout() {
@@ -294,9 +295,9 @@ class DatabaseHelper {
     }
 
     public function getProductsFromResearch($searched) {
-        $query = "SELECT p.idProdotto, nome, prezzo, offerta, link"
-            ."FROM PRODOTTO P, IMMAGINE I"
-            ."WHERE P.idProdotto = I.idProdotto"
+        $query = "SELECT p.idProdotto, P.nome, prezzo, offerta, link "
+            ."FROM PRODOTTO P, IMMAGINE I "
+            ."WHERE P.idProdotto = I.idProdotto "
             ."AND nome LIKE %?% AND numeroProgressivo = 1";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('si', $searched, $imgProgressiveNumber);
@@ -378,6 +379,28 @@ class DatabaseHelper {
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
+    }
+    
+    public function isProductFavourite($idProdotto) {
+        if (isLogged() && getUserType()=="client") {
+            $query = "SELECT idProdotto FROM LISTA_PREFERITI WHERE idProdotto = ? AND idCliente = ?";
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('is', $idProdotto, $user['email']);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            return count($result->fetch_all(MYSQLI_ASSOC)) != 0;
+        }
+    }
+
+    public function isProductInCart($idProdotto) {
+        if (isLogged() && getUserType()=="client") {
+            $query = "SELECT idProdotto FROM CARRELLO WHERE idProdotto = ? AND idCliente = ?";
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('is', $idProdotto, $user['email']);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            return count($result->fetch_all(MYSQLI_ASSOC)) != 0;
+        }
     }
 
     public function getVendorProducts() {
