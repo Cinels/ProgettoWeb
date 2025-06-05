@@ -42,7 +42,7 @@ class DatabaseHelper {
 
         if (count($data) == 1) {
             $isLogged = true;
-            $user = $data;
+            $user = $data[0];
             if(isClientProfile($email)) {
                 $userType = "client";
             } else {
@@ -250,7 +250,7 @@ class DatabaseHelper {
     }
 
     public function getProductsOnSale($n) {
-        $query = "SELECT idProdotto, nome, prezzo, offerta FROM PRODOTTO WHERE offerta > 0 ORDER BY offerta desc LIMIT ?";
+        $query = "SELECT P.idProdotto, P.nome, prezzo, offerta, link FROM PRODOTTO P, IMMAGINE I WHERE offerta > 0 AND P.idProdotto = I.idProdotto ORDER BY offerta desc LIMIT ?";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('i', $n);
         $stmt->execute();
@@ -276,9 +276,12 @@ class DatabaseHelper {
 
     public function getYourInterestProducts($n) {
         if (isLogged() && getUserType()=="client") {
-            $query = "SELECT P.idProdotto, nome, prezzo, offerta FROM PRODOTTO P, CRONOLOGIA_PRODOTTI C WHERE P.idProdotto = C.idProdotto AND C.idCliente = ? LIMIT ?";
+            $query = "SELECT P.idProdotto, nome, prezzo, offerta, link"
+                    ."FROM PRODOTTO P, CRONOLOGIA_PRODOTTI C, IMMAGINE I"
+                    ."WHERE P.idProdotto = C.idProdotto AND C.idCliente = ? AND P.idProdotto = I.idProdotto AND I.numeroProgressivo = ?"
+                    ."LIMIT ?";
             $stmt = $this->db->prepare($query);
-            $stmt->bind_param('si', $user['email'], $n);
+            $stmt->bind_param('sii', $user['email'], 1, $n);
             $stmt->execute();
             $result = $stmt->get_result();
             return $result->fetch_all(MYSQLI_ASSOC);
@@ -286,7 +289,7 @@ class DatabaseHelper {
     }
 
     public function getProductsFromResearch($searched) {
-        $query = "SELECT nome, prezzo, offerta, link"
+        $query = "SELECT p.idProdotto, nome, prezzo, offerta, link"
             ."FROM PRODOTTO P, IMMAGINE I"
             ."WHERE P.idProdotto = I.idProdotto"
             ."AND nome LIKE %?% AND numeroProgressivo = ?";
@@ -298,7 +301,7 @@ class DatabaseHelper {
     }
 
     public function getTrendProducts() {
-        $query = "SELECT P.nome, prezzo, offerta, link"
+        $query = "SELECT P.idProdotto, P.nome, prezzo, offerta, link"
                 ."FROM PRODOTTO P, IMMAGINE I, ORDINE O, DETTAGLIO_ORDINE D"
                 ."WHERE P.idProdotto = I.idProdotto"
                 ."AND O.idOrdine = D.idOrdine"
@@ -307,7 +310,7 @@ class DatabaseHelper {
                 ."group by P.idProdotto, nome, prezzo, offerta, link"
                 ."order by sum(D.quantita)"
                 ."limit ?";
-        stmt = $this->db->prepare($query);
+        $stmt = $this->db->prepare($query);
         $stmt->bind_param('i', 10);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -332,7 +335,7 @@ class DatabaseHelper {
                         ."WHERE P.idProdotto = D.idProdotto"
                         ."AND P.idProdotto = R.idprodotto"
                         ."AND D.idOrdine = ?"
-                        ."group by P.idProdotto, nome, prezzo, offerta, P.descrizione, quantita"
+                        ."group by P.idProdotto, nome, prezzo, offerta, P.descrizione, quantita";
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('i', $idOrdine);
             $stmt->execute();
@@ -385,7 +388,7 @@ class DatabaseHelper {
 
     public function updateOrderState($id, $new_state) {
         if (isLogged() && getUserType() == "vendor") {
-            $query = "UPDATE ordini SET statoOrdine = ? WHERE idOrdine = ?"
+            $query = "UPDATE ordini SET statoOrdine = ? WHERE idOrdine = ?";
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('ii', $new_state, $id);
             $stmt->execute();
