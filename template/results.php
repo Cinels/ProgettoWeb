@@ -3,8 +3,8 @@
         <?php if(isset($templateParams["results"])):
             foreach($templateParams["results"] as $result): ?>
                 <li>
-                    <img src="<?php echo $result["link"]?>" alt="Immagine Prodotto"/><br/>
-                    <p><?php echo $result["nome"] ?></p>
+                    <a href="#"><img src="<?php echo $result["link"]?>" alt="Immagine Prodotto"/><br/>
+                    <?php echo $result["nome"] ?></a>
 
                     <?php if($dbh->isLogged() && $dhb->getUserType() == "client"): 
                         if($dbh->isProductFavourite($result["idProdotto"])): ?>
