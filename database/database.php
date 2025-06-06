@@ -69,7 +69,7 @@ class DatabaseHelper {
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('s', $email);
             $stmt->execute();
-            return true;
+            return checkLogin($email, $password);
         }
         return false;
     }

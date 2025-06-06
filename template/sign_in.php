@@ -6,7 +6,7 @@
         <?php endif; ?>
         <ul>
             <li>
-                <label for="image">URL Immagine:</label><input type="text" id="image" name="image" />
+                <label for="image">URL Immagine:</label><input type="url" id="image" name="image" />
             </li><li>
                 <label for="name">Nome:</label><input type="text" id="name" name="name" />
             </li><li>

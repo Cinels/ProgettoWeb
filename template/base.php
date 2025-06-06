@@ -11,7 +11,7 @@
             <form action="<?php echo PAGES_DIR ?>results.php" method="GET">
                 <label>
                     <img src="<?php echo RESOURCES_DIR ?>header/search.png" alt="Cerca"/>
-                    <input type="text" name="search"/>
+                    <input type="search"/>
                 </label>
             </form>
 
