@@ -1,20 +1,18 @@
 <section>
-    <ul>
+    <form action="<?php echo PAGES_DIR ?>product.php" method="GET">
         <?php if(isset($templateParams["results"])):
             foreach($templateParams["results"] as $result): ?>
-                <li><a href="#">
-                    <section>
-                        <img src="<?php echo $result["link"]?>" alt="Immagine Prodotto"/><br/>
-                        <p><?php echo $result["nome"] ?></p>
-                        <?php if($result["offerta"] > 0) {
-                            $sale = $result["prezzo"] - $result["prezzo"]*($result["offerta"]/100);
-                            echo "<ins>".$sale."</ins> <del>".$result['prezzo']."</del>€";
-                        } else {
-                            echo "<p>".$result['prezzo']."€</p>";
-                        }?>
-                    </section>
-                </a></li>
+                <button type="submit" name="search" value="<?php echo $result["idProdotto"] ?>">
+                    <img src="<?php echo $result["link"]?>" alt="Immagine Prodotto"/><br/>
+                    <?php echo $result["nome"] ?><br/>
+                    <?php if($result["offerta"] > 0) {
+                        $sale = $result["prezzo"] - $result["prezzo"]*($result["offerta"]/100);
+                        echo "<ins>".$result["offerta"]."% ".$sale."</ins> <del>".$result['prezzo']."</del> €";
+                    } else {
+                        echo "<p>".$result['prezzo']." €</p>";
+                    }?>
+                </button>
             <?php endforeach;
         endif; ?>
-    </ul>
+    </form>
 </section>
