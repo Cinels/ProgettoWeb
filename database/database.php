@@ -84,51 +84,51 @@ class DatabaseHelper {
     }
 
     public function getNotifications() {
-        if (isLogged()) {
+        if ($this->isLogged()) {
             $query = "SELECT idNotifica, tipo, testo, letta FROM NOTIFICA WHERE idUtente = ?";
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('s', $_SESSION["user"]['email']);
             $stmt->execute();
             $result = $stmt->get_result();
-            return $result->fetch_all(MSQLI_ASSOC);
+            return $result->fetch_all(MYSQLI_ASSOC);
         }
     }
 
     public function readNotification($idNotification) {
-        if (isLogged()) {
+        if ($this->isLogged()) {
             $query = "UPDATE NOTIFICA SET letta = true WHERE idNotifica = ?";
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('i', $idNotification);
             $stmt->execute();
             $result = $stmt->get_result();
-            return $result->fetch_all(MSQLI_ASSOC);
+            return $result->fetch_all(MYSQLI_ASSOC);
         }
     }
 
     public function unreadNotification($idNotification) {
-        if (isLogged()) {
+        if ($this->isLogged()) {
             $query = "UPDATE NOTIFICA SET letta = false WHERE idNotifica = ?";
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('i', $idNotification);
             $stmt->execute();
             $result = $stmt->get_result();
-            return $result->fetch_all(MSQLI_ASSOC);
+            return $result->fetch_all(MYSQLI_ASSOC);
         }
     }
 
     public function deleteNotification($idNotification) {
-        if (isLogged()) {
+        if ($this->isLogged()) {
             $query = "DELETE FROM NOTIFICA WHERE idNotifica = ?";
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('i', $idNotification);
             $stmt->execute();
             $result = $stmt->get_result();
-            return $result->fetch_all(MSQLI_ASSOC);
+            return $result->fetch_all(MYSQLI_ASSOC);
         }
     }
 
     public function modifyPassword($oldPassword, $newPassword) {
-        if (isLogged()) {
+        if ($this->isLogged()) {
             $encryptedPassword = hash('sha256', $oldPassword);
             $query = "SELECT email, password FROM UTENTE WHERE email = ? AND password = ?";
             $stmt = $this->db->prepare($query);
@@ -167,7 +167,7 @@ class DatabaseHelper {
     }
 
     public function addToFavourites($idProdotto) {
-        if (isLogged() && getUserType()=="client") {
+        if ($this->isLogged() && $this->getUserType()=="client") {
             $query = "INSERT INTO LISTA_PREFERITI (idCliente, idProdotto) VALUE (?, ?)";
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('si', $_SESSION["user"]['email'], $idProdotto);
@@ -178,7 +178,7 @@ class DatabaseHelper {
     }
 
     public function removeFromFavourites($idProdotto) {
-        if (isLogged() && getUserType()=="client") {
+        if ($this->isLogged() && $this->getUserType()=="client") {
             $query = "DELETE FROM LISTA_PREFERITI WHERE idCliente = ? AND idProdotto = ?";
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('si', $_SESSION["user"]['email'], $idProdotto);
@@ -189,7 +189,7 @@ class DatabaseHelper {
     }
 
     public function addToCart($idProdotto, $n) {
-        if (isLogged() && getUserType()=="client") {
+        if ($this->isLogged() && $this->getUserType()=="client") {
             $query = "SELECT quantita FROM CARRELLO WHERE idProdotto = ? AND idCliente = ?";
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('is', $idProdotto, $_SESSION["user"]['email']);
@@ -215,7 +215,7 @@ class DatabaseHelper {
     }
 
     public function removeFromCart($idProdotto) {
-        if (isLogged() && getUserType()=="client") {
+        if ($this->isLogged() && $this->getUserType()=="client") {
             $query = "DELETE FROM CARRELLO WHERE idProdotto = ? AND idCliente = ?";
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('is', $idProdotto, $_SESSION["user"]['email']);
@@ -226,7 +226,7 @@ class DatabaseHelper {
     }
      
     public function removeOneFromCart($idProdotto) {
-        if (isLogged() && getUserType()=="client") {
+        if ($this->isLogged() && $this->getUserType()=="client") {
             $query = "SELECT quantita FROM CARRELLO WHERE idProdotto = ? AND idCliente = ?";
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('is', $idProdotto, $_SESSION["user"]['email']);
@@ -247,14 +247,14 @@ class DatabaseHelper {
     }
 
     public function moveToCart($idProdotto) {
-        if (isLogged() && getUserType()=="client") {
+        if ($this->isLogged() && $this->getUserType()=="client") {
             removeFromFavourites($idProdotto);
             addToCart($idProdotto, 1);
         }
     }
 
     public function moveToFavourites($idProdotto) {
-        if (isLogged() && getUserType()=="client") {
+        if ($this->isLogged() && $this->getUserType()=="client") {
             removeFromCart($idProdotto);
             addToFavourites($idProdotto);
         }
@@ -334,7 +334,7 @@ class DatabaseHelper {
     }
 
     public function getOrders() {
-        if (isLogged() && getUserType()=="client") {
+        if ($this->isLogged() && $this->getUserType()=="client") {
             $query = "SELECT idOrdine, dataOrdine, statoOrdine, dataArrivoPrevista, idVenditore, costoTotale FROM ORDINI WHERE idCliente = ?";
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('s', $_SESSION["user"]['email']);
@@ -345,7 +345,7 @@ class DatabaseHelper {
     }
 
     public function getOrderDetails($idOrdine) {
-        if (isLogged()) {
+        if ($this->isLogged()) {
             $query = "SELECT nome, prezzo, offerta, P.descrizione, quantita, avg(voto) as media_recensioni, count(voto) as num_recensioni "
                         ."FROM PRODOTTO P, DETTAGLIO_ORDINE D, RECENSIONE R "
                         ."WHERE P.idProdotto = D.idProdotto "
@@ -361,7 +361,7 @@ class DatabaseHelper {
     }
 
     public function getCart() {
-        if (isLogged() && getUserType()=="client") {
+        if ($this->isLogged() && $this->getUserType()=="client") {
             $query = "SELECT P.idProdotto, nome, prezzo, offerta, quantita, idVenditore FROM PRODOTTO P, CARRELLO C WHERE P.idProdotto = C.idProdotto AND C.idCliente = ?"; //manca media recensioni e data consegna
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('s', $_SESSION["user"]['email']);
@@ -372,7 +372,7 @@ class DatabaseHelper {
     }
 
     public function getFavourites() {
-        if (isLogged() && getUserType()=="client") {
+        if ($this->isLogged() && $this->getUserType()=="client") {
             $query = "SELECT P.idProdotto, nome, prezzo, offerta, idVenditore FROM PRODOTTO P, LISTA_PREFERITI L WHERE P.idProdotto = L.idProdotto AND L.idCliente = ?"; //manca media recensioni e data consegna
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('s', $_SESSION["user"]['email']);
@@ -392,7 +392,7 @@ class DatabaseHelper {
     }
     
     public function isProductFavourite($idProdotto) {
-        if (isLogged() && getUserType()=="client") {
+        if ($this->isLogged() && $this->getUserType()=="client") {
             $query = "SELECT idProdotto FROM LISTA_PREFERITI WHERE idProdotto = ? AND idCliente = ?";
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('is', $idProdotto, $_SESSION["user"]['email']);
@@ -403,7 +403,7 @@ class DatabaseHelper {
     }
 
     public function isProductInCart($idProdotto) {
-        if (isLogged() && getUserType()=="client") {
+        if ($this->isLogged() && $this->getUserType()=="client") {
             $query = "SELECT idProdotto FROM CARRELLO WHERE idProdotto = ? AND idCliente = ?";
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('is', $idProdotto, $_SESSION["user"]['email']);
@@ -414,7 +414,7 @@ class DatabaseHelper {
     }
 
     public function getVendorProducts() {
-        if (isLogged() && getUserType() == "vendor") {
+        if ($this->isLogged() && $this->getUserType() == "vendor") {
             $query = "SELECT nome, prezzo, offerta, link FROM PRODOTTO P, IMMAGINE I WHERE P.idProdotto = I.idProdotto AND idVenditore = ? AND numeroProgressivo = 1";
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('s', $_SESSION["user"]['email']);
@@ -425,7 +425,7 @@ class DatabaseHelper {
     }
 
     public function updateOrderState($id, $new_state) {
-        if (isLogged() && getUserType() == "vendor") {
+        if ($this->isLogged() && $this->getUserType() == "vendor") {
             $query = "UPDATE ordini SET statoOrdine = ? WHERE idOrdine = ?";
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('ii', $new_state, $id);
@@ -434,7 +434,7 @@ class DatabaseHelper {
     }
 
     public function getProductForUpdate($id) {
-        if (isLogged() && getUserType() == "vendor") {
+        if ($this->isLogged() && $this->getUserType() == "vendor") {
             $query = "SELECT nome, prezzo, quantitaDisponibile, descrizione, proprieta, offerta, tipo FROM PRODOTTO WHERE idProdotto = ?";
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('i', $id);
@@ -445,7 +445,7 @@ class DatabaseHelper {
     }
 
     public function updateProduct($id, $nome, $prezzo, $quantita, $descrizione, $proprieta, $offerta, $tipo) {
-        if (isLogged() && getUserType() == "vendor") {
+        if ($this->isLogged() && $this->getUserType() == "vendor") {
             $query = "UPDATE PRODOTTO SET nome = ?, prezzo = ?, quantitaDisponibile = ?, descrizione = ?, proprieta = ?, tipo = ? WHERE idProdotto = ?";
             $stmt = $this->db->prepare($query);
             $intOfferta = (int)$offerta;
@@ -455,7 +455,7 @@ class DatabaseHelper {
     }
 
     public function insertProduct($nome, $prezzo, $quantita, $descrizione, $proprieta, $offerta, $tipo) {
-        if (isLogged() && getUserType() == "vendor") {
+        if ($this->isLogged() && $this->getUserType() == "vendor") {
             $query = "INSERT INTO PRODOTTO VALUE (?, ?, ?, ?, ?, ?, ?, ?)";
             $stmt = $this->db->prepare($query);
             $intOfferta = (int)$offerta;
