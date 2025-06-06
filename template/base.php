@@ -28,7 +28,11 @@
                     <a href="<?php echo PAGES_DIR ?>add_product.php"><img src="<?php echo RESOURCES_DIR ?>header/add_T.png" alt="Aggiungi Prodotto"/></a>
                 <?php endif; ?>
                 <a href="<?php echo PAGES_DIR ?>orders.php"><img src="<?php echo RESOURCES_DIR ?>header/ciamioncino.png" alt="Ordini"/></a>
-                <a href="<?php echo PAGES_DIR ?>profile.php"><img src="<?php echo RESOURCES_DIR ?>header/utente.png" alt="Profilo"/></a>
+                <?php if(null !== $dbh->getProfileImage()): ?>
+                    <a href="<?php echo PAGES_DIR ?>profile.php"><img src="<?php echo $dbh->getProfileImage() ?>" alt="Profilo"/></a>
+                <?php else: ?>
+                    <a href="<?php echo PAGES_DIR ?>profile.php"><img src="<?php echo RESOURCES_DIR ?>header/utente.png" alt="Profilo"/></a>
+                <?php endif; ?>
             <?php endif; ?>
         </header>
 

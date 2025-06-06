@@ -55,7 +55,7 @@ create table IMMAGINE (
      nome varchar(30) not null,
      idProdotto int not null,
      numeroProgressivo char(1) not null,
-     link varchar(100) not null,
+     link varchar(500) not null,
      constraint IDIMMAGINE primary key (idProdotto, numeroProgressivo));
 
 create table LISTA_PREFERITI (
@@ -114,7 +114,7 @@ create table UTENTE (
      nome varchar(30) not null,
      cognome varchar(30) not null,
      password varchar(64) not null,
-     fotoProfilo varchar(100),
+     fotoProfilo varchar(500),
      constraint IDUTENTE primary key (email));
 
 create table VENDITORE (

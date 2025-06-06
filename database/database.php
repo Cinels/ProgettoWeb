@@ -7,9 +7,11 @@ class DatabaseHelper {
         if ($this->db->connect_error) {
             die("Connection failed: " . $db->connect_error);
         }
-        $_SESSION["is_logged"] = false;
-        $_SESSION["user_type"] = null;
-        $_SESSION["user"] = null;
+        if(!isset($_SESSION["is_logged"])) {
+            $_SESSION["is_logged"] = false;
+            $_SESSION["user_type"] = null;
+            $_SESSION["user"] = null;
+        }
     }
 
     /**
