@@ -144,7 +144,8 @@ class DatabaseHelper {
     }
 
     public function getProduct($id) {
-        $query = "SELECT idProdotto, nome, prezzo, quantitaDisponibile, descrizione, proprieta, offerta, tipo, idVenditore FROM PRODOTTO WHERE idProdotto = ?"; //manca media recensioni
+        $query = "SELECT P.idProdotto, nome, prezzo, quantitaDisponibile, P.descrizione, proprieta, offerta, tipo, idVenditore, avg(voto) as media_recensioni, count(voto) as num_recensioni "
+                ."FROM PRODOTTO P, RECENSIONE R WHERE P.idProdotto = R.idProdotto AND P.idProdotto = ?"; //se non ci sono recensioni non funziona: non restituisce niente
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('i', $id);
         $stmt->execute();
@@ -153,7 +154,7 @@ class DatabaseHelper {
     }
 
     public function getProductImages($id) {
-        $query = "SELECT idImmagine, link FROM IMMAGINE WHERE idProdotto = ?";
+        $query = "SELECT numeroProgressivo, link FROM IMMAGINE WHERE idProdotto = ?";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('i', $id);
         $stmt->execute();
@@ -272,15 +273,17 @@ class DatabaseHelper {
         $stmt->bind_param('i', $idProdotto);
         $stmt->execute();
         $result = $stmt->get_result();
-        $idPiattaforma = $result->fetch_all(MYSQLI_ASSOC)['idPiattaforma'];
-
-        $query = "SELECT P.idProdotto, nome, prezzo, offerta, link FROM PRODOTTO P, COMPATIBILITA C, IMMAGINE I"
-                ."WHERE P.idProdotto = C.idProdotto AND C.idPiattaforma = ? AND NOT C.idProdotto = ? AND P.idProdotto = I.idProdotto AND I.numeroProgressivo = 1"
-                ."LIMIT ?";
-        $stmt = $this->db->prepare($query);
-        $stmt->bind_param('iii', $idPiattaforma, $idProdotto, $n);
-        $stmt->execute();
-        $result = $stmt->get_result();
+        $data = $result->fetch_all(MYSQLI_ASSOC);
+        if(count($data) > 0) {
+            $idPiattaforma = $data[0]['idPiattaforma'];
+            $query = "SELECT P.idProdotto, P.nome, prezzo, offerta, link FROM PRODOTTO P, COMPATIBILITA C, IMMAGINE I "
+                    ."WHERE P.idProdotto = C.idProdotto AND C.idPiattaforma = ? AND C.idProdotto != ? AND P.idProdotto = I.idProdotto AND I.numeroProgressivo = 1 "
+                    ."LIMIT ?";
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('iii', $idPiattaforma, $idProdotto, $n);
+            $stmt->execute();
+            $result = $stmt->get_result();
+        }
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
@@ -328,7 +331,7 @@ class DatabaseHelper {
 
     public function getOrders() {
         if (isLogged() && getUserType()=="client") {
-            $query = "SELECT idOrdine, dataOrdine, statoOrdine, dataArrivoPrevista, idVenditore, costoTotale FROM ORDINI WHERE idCliente = ?"; //manca venditore
+            $query = "SELECT idOrdine, dataOrdine, statoOrdine, dataArrivoPrevista, idVenditore, costoTotale FROM ORDINI WHERE idCliente = ?";
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('s', $_SESSION["user"]['email']);
             $stmt->execute();
@@ -339,11 +342,11 @@ class DatabaseHelper {
 
     public function getOrderDetails($idOrdine) {
         if (isLogged()) {
-            $query = "SELECT nome, prezzo, offerta, P.descrizione, quantita, avg(voto) as media_recensioni"
-                        ."FROM PRODOTTO P, DETTAGLIO_ORDINE D, RECENSIONE R"
-                        ."WHERE P.idProdotto = D.idProdotto"
-                        ."AND P.idProdotto = R.idprodotto"
-                        ."AND D.idOrdine = ?"
+            $query = "SELECT nome, prezzo, offerta, P.descrizione, quantita, avg(voto) as media_recensioni, count(voto) as num_recensioni "
+                        ."FROM PRODOTTO P, DETTAGLIO_ORDINE D, RECENSIONE R "
+                        ."WHERE P.idProdotto = D.idProdotto "
+                        ."AND P.idProdotto = R.idprodotto "
+                        ."AND D.idOrdine = ? "
                         ."group by P.idProdotto, nome, prezzo, offerta, P.descrizione, quantita";
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('i', $idOrdine);
