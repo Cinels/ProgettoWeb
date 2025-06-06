@@ -34,6 +34,10 @@ class DatabaseHelper {
         return $_SESSION["user"]['fotoProfilo'];
     }
 
+    public function getUser() {
+        return $_SESSION["user"];
+    }
+
     public function checkLogin($email, $password){
         $encryptedPassword = hash('sha256', $password);
         $query = "SELECT email, nome, cognome, fotoProfilo FROM UTENTE WHERE email = ? AND password = ?";

@@ -2,6 +2,12 @@
 require_once("../database/init.php");
 $templateParams["titolo"] = "Profilo";
 $templateParams["main_content"] = ["user/profile.php", "user/notifications.php"];
+$templateParams["user"] = $dbh->getUser();
+if ($dbh->getUserType() == "client") {
+    $templateParams["user_type"] = "Cliente";
+} else {
+    $templateParams["user_type"] = "Venditore";
+}
 
 if(isset($_GET["logout"])) {
     $dbh->logout();
