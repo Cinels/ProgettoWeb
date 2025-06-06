@@ -7,7 +7,7 @@ if(isset($_POST["email"]) && isset($_POST["password"])) {
     if($dbh->checkLogin($_POST["email"], $_POST["password"])) {
         header('Location:'.PAGES_DIR."index.php");
     } else {
-        $templateParams["erroreLogin"] = "Errore! Controllare username e password";
+        $templateParams["errorelogin"] = "Errore! Controllare username e password";
     }
 }
 
