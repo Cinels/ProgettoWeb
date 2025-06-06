@@ -13,7 +13,7 @@
     <!-- gestione della quantità -->
     <p>Consegna prevista per x</p>
     
-    <?php if($dbh->isLogged() && $dhb->getUserType() == "client"): ?>
+    <?php if($dbh->isLogged() && $dbh->getUserType() == "client"): ?>
         <!-- gestisci inserimenti multipli -->
         <a href="<?php $dbh->addToCart($result["idProdotto"], 1) ?>">Aggiungi al Carrello<img src="<?php echo RESOURCES_DIR ?>carrello.png" alt="Aggiungi al Carrello"/></a>
     <?php else: ?>
