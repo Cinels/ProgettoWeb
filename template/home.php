@@ -1,5 +1,7 @@
 <section>
-    <a href="<?php echo PAGES_DIR ?>results.php?search=playstation"><img src="<?php echo RESOURCES_DIR ?>playstation.png" alt="Playstation"/></a>
-    <a href="<?php echo PAGES_DIR ?>results.php?search=switch"><img src="<?php echo RESOURCES_DIR ?>switch.png" alt="Nintendo Switch"/></a>
-    <a href="<?php echo PAGES_DIR ?>results.php?search=xbox"><img src="<?php echo RESOURCES_DIR ?>xbox.png" alt="Xbox"/></a>
+    <form action="<?php echo PAGES_DIR ?>results.php" method="GET">
+        <button type="submit" name="search" value="playstation"><img src="<?php echo RESOURCES_DIR ?>playstation.png" alt="Playstation"/></button>
+        <button type="submit" name="search" value="switch"><img src="<?php echo RESOURCES_DIR ?>switch.png" alt="Nintendo Switch"/></button>
+        <button type="submit" name="search" value="xbox"><img src="<?php echo RESOURCES_DIR ?>xbox.png" alt="Xbox"/></button>
+    </form>
 </section>
