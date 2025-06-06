@@ -8,6 +8,7 @@ if ($dbh->getUserType() == "client") {
 } else {
     $templateParams["user_type"] = "Venditore";
 }
+$templateParams["notifications"] = $dbh->getNotifications();
 
 if(isset($_GET["logout"])) {
     $dbh->logout();

@@ -6,5 +6,7 @@
     <!-- modifica password -->
      <p>Tipo profilo:<?php echo $templateParams["user_type"] ?></p>
     
-    <form action="" method="GET"><input type="submit" name="logout" value="Esci" /></form>
+    <form action="" method="GET">
+        <button type="submit" name="logout" value="Esci">Esci<img src="<?php echo RESOURCES_DIR ?>exit.png" alt=""/></button>
+    </form>
 </section>
