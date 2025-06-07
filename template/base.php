@@ -14,11 +14,11 @@
                     <input type="search" name="search"/>
                 </label>
             </form>
-            <?php if($dbh->getUserType() == "client"): ?>
+            <?php if($dbh->isLogged() && $dbh->getUserType() == "vendor"): ?>
+                <a href="<?php echo PAGES_DIR ?>add_product.php"><img src="<?php echo RESOURCES_DIR ?>header/add_T.png" alt="Aggiungi Prodotto"/></a>
+            <?php else: ?>
                 <a href="<?php echo PAGES_DIR ?>favourite.php"><img src="<?php echo RESOURCES_DIR ?>header/cuore.png" alt="Lista Preferiti"/></a>
                 <a href="<?php echo PAGES_DIR ?>cart.php"><img src="<?php echo RESOURCES_DIR ?>header/carrello.png" alt="Carrello"/></a>
-            <?php else: ?>
-                <a href="<?php echo PAGES_DIR ?>add_product.php"><img src="<?php echo RESOURCES_DIR ?>header/add_T.png" alt="Aggiungi Prodotto"/></a>
             <?php endif; ?>
             <a href="<?php echo PAGES_DIR ?>orders.php"><img src="<?php echo RESOURCES_DIR ?>header/ciamioncino.png" alt="Ordini"/></a>
             <a href="<?php echo PAGES_DIR ?>profile.php"><img src="<?php echo $dbh->getProfileImage() ?? RESOURCES_DIR."header/utente.png"; ?>" alt="Profilo"/></a>
