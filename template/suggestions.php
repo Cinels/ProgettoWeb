@@ -1,7 +1,7 @@
 <section>
     <form action="<?php echo PAGES_DIR ?>product.php" method="GET">
         <?php if(isset($templateParams["results"]) && count($templateParams["results"]) > 0):
-            echo "<h1>".$templateParams['subtitle']."</h1>";
+            echo "<h2>".$templateParams['subtitle']."</h2>";
             foreach($templateParams["results"] as $result): ?>
                 <button type="submit" name="search" value="<?php echo $result["idProdotto"] ?>">
                     <img src="<?php echo $result["link"]?>" alt="Immagine Prodotto"/><br/>
