@@ -11,10 +11,10 @@ if(isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST["check_pa
     } else {
         $signin = $dbh->signIn($_POST["name"], $_POST["surname"], $_POST["email"], $_POST["password"], null);
     }
-    if($signin) {
+    if(isset($signin) && $signin) {
         header('Location:'.PAGES_DIR."index.php");
     } else {
-        $templateParams["erroresignin"] = "Errore! Email non disponibile";
+        $templateParams["erroresignin"] = "Errore! Email non disponibile, ".$_POST['email'];
     }
 } else {
     $templateParams["erroresignin"] = "Errore! Compilare tutti i campi";

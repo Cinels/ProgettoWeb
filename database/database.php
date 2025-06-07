@@ -73,7 +73,7 @@ class DatabaseHelper {
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('s', $email);
             $stmt->execute();
-            return checkLogin($email, $password);
+            return $this->checkLogin($email, $password);
         }
         return false;
     }
@@ -464,7 +464,7 @@ class DatabaseHelper {
         }
     }
 
-    private function isEmailAvailable() {
+    private function isEmailAvailable($email) {
         $query = "SELECT email FROM UTENTE WHERE email = ?";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('s', $email);
