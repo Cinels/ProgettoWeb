@@ -1,7 +1,7 @@
 <?php
 require_once("../database/init.php");
-$templateParams["titolo"] = "Aggiungi Prodotto";
-$templateParams["main_content"] = ["user/add_product.php"];
+$templateParams["titolo"] = "Gestisci Prodotto";
+$templateParams["main_content"] = ["user/manage_product.php"];
 
 require("../template/base.php")
 ?>
