@@ -6,7 +6,7 @@
     </head>
     <body>
         <header>
-            <a href="<?php echo PAGES_DIR ?>index.php"><img src="<?php echo RESOURCES_DIR ?>header/logo.png" alt="Pagina Principale"/></a>
+            <h1><a href="<?php echo PAGES_DIR ?>index.php"><img src="<?php echo RESOURCES_DIR ?>header/logo.png" alt="Il Puzzo"/></a></h1>
 
             <form action="<?php echo PAGES_DIR ?>results.php" method="GET">
                 <label>
