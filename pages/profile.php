@@ -10,6 +10,10 @@ if ($dbh->getUserType() == "client") {
 }
 $templateParams["notifications"] = $dbh->getNotifications();
 
+if(!$dbh->isLogged()) {
+    header("location: login.php");
+}
+
 if(isset($_GET["logout"])) {
     $dbh->logout();
     header('Location:'.PAGES_DIR."index.php");
