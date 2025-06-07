@@ -23,19 +23,19 @@ class DatabaseHelper {
      */
 
     public function isLogged() {
-        return $_SESSION["is_logged"];
+        return $_SESSION["is_logged"] ?? false;
     }
     
     public function getUserType() {
-        return $_SESSION["user_type"];
+        return $_SESSION["user_type"] ?? null;
     }
 
     public function getProfileImage() {
-        return $_SESSION["user"]['fotoProfilo'];
+        return $_SESSION["user"]['fotoProfilo'] ?? null;
     }
 
     public function getUser() {
-        return $_SESSION["user"];
+        return $_SESSION["user"] ?? null;
     }
 
     public function checkLogin($email, $password){

@@ -7,5 +7,9 @@ $templateParams["side_content"] = [$dbh->getYourInterestProducts(10)];
 
 $templateParams['results'] = $dbh->getFavourites();
 
+if(!$dbh->isLogged()) {
+    header("location: login.php");
+}
+
 require("../template/base.php")
 ?>
