@@ -1,18 +1,19 @@
 <section>
     <?php $result = $templateParams["results"][0] ?>
-    <img src="<?php echo $result["link"]?>" alt="Immagine Prodotto"/><br/>
+    <!-- gestisci foto -->
+    <!-- <img src="<?php echo $result["link"]?>" alt="Immagine Prodotto"/><br/> -->
     <p><?php echo $result["nome"] ?></p>
-    <a href="#Reviews"><?php echo $result["media_recensioni"] ?><img src="<?php echo RESOURCES_DIR ?>Marco_semplice_W.png" alt=""/></a>
+    <a href="#Reviews"><?php echo $result['media_recensioni']." ".$result['num_recensioni'] ?><img src="<?php echo RESOURCES_DIR ?>Marco_semplice_W.png" alt=""/></a>
     <?php if($result["offerta"] > 0) {
         $sale = $result["prezzo"] - $result["prezzo"]*($result["offerta"]/100);
-        echo "<ins>".$sale."</ins>€ <del>".$result['prezzo']."€</del>";
+        echo "<ins>".$result["offerta"]."% ".$sale."</ins> <del>".$result['prezzo']." €</del>";
     } else {
-        echo "<p>".$result['prezzo']."€</p>";
+        echo "<p>".$result['prezzo']." €</p>";
     }?>
     <!-- gestione della quantità -->
     <p>Consegna prevista per x</p>
     
-    <?php if($dbh->isLogged() && $dhb->getUserType() == "client"): ?>
+    <?php if($dbh->isLogged() && $dbh->getUserType() == "client"): ?>
         <!-- gestisci inserimenti multipli -->
         <a href="<?php $dbh->addToCart($result["idProdotto"], 1) ?>">Aggiungi al Carrello<img src="<?php echo RESOURCES_DIR ?>carrello.png" alt="Aggiungi al Carrello"/></a>
     <?php else: ?>

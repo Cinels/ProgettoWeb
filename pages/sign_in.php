@@ -4,20 +4,26 @@ $templateParams["titolo"] = "Registrati";
 $templateParams["main_content"] = ["sign_in.php"];
 
 if(isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST["check_password"]) && isset($_POST["name"]) && isset($_POST["surname"]) && isset($_POST["terms"])) {
+    if(isset($_FILES["image"])) {
+        list($result, $img) = uploadImage(UPLOAD_DIR, $_FILES["image"]);
+    } else {
+        $result = 0;
+    }
     if($_POST["password"] != $_POST["check_password"]) {
-        $templateParams["erroreSignin"] = "Errore! Le password non coincidono";
-    } elseif (isset($_POST["image"])) {
-        $signin = $dbh->signIn($_POST["name"], $_POST["surname"], $_POST["email"], $_POST["password"], $_POST["image"]);
+        $templateParams["erroresignin"] = "Errore! Le password non coincidono";
+    } elseif($result != 0 && isset($_FILES["image"])) {
+        $signin = $dbh->signIn($_POST["name"], $_POST["surname"], $_POST["email"], $_POST["password"], $img);
     } else {
         $signin = $dbh->signIn($_POST["name"], $_POST["surname"], $_POST["email"], $_POST["password"], null);
+        $templateParams["erroresignin"] = $img;
     }
-    if($signin) {
+    if(isset($signin) && $signin) {
         header('Location:'.PAGES_DIR."index.php");
     } else {
-        $templateParams["erroreSignin"] = "Errore! Email non disponibile";
+        $templateParams["erroresignin"] = "Errore! Email non disponibile, ".$_POST['email'];
     }
 } else {
-    $templateParams["erroreSignin"] = "Errore! Compilare tutti i campi";
+    $templateParams["erroresignin"] = "Errore! Compilare tutti i campi";
 }
 
 require("../template/base.php")

@@ -15,9 +15,9 @@
                     endif; ?>
                     <?php if($result["offerta"] > 0) {
                         $sale = $result["prezzo"] - $result["prezzo"]*($result["offerta"]/100);
-                        echo "<ins>$sale</ins>€ <del>{$result['prezzo']}€</del>";
+                        echo "<ins>".$result["offerta"]."% ".$sale."</ins> <del>".$result['prezzo']." €</del>";
                     } else {
-                        echo "<p>{$result['prezzo']}€</p>";
+                        echo "<p>".$result['prezzo']." €</p>";
                     }?>
                     <?php if($dbh->isLogged() && $dhb->getUserType() == "client"): 
                         if($dbh->isProductInCart($result["idProdotto"])): ?>
