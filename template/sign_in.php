@@ -1,12 +1,12 @@
 <section>
-    <form action="#" method="POST">
+    <form action="#" method="POST" enctype="multipart/form-data">
         <h2>Registrati</h2>
         <?php if(isset($templateParams["erroresignin"])): ?>
             <p><?php echo $templateParams["erroresignin"]; ?></p>
         <?php endif; ?>
         <ul>
             <li>
-                <label for="image">URL Immagine:</label><input type="url" id="image" name="image" value="<?php if(isset($_POST["image"])) { echo $_POST["image"]; } ?>"/>
+                <input type="file" name="image" accept="image/*"/>
             </li><li>
                 <label for="name">Nome:</label><input type="text" id="name" name="name" value="<?php if(isset($_POST["name"])) { echo $_POST["name"]; } ?>" required/>
             </li><li>
