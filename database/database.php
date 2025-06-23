@@ -272,10 +272,10 @@ class DatabaseHelper {
         $stmt->bind_param('i', $idProdotto);
         $stmt->execute();
         $result = $stmt->get_result();
-        $idPiattaforma = $result->fetch_all(MYSQLI_ASSOC)['idPiattaforma'];
+        $idPiattaforma = $result->fetch_all(MYSQLI_ASSOC);
 
-        $query = "SELECT P.idProdotto, nome, prezzo, offerta, link FROM PRODOTTO P, COMPATIBILITA C, IMMAGINE I"
-                ."WHERE P.idProdotto = C.idProdotto AND C.idPiattaforma = ? AND NOT C.idProdotto = ? AND P.idProdotto = I.idProdotto AND I.numeroProgressivo = 1"
+        $query = "SELECT P.idProdotto, P.nome, prezzo, offerta, link FROM PRODOTTO P, COMPATIBILITA C, IMMAGINE I "
+                ."WHERE P.idProdotto = C.idProdotto AND C.idPiattaforma = ? AND C.idProdotto != ? AND P.idProdotto = I.idProdotto AND I.numeroProgressivo = 1 "
                 ."LIMIT ?";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('iii', $idPiattaforma, $idProdotto, $n);
@@ -297,13 +297,16 @@ class DatabaseHelper {
     }
 
     public function getProductsFromResearch($searched) {
-        $query = "SELECT p.idProdotto, P.nome, prezzo, offerta, link "
-            ."FROM PRODOTTO P, IMMAGINE I, PIATTAFORMA PI "
+        $query = "SELECT distinct p.idProdotto, P.nome, prezzo, offerta, link "
+            ."FROM PRODOTTO P, IMMAGINE I, PIATTAFORMA PI, COMPATIBILITA C "
             ."WHERE P.idProdotto = I.idProdotto "
+            ."AND P.idProdotto = C.idProdotto "
+            ."AND PI.idPiattaforma = C.idPiattaforma "
             ."AND numeroProgressivo = 1 "
-            ."AND (P.nome LIKE %?% OR PI.nome LIKE %?% OR PI.azienda LIKE %?%)";
+            ."AND (P.nome LIKE ? OR PI.nome LIKE ? OR PI.azienda LIKE ?)";
+        $tosearch = '%'.$searched.'%';
         $stmt = $this->db->prepare($query);
-        $stmt->bind_param('sss', $searched, $searched, $searched);
+        $stmt->bind_param('sss', $tosearch, $tosearch, $tosearch);
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
@@ -441,8 +444,7 @@ class DatabaseHelper {
         if (isLogged() && getUserType() == "vendor") {
             $query = "UPDATE PRODOTTO SET nome = ?, prezzo = ?, quantitaDisponibile = ?, descrizione = ?, proprieta = ?, tipo = ? WHERE idProdotto = ?";
             $stmt = $this->db->prepare($query);
-            $intOfferta = (int)$offerta;
-            $stmt->bind_param('sdissiii', $nome, $prezzo, $quantita, $descrizione, $proprieta, $intOfferta, $tipo, $id);
+            $stmt->bind_param('sdissiii', $nome, $prezzo, $quantita, $descrizione, $proprieta, $offerta, $tipo, $id);
             $stmt->execute();
         }
     }
@@ -451,8 +453,16 @@ class DatabaseHelper {
         if (isLogged() && getUserType() == "vendor") {
             $query = "INSERT INTO PRODOTTO VALUE (?, ?, ?, ?, ?, ?, ?, ?)";
             $stmt = $this->db->prepare($query);
-            $intOfferta = (int)$offerta;
-            $stmt->bind_param('sdissiis', $nome, $prezzo, $quantita, $descrizione, $proprieta, $intOfferta, $tipo, $_SESSION["user"]['email']);
+            $stmt->bind_param('sdissiis', $nome, $prezzo, $quantita, $descrizione, $proprieta, $offerta, $tipo, $_SESSION["user"]['email']);
+            $stmt->execute();
+        }
+    }
+    
+    public function createOrder($idVenditore) {
+        if (isLogged() && getUserType() == "client") {
+            $query = "CALL createOrder(?, ?)";
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('ss', $_SESSION["user"]['email'], $idVenditore);
             $stmt->execute();
         }
     }
