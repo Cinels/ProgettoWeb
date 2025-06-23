@@ -3,7 +3,7 @@
         <?php if(isset($templateParams["results"])):
             foreach($templateParams["results"] as $result): ?>
                 <li>
-                    <a href="#"><img src="<?php echo $result["link"]?>" alt="Immagine Prodotto"/><br/>
+                    <a href="<?php echo PAGES_DIR ?>product.php?search=<?php echo $result["idProdotto"]?>"><img src="<?php echo $result["link"]?>" alt="Immagine Prodotto"/><br/>
                     <?php echo $result["nome"] ?></a>
 
                     <?php if($dbh->isLogged() && $dhb->getUserType() == "client"): 
@@ -15,9 +15,9 @@
                     endif; ?>
                     <?php if($result["offerta"] > 0) {
                         $sale = $result["prezzo"] - $result["prezzo"]*($result["offerta"]/100);
-                        echo "<ins>$sale</ins>€ <del>$result['prezzo']€</del>";
+                        echo "<ins>$sale</ins>€ <del>{$result['prezzo']}€</del>";
                     } else {
-                        echo "<p>$result['prezzo']€</p>";
+                        echo "<p>{$result['prezzo']}€</p>";
                     }?>
                     <?php if($dbh->isLogged() && $dhb->getUserType() == "client"): 
                         if($dbh->isProductInCart($result["idProdotto"])): ?>
