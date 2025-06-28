@@ -151,8 +151,9 @@ class DatabaseHelper {
     }
 
     public function getProduct($id) {
-        $query = "SELECT P.idProdotto, nome, prezzo, quantitaDisponibile, P.descrizione, proprieta, offerta, tipo, idVenditore, avg(voto) as media_recensioni, count(voto) as num_recensioni "
-                ."FROM PRODOTTO P, RECENSIONE R WHERE P.idProdotto = R.idProdotto AND P.idProdotto = ?"; //se non ci sono recensioni non funziona: non restituisce niente
+        $query = "SELECT P.idProdotto, nome, prezzo, quantitaDisponibile, P.descrizione, proprieta, offerta, tipo, idVenditore, "
+                ."coalesce(avg(voto), 0) as media_recensioni, count(voto) as num_recensioni "
+                ."FROM PRODOTTO P LEFT JOIN RECENSIONE R ON P.idProdotto = R.idProdotto WHERE P.idProdotto = ?";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('i', $id);
         $stmt->execute();
