@@ -125,8 +125,6 @@ class DatabaseHelper {
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('i', $idNotification);
             $stmt->execute();
-            $result = $stmt->get_result();
-            return $result->fetch_all(MYSQLI_ASSOC);
         }
     }
 
@@ -176,8 +174,6 @@ class DatabaseHelper {
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('si', $_SESSION["user"]['email'], $idProdotto);
             $stmt->execute();
-            $result = $stmt->get_result();
-            return $result->fetch_all(MYSQLI_ASSOC);
         }
     }
 
@@ -187,8 +183,6 @@ class DatabaseHelper {
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('si', $_SESSION["user"]['email'], $idProdotto);
             $stmt->execute();
-            $result = $stmt->get_result();
-            return $result->fetch_all(MYSQLI_ASSOC);
         }
     }
 
@@ -207,13 +201,10 @@ class DatabaseHelper {
                 $result = $stmt->get_result();
                 return $result->fetch_all(MYSQLI_ASSOC);
             } else {
-                $quantity = $result->fetch_all(MYSQLI_ASSOC)['quantita'];
-                $query = "UPDATE CARRELLO SET quanita = ? WHERE idProdotto = ? AND idCliente = ?";
+                $query = "UPDATE CARRELLO SET quantita = quantita + ? WHERE idProdotto = ? AND idCliente = ?";
                 $stmt = $this->db->prepare($query);
-                $stmt->bind_param('iis', $n + $quantity, $idProdotto, $_SESSION["user"]['email']);
+                $stmt->bind_param('iis', $n, $idProdotto, $_SESSION["user"]['email']);
                 $stmt->execute();
-                $result = $stmt->get_result();
-                return $result->fetch_all(MYSQLI_ASSOC);
             }
         }
     }
@@ -224,8 +215,6 @@ class DatabaseHelper {
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('is', $idProdotto, $_SESSION["user"]['email']);
             $stmt->execute();
-            $result = $stmt->get_result();
-            return $result->fetch_all(MYSQLI_ASSOC);            
         }
     }
      
@@ -236,11 +225,10 @@ class DatabaseHelper {
             $stmt->bind_param('is', $idProdotto, $_SESSION["user"]['email']);
             $stmt->execute();
             $result = $stmt->get_result();
-            $quantity = $result->fetch_all(MYSQLI_ASSOC)['quantita'];
-            if ($quantity > 2) {
-                $query = "UPDATE CARRELLO SET quantita = ? WHERE idProdotto = ? AND idCliente = ?";
+            if ($result->fetch_all(MYSQLI_ASSOC)['quantita'] > 2) {
+                $query = "UPDATE CARRELLO SET quantita = quantita - 1 WHERE idProdotto = ? AND idCliente = ?";
                 $stmt = $this->db->prepare($query);
-                $stmt->bind_param('iis', $quantity - 1, $idProdotto, $_SESSION["user"]['email']);
+                $stmt->bind_param('is', $idProdotto, $_SESSION["user"]['email']);
                 $stmt->execute();
                 $result = $stmt->get_result();
                 return $result->fetch_all(MYSQLI_ASSOC);
@@ -403,7 +391,7 @@ class DatabaseHelper {
             $stmt->bind_param('is', $idProdotto, $_SESSION["user"]['email']);
             $stmt->execute();
             $result = $stmt->get_result();
-            return count($result->fetch_all(MYSQLI_ASSOC)) != 0;
+            return count($result->fetch_all(MYSQLI_ASSOC)) > 0;
         }
     }
 
