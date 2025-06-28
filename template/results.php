@@ -1,5 +1,3 @@
-<!-- quando loggato restituisce solo 1 risultato -->
-
 <section>
     <ul>
         <?php if(isset($templateParams["results"])):
@@ -10,9 +8,9 @@
 
                     <?php if($dbh->isLogged() && $dbh->getUserType() == "client"): 
                         if($dbh->isProductFavourite($result["idProdotto"])): ?>
-                            <a href="<?php $dbh->addToFavourites($result["idProdotto"]) ?>"><img src="<?php echo RESOURCES_DIR ?>cuore.png" alt="Aggiungi ai Preferiti"/></a>
+                            <a href="?search=<?php echo $_GET["search"] ?>&id=<?php echo $result["idProdotto"]; ?>&favourites=remove <?php /*$dbh->removeFromFavourites($result["idProdotto"])*/ ?>"><img src="<?php echo RESOURCES_DIR ?>cuore.png" alt="Rimuovi dai Preferiti"/></a>
                         <?php else: ?>
-                            <a href="<?php $dbh->removeFromFavourites($result["idProdotto"]) ?>"><img src="<?php echo RESOURCES_DIR ?>cuore_B.png" alt="Rimuovi dai Preferiti"/></a>
+                            <a href="?search=<?php echo $_GET["search"] ?>&id=<?php echo $result["idProdotto"]; ?>&favourites=add <?php /*$dbh->addToFavourites($result["idProdotto"])*/ ?>"><img src="<?php echo RESOURCES_DIR ?>cuore.png" alt="Aggiungi ai Preferiti"/></a>
                         <?php endif;
                     endif; ?>
                     <?php if($result["offerta"] > 0) {
@@ -23,9 +21,9 @@
                     }?>
                     <?php if($dbh->isLogged() && $dbh->getUserType() == "client"): 
                         if($dbh->isProductInCart($result["idProdotto"])): ?>
-                            <a href="<?php $dbh->addToCart($result["idProdotto"], 1) ?>"><img src="<?php echo RESOURCES_DIR ?>carrello.png" alt="Aggiungi al Carrello"/></a>
+                            <a href="?search=<?php echo $_GET["search"] ?>&id=<?php echo $result["idProdotto"]; ?>&cart=remove"><img src="<?php echo RESOURCES_DIR ?>carrello.png" alt="Rimuovi dal Carrello"/></a>
                         <?php else: ?>
-                            <a href="<?php $dbh->removeFromCart($result["idProdotto"]) ?>"><img src="<?php echo RESOURCES_DIR ?>carrello.png" alt="Rimuovi dal Carrello"/></a>
+                            <a href="?search=<?php echo $_GET["search"] ?>&id=<?php echo $result["idProdotto"]; ?>&cart=add"><img src="<?php echo RESOURCES_DIR ?>carrello.png" alt="Aggiungi al Carrello"/></a>
                         <?php endif;
                     endif; ?>
                 </li>

@@ -198,8 +198,6 @@ class DatabaseHelper {
                 $stmt = $this->db->prepare($query);
                 $stmt->bind_param('isi', $idProdotto, $_SESSION["user"]['email'], $n);
                 $stmt->execute();
-                $result = $stmt->get_result();
-                return $result->fetch_all(MYSQLI_ASSOC);
             } else {
                 $query = "UPDATE CARRELLO SET quantita = quantita + ? WHERE idProdotto = ? AND idCliente = ?";
                 $stmt = $this->db->prepare($query);
@@ -402,7 +400,7 @@ class DatabaseHelper {
             $stmt->bind_param('is', $idProdotto, $_SESSION["user"]['email']);
             $stmt->execute();
             $result = $stmt->get_result();
-            return count($result->fetch_all(MYSQLI_ASSOC)) != 0;
+            return count($result->fetch_all(MYSQLI_ASSOC)) > 0;
         }
     }
 
