@@ -50,6 +50,9 @@ class DatabaseHelper {
         if (count($data) == 1) {
             $_SESSION["is_logged"] = true;
             $_SESSION["user"] = $data[0];
+            if (!isset($_SESSION["user"]['fotoProfilo']) || !file_exists($_SESSION["user"]['fotoProfilo'])) {
+                $_SESSION["user"]['fotoProfilo'] = null;
+            }
             if($this->isClientProfile($email)) {
                 $_SESSION["user_type"] = "client";
             } else {
