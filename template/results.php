@@ -1,3 +1,5 @@
+<!-- quando loggato restituisce solo 1 risultato -->
+
 <section>
     <ul>
         <?php if(isset($templateParams["results"])):
@@ -6,7 +8,7 @@
                     <a href="<?php echo PAGES_DIR ?>product.php?search=<?php echo $result["idProdotto"]?>"><img src="<?php echo $result["link"]?>" alt="Immagine Prodotto"/><br/>
                     <?php echo $result["nome"] ?></a>
 
-                    <?php if($dbh->isLogged() && $dhb->getUserType() == "client"): 
+                    <?php if($dbh->isLogged() && $dbh->getUserType() == "client"): 
                         if($dbh->isProductFavourite($result["idProdotto"])): ?>
                             <a href="<?php $dbh->addToFavourites($result["idProdotto"]) ?>"><img src="<?php echo RESOURCES_DIR ?>cuore.png" alt="Aggiungi ai Preferiti"/></a>
                         <?php else: ?>
@@ -19,7 +21,7 @@
                     } else {
                         echo "<p>".$result['prezzo']." €</p>";
                     }?>
-                    <?php if($dbh->isLogged() && $dhb->getUserType() == "client"): 
+                    <?php if($dbh->isLogged() && $dbh->getUserType() == "client"): 
                         if($dbh->isProductInCart($result["idProdotto"])): ?>
                             <a href="<?php $dbh->addToCart($result["idProdotto"], 1) ?>"><img src="<?php echo RESOURCES_DIR ?>carrello.png" alt="Aggiungi al Carrello"/></a>
                         <?php else: ?>
