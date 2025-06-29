@@ -20,20 +20,13 @@
 
     <?php echo "<p>Consegna prevista per ".strftime("%A %d %B", strtotime('+1 day', time()))."</p>"; ?>
     
-    <?php if($dbh->isLogged() && $dbh->getUserType() == "client"): ?>
-        <!-- gestisci inserimenti multipli -->
-        <a href="?search=<?php echo $result["idProdotto"]; ?>&cart=1">Aggiungi al Carrello<img src="<?php echo RESOURCES_DIR ?>carrello_B.png" alt=""/></a>
+    <!-- gestisci inserimenti multipli -->
+    <a href="?search=<?php echo $result["idProdotto"]; ?>&cart=1">Aggiungi al Carrello<img src="<?php echo RESOURCES_DIR ?>carrello_B.png" alt=""/></a>
+                    
+    <?php if($dbh->isProductFavourite($result["idProdotto"])): ?>
+        <a href="?search=<?php echo $result["idProdotto"]; ?>&favourites=remove">Rimuovi dai Preferiti<img src="<?php echo RESOURCES_DIR ?>cuore_B.png" alt=""/></a>
     <?php else: ?>
-        <a href="<?php echo PAGES_DIR ?>login.php">Aggiungi al Carrello<img src="<?php echo RESOURCES_DIR ?>carrello_B.png" alt=""/></a>
-    <?php endif; ?>
-    <?php if($dbh->isLogged() && $dbh->getUserType() == "client"): 
-        if($dbh->isProductFavourite($result["idProdotto"])): ?>
-            <a href="?search=<?php echo $result["idProdotto"]; ?>&favourites=remove">Rimuovi dai Preferiti<img src="<?php echo RESOURCES_DIR ?>cuore_B.png" alt=""/></a>
-        <?php else: ?>
-            <a href="?search=<?php echo $result["idProdotto"]; ?>&favourites=add">Aggiungi ai Preferiti<img src="<?php echo RESOURCES_DIR ?>cuore_B.png" alt=""/></a>
-        <?php endif; ?>
-    <?php else: ?>
-        <a href="<?php echo PAGES_DIR ?>login.php"><img src="<?php echo RESOURCES_DIR ?>cuore_B.png" alt=""/></a>
+        <a href="?search=<?php echo $result["idProdotto"]; ?>&favourites=add">Aggiungi ai Preferiti<img src="<?php echo RESOURCES_DIR ?>cuore_B.png" alt=""/></a>
     <?php endif; ?>
 
     <p><?php echo $result["descrizione"] ?></p>

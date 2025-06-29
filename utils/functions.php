@@ -1,4 +1,11 @@
 <?php
+function checkLogin($dbh) {
+    if(!$dbh->isLogged()) {
+        header("location: login.php");
+        exit();
+    }
+}
+
 function uploadImage($path, $image){
     $imageName = basename($image["name"]);
     $fullPath = $path.$imageName;

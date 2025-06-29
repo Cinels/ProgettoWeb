@@ -5,9 +5,7 @@ $templateParams["main_content"] = ["user/orders.php"];
 
 $templateParams['results'] = $dbh->getOrders();
 
-if(!$dbh->isLogged()) {
-    header("location: login.php");
-}
+checkLogin($dbh);
 
 require("../template/base.php")
 ?>

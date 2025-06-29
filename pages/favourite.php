@@ -7,9 +7,7 @@ $templateParams["side_content"] = [$dbh->getYourInterestProducts(10)];
 
 $templateParams['results'] = $dbh->getFavourites();
 
-if(!$dbh->isLogged()) {
-    header("location: login.php");
-}
+checkLogin($dbh);
 
 if(isset($_GET["cart"])) {
     $dbh->moveToCart($_GET["id"]);
