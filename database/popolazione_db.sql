@@ -4,11 +4,14 @@
 
 insert into utente
 values
-('venditore@negozio.it', 'Franco', 'Ruccacucchi', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', "https://us-tuna-sounds-images.voicemod.net/7a1857fb-c4d1-4422-9652-fcb4ff3a9c48-1722539434495.jpg");
+('venditore@negozio.it', 'Franco', 'Ruccacucchi', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', "https://us-tuna-sounds-images.voicemod.net/7a1857fb-c4d1-4422-9652-fcb4ff3a9c48-1722539434495.jpg"), 
+    ('cliente@negozio.it', 'Giovanna', 'Crisafulli', '6c8e6ef93f23acb9cd13cefb49ff73dcf021586fc8df7026f66bf423e30d4e0b', NULL);
 
 insert into venditore
 values
 ('venditore@negozio.it');
+
+INSERT into cliente values ('cliente@negozio.it');
 
 insert into prodotto
 values
@@ -101,55 +104,59 @@ VALUES
 
 -- Console
 INSERT INTO IMMAGINE VALUES
-('nintendo_switch_1', 1, 1, '../resources/database_img/Console/nintendo_switch_1.jpg'),
-('nintendo_switch_2', 1, 2, '../resources/database_img/Console/nintendo_switch_2.jpg'),
-('nintendo_switch_lite_1', 2, 1, '../resources/database_img/Console/nintendo_switch_lite_1.jpg'),
-('nintendo_switch_lite_2', 2, 2, '../resources/database_img/Console/nintendo_switch_lite_2.jpg'),
-('nintendo_switch_oled_1', 3, 1, '../resources/database_img/Console/nintendo_switch_oled_1.jpg'),
-('nintendo_switch_oled_2', 3, 2, '../resources/database_img/Console/nintendo_switch_oled_2.png'),
-('ps5_1', 4, 1, '../resources/database_img/Console/ps5_1.jpg'),
-('ps5_2', 4, 2, '../resources/database_img/Console/ps5_2.jpg'),
-('ps5_pro_1', 5, 1, '../resources/database_img/Console/ps5_pro_1.jpg'),
-('ps5_pro_2', 5, 2, '../resources/database_img/Console/ps5_pro_2.jpg'),
-('steam_deck_1', 8, 1, '../resources/database_img/Console/steam_deck_1.jpg'),
-('xbox_S_1', 6, 1, '../resources/database_img/Console/xbox_S_1.jpg'),
-('xbox_S_2', 6, 2, '../resources/database_img/Console/xbox_S_2.jpg'),
-('xbox_x_1', 7, 1, '../resources/database_img/Console/xbox_x_1.jpg'),
-('xbox_x_2', 7, 2, '../resources/database_img/Console/xbox_x_2.jpg');
+('nintendo_switch_1', 1, 1, 'Console/nintendo_switch_1.jpg'),
+('nintendo_switch_2', 1, 2, 'Console/nintendo_switch_2.jpg'),
+('nintendo_switch_lite_1', 2, 1, 'Console/nintendo_switch_lite_1.jpg'),
+('nintendo_switch_lite_2', 2, 2, 'Console/nintendo_switch_lite_2.jpg'),
+('nintendo_switch_oled_1', 3, 1, 'Console/nintendo_switch_oled_1.jpg'),
+('nintendo_switch_oled_2', 3, 2, 'Console/nintendo_switch_oled_2.png'),
+('ps5_1', 4, 1, 'Console/ps5_1.jpg'),
+('ps5_2', 4, 2, 'Console/ps5_2.jpg'),
+('ps5_pro_1', 5, 1, 'Console/ps5_pro_1.jpg'),
+('ps5_pro_2', 5, 2, 'Console/ps5_pro_2.jpg'),
+('steam_deck_1', 8, 1, 'Console/steam_deck_1.jpg'),
+('xbox_S_1', 6, 1, 'Console/xbox_S_1.jpg'),
+('xbox_S_2', 6, 2, 'Console/xbox_S_2.jpg'),
+('xbox_x_1', 7, 1, 'Console/xbox_x_1.jpg'),
+('xbox_x_2', 7, 2, 'Console/xbox_x_2.jpg');
 
 -- Controller
 INSERT INTO IMMAGINE (nome, idProdotto, numeroProgressivo, link) VALUES
-('controller_ps5_1', 9, 1, '../resources/database_img/Controller/controller_ps5_1.jpg'),
-('controller_switch_1', 11, 1, '../resources/database_img/Controller/controller_switch_1.jpg'),
-('controller_xbox_1', 12, 1, '../resources/database_img/Controller/controller_xbox_1.jpg'),
-('joycon_switch_1', 10, 1, '../resources/database_img/Controller/joycon_switch_1.jpg');
+('controller_ps5_1', 9, 1, 'Controller/controller_ps5_1.jpg'),
+('controller_switch_1', 11, 1, 'Controller/controller_switch_1.jpg'),
+('controller_xbox_1', 12, 1, 'Controller/controller_xbox_1.jpg'),
+('joycon_switch_1', 10, 1, 'Controller/joycon_switch_1.jpg');
 
 -- Videogiochi
 INSERT INTO IMMAGINE (nome, idProdotto, numeroProgressivo, link) VALUES
-('zelda_botw', 13, 1, '../resources/database_img/Videogiochi/zelda_botw.jpg'),
-('super_mario_odyssey', 14, 1, '../resources/database_img/Videogiochi/super_mario_odyssey.jpg'),
-('animal_crossing', 15, 1, '../resources/database_img/Videogiochi/animal_crossing.jpg'),
-('mario_kart_8_dx', 16, 1, '../resources/database_img/Videogiochi/mario_kart_8_dx.jpg'),
-('smash', 17, 1, '../resources/database_img/Videogiochi/smash.jpg'),
-('pokemon_leggende_arceus', 18, 1, '../resources/database_img/Videogiochi/pokemon_leggende_arceus.jpg'),
-('kirby_terra_perduta', 19, 1, '../resources/database_img/Videogiochi/kirby_terra_perduta.jpg'),
-('super_mario_3d_world', 20, 1, '../resources/database_img/Videogiochi/super_mario_3d_world.jpg'),
-('51_worldwide_games', 21, 1, '../resources/database_img/Videogiochi/51_worldwide_games.jpg'),
-('marvel_spiderman_2', 22, 1, '../resources/database_img/Videogiochi/marvel_spiderman_2.jpg'),
-('hogwarts_legacy_ps5', 23, 1, '../resources/database_img/Videogiochi/hogwarts_legacy_ps5.jpg'),
-('last_of_us_2_ps5', 24, 1, '../resources/database_img/Videogiochi/last_of_us_2_ps5.jpg'),
-('assassins_creed_mirage_ps5', 25, 1, '../resources/database_img/Videogiochi/assassins_creed_mirage_ps5.jpg'),
-('gran_turismo_7_ps5', 26, 1, '../resources/database_img/Videogiochi/gran_turismo_7_ps5.jpg'),
-('astrobot', 27, 1, '../resources/database_img/Videogiochi/astrobot.jpg'),
-('cyberpunk_ps5', 28, 1, '../resources/database_img/Videogiochi/cyberpunk_ps5.jpg'),
-('baldurs_gate_3_ps5', 29, 1, '../resources/database_img/Videogiochi/baldurs_gate_3_ps5.jpg'),
-('final_fantasy_vii_ps5', 30, 1, '../resources/database_img/Videogiochi/final_fantasy_vii_ps5.jpg'),
-('hogwarts_legacy_xbox', 31, 1, '../resources/database_img/Videogiochi/hogwarts_legacy_xbox.jpg'),
-('rdr2_xbox', 32, 1, '../resources/database_img/Videogiochi/rdr2_xbox.jpg'),
-('cyberpunk_xbox', 33, 1, '../resources/database_img/Videogiochi/cyberpunk_xbox.jpg'),
-('forza_horizon_5_xbox', 34, 1, '../resources/database_img/Videogiochi/forza_horizon_5_xbox.jpg'),
-('metaphor_re_fantazio_xbox', 35, 1, '../resources/database_img/Videogiochi/metaphor_re_fantazio_xbox.jpg'),
-('halo_infinite_xbox', 36, 1, '../resources/database_img/Videogiochi/halo_infinite_xbox.jpg'),
-('f1_24', 37, 1, '../resources/database_img/Videogiochi/f1_24.jpg'),
-('gta_v_xbox', 38, 1, '../resources/database_img/Videogiochi/gta_v_xbox.jpg'),
-('assassins_creed_mirage_xbox', 39, 1, '../resources/database_img/Videogiochi/assassins_creed_mirage_xbox.jpg');
+('zelda_botw', 13, 1, 'Videogiochi/zelda_botw.jpg'),
+('super_mario_odyssey', 14, 1, 'Videogiochi/super_mario_odyssey.jpg'),
+('animal_crossing', 15, 1, 'Videogiochi/animal_crossing.jpg'),
+('mario_kart_8_dx', 16, 1, 'Videogiochi/mario_kart_8_dx.jpg'),
+('smash', 17, 1, 'Videogiochi/smash.jpg'),
+('pokemon_leggende_arceus', 18, 1, 'Videogiochi/pokemon_leggende_arceus.jpg'),
+('kirby_terra_perduta', 19, 1, 'Videogiochi/kirby_terra_perduta.jpg'),
+('super_mario_3d_world', 20, 1, 'Videogiochi/super_mario_3d_world.jpg'),
+('51_worldwide_games', 21, 1, 'Videogiochi/51_worldwide_games.jpg'),
+('marvel_spiderman_2', 22, 1, 'Videogiochi/marvel_spiderman_2.jpg'),
+('hogwarts_legacy_ps5', 23, 1, 'Videogiochi/hogwarts_legacy_ps5.jpg'),
+('last_of_us_2_ps5', 24, 1, 'Videogiochi/last_of_us_2_ps5.jpg'),
+('assassins_creed_mirage_ps5', 25, 1, 'Videogiochi/assassins_creed_mirage_ps5.jpg'),
+('gran_turismo_7_ps5', 26, 1, 'Videogiochi/gran_turismo_7_ps5.jpg'),
+('astrobot', 27, 1, 'Videogiochi/astrobot.jpg'),
+('cyberpunk_ps5', 28, 1, 'Videogiochi/cyberpunk_ps5.jpg'),
+('baldurs_gate_3_ps5', 29, 1, 'Videogiochi/baldurs_gate_3_ps5.jpg'),
+('final_fantasy_vii_ps5', 30, 1, 'Videogiochi/final_fantasy_vii_ps5.jpg'),
+('hogwarts_legacy_xbox', 31, 1, 'Videogiochi/hogwarts_legacy_xbox.jpg'),
+('rdr2_xbox', 32, 1, 'Videogiochi/rdr2_xbox.jpg'),
+('cyberpunk_xbox', 33, 1, 'Videogiochi/cyberpunk_xbox.jpg'),
+('forza_horizon_5_xbox', 34, 1, 'Videogiochi/forza_horizon_5_xbox.jpg'),
+('metaphor_re_fantazio_xbox', 35, 1, 'Videogiochi/metaphor_re_fantazio_xbox.jpg'),
+('halo_infinite_xbox', 36, 1, 'Videogiochi/halo_infinite_xbox.jpg'),
+('f1_24', 37, 1, 'Videogiochi/f1_24.jpg'),
+('gta_v_xbox', 38, 1, 'Videogiochi/gta_v_xbox.jpg'),
+('assassins_creed_mirage_xbox', 39, 1, 'Videogiochi/assassins_creed_mirage_xbox.jpg');
+
+INSERT INTO ORDINE VALUES (1, '2025-06-29', 1, '2025-06-30', 1, 'cliente@negozio.it', 'venditore@negozio.it', 50);
+
+INSERT INTO DETTAGLIO_ORDINE VALUES (1,1,1), (11,1,1);
