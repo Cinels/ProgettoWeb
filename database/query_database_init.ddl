@@ -35,13 +35,14 @@ create table COMPATIBILITA (
      constraint IDCOMPATIBILITA primary key (idPiattaforma, idProdotto));
 
 create table CRONOLOGIA_PRODOTTI (
-     idProdotto int not null,
      idCliente varchar(40) not null,
-     constraint IDCRONOLOGIA_PRODOTTI primary key (idCliente, idProdotto));
+     oraRicerca datetime not null,
+     idProdotto int not null,
+     constraint IDCRONOLOGIA_PRODOTTI primary key (idCliente, oraRicerca));
 
 create table CRONOLOGIA_RICERCA (
      idCliente varchar(40) not null,
-     oraRicerca date not null,
+     oraRicerca datetime not null,
      testo varchar(50) not null,
      constraint IDCRONOLOGIA_RICERCA primary key (idCliente, oraRicerca));
 
@@ -214,7 +215,6 @@ alter table RECENSIONE add constraint FKlascia
 alter table VENDITORE add constraint FKR_FK
      foreign key (email)
      references UTENTE (email);
-
 
 -- Index Section
 -- _____________ 
