@@ -4,7 +4,7 @@
     <img src="<?php echo DB_RESOURCERS_DIR.$templateParams["images"][0]['link']?>" alt="Immagine Prodotto"/><br/>
 
     <p><?php echo $result["nome"] ?></p>
-    <a href="#Reviews"><?php echo $result['media_recensioni']." ".$result['num_recensioni'] ?><img src="<?php echo RESOURCES_DIR ?>Marco_semplice_W.png" alt=""/></a><br/>
+    <a href="#Reviews"><?php echo $result['media_recensioni']."/5 (".$result['num_recensioni'].")" ?><img src="<?php echo RESOURCES_DIR ?>Marco_semplice_W.png" alt=""/></a><br/>
     <?php if($result["offerta"] > 0) {
         $sale = $result["prezzo"] - $result["prezzo"]*($result["offerta"]/100);
         echo "<ins>".$result["offerta"]."% ".$sale."</ins> <del>".$result['prezzo']." €</del>";

@@ -150,7 +150,7 @@ class DatabaseHelper {
 
     public function getProduct($id) {
         $query = "SELECT P.idProdotto, nome, prezzo, quantitaDisponibile, P.descrizione, proprieta, offerta, tipo, idVenditore, "
-                ."coalesce(avg(voto), 0) as media_recensioni, count(voto) as num_recensioni "
+                ."ROUND(COALESCE(AVG(voto), 0), 1) as media_recensioni, count(voto) as num_recensioni "
                 ."FROM PRODOTTO P LEFT JOIN RECENSIONE R ON P.idProdotto = R.idProdotto WHERE P.idProdotto = ?";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('i', $id);

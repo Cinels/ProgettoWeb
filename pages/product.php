@@ -8,8 +8,11 @@ if(isset($_GET["search"])) {
     $templateParams["images"] = $dbh->getProductImages($_GET["search"]);
     $templateParams["subtitles"] = ["Correlati"];
     $templateParams["side_content"] = [$dbh->getRelatedProducts($_GET["search"], 10)];
+} else {
+    header('Location:'.PAGES_DIR."index.php");    
 }
 
+//Implementare questa parte in JavaScript
 if(isset($_GET["cart"])) {
     $dbh->addToCart($_GET["search"], $_GET["cart"]);
 }
