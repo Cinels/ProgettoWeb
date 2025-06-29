@@ -326,7 +326,7 @@ class DatabaseHelper {
 
     public function getOrders() {
         if ($this->isLogged() && $this->getUserType()=="client") {
-            $query = "SELECT idOrdine, dataOrdine, statoOrdine, dataArrivoPrevista, idVenditore, costoTotale FROM ORDINI WHERE idCliente = ?";
+            $query = "SELECT idOrdine, dataOrdine, statoOrdine, dataArrivoPrevista, idVenditore, costoTotale FROM ORDINE WHERE idCliente = ?";
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('s', $_SESSION["user"]['email']);
             $stmt->execute();
@@ -425,7 +425,7 @@ class DatabaseHelper {
 
     public function updateOrderState($id, $new_state) {
         if ($this->isLogged() && $this->getUserType() == "vendor") {
-            $query = "UPDATE ordini SET statoOrdine = ? WHERE idOrdine = ?";
+            $query = "UPDATE ORDINE SET statoOrdine = ? WHERE idOrdine = ?";
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('ii', $new_state, $id);
             $stmt->execute();
