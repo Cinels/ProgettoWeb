@@ -86,7 +86,7 @@ class DatabaseHelper {
         $_SESSION["user"] = null;
     }
 
-    public function getNotifications() {
+    public function getNotifications() { //manca la data e l'ora
         if ($this->isLogged()) {
             $query = "SELECT idNotifica, tipo, testo, letta FROM NOTIFICA WHERE idUtente = ?";
             $stmt = $this->db->prepare($query);

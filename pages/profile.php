@@ -19,5 +19,15 @@ if(isset($_GET["logout"])) {
     header('Location:'.PAGES_DIR."index.php");
 }
 
+if(isset($_GET["notification"]) && isset($_GET["id"])) {
+    if($_GET["notification"] === "read") {
+        $dbh->readNotification($_GET["id"]);
+    } elseif($_GET["notification"] === "unread") {
+        $dbh->unreadNotification($_GET["id"]);
+    } elseif($_GET["notification"] === "delete") {
+        $dbh->deleteNotification($_GET["id"]);
+    }
+}
+
 require("../template/base.php")
 ?>
