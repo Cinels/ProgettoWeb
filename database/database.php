@@ -231,22 +231,22 @@ class DatabaseHelper {
                 $result = $stmt->get_result();
                 return $result->fetch_all(MYSQLI_ASSOC);
             } else {
-                removeFromCart($idProdotto);
+                $this->removeFromCart($idProdotto);
             }
         }
     }
 
     public function moveToCart($idProdotto) {
         if ($this->isLogged() && $this->getUserType()=="client") {
-            removeFromFavourites($idProdotto);
-            addToCart($idProdotto, 1);
+            $this->removeFromFavourites($idProdotto);
+            $this->addToCart($idProdotto, 1);
         }
     }
 
     public function moveToFavourites($idProdotto) {
         if ($this->isLogged() && $this->getUserType()=="client") {
-            removeFromCart($idProdotto);
-            addToFavourites($idProdotto);
+            $this->removeFromCart($idProdotto);
+            $this->addToFavourites($idProdotto);
         }
     }
 
@@ -337,12 +337,12 @@ class DatabaseHelper {
 
     public function getOrderDetails($idOrdine) {
         if ($this->isLogged()) {
-            $query = "SELECT nome, prezzo, offerta, P.descrizione, quantita, avg(voto) as media_recensioni, count(voto) as num_recensioni "
-                        ."FROM PRODOTTO P, DETTAGLIO_ORDINE D, RECENSIONE R "
-                        ."WHERE P.idProdotto = D.idProdotto "
-                        ."AND P.idProdotto = R.idprodotto "
-                        ."AND D.idOrdine = ? "
-                        ."group by P.idProdotto, nome, prezzo, offerta, P.descrizione, quantita";
+            $query = "SELECT P.idProdotto, P.nome, prezzo, offerta, P.descrizione, quantita, I.link, "
+                    ."coalesce(avg(voto), 0) as media_recensioni, count(voto) as num_recensioni "
+                    ."FROM DETTAGLIO_ORDINE D, RECENSIONE R, IMMAGINE I, PRODOTTO P "
+                    ."LEFT JOIN RECENSIONE R ON P.idProdotto = R.idProdotto "
+                    ."WHERE P.idProdotto = D.idProdotto AND P.idProdotto = R.idprodotto AND P.idProdotto = I.idProdotto AND I.numeroProgressivo = 1 AND D.idOrdine = ? "
+                    ."GROUP BY P.idProdotto, nome, prezzo, offerta, P.descrizione, quantita";
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('i', $idOrdine);
             $stmt->execute();
@@ -353,7 +353,11 @@ class DatabaseHelper {
 
     public function getCart() {
         if ($this->isLogged() && $this->getUserType()=="client") {
-            $query = "SELECT P.idProdotto, nome, prezzo, offerta, quantita, idVenditore FROM PRODOTTO P, CARRELLO C WHERE P.idProdotto = C.idProdotto AND C.idCliente = ?"; //manca media recensioni e data consegna
+            $query = "SELECT P.idProdotto, P.nome, prezzo, offerta, quantita, idVenditore, I.link, "
+                    ."coalesce(avg(voto), 0) as media_recensioni, count(voto) as num_recensioni "
+                    ."FROM CARRELLO C, IMMAGINE I, PRODOTTO P "
+                    ."LEFT JOIN RECENSIONE R ON P.idProdotto = R.idProdotto "
+                    ."WHERE P.idProdotto = C.idProdotto AND P.idProdotto = I.idProdotto AND I.numeroProgressivo = 1 AND C.idCliente = ?";
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('s', $_SESSION["user"]['email']);
             $stmt->execute();
@@ -364,7 +368,11 @@ class DatabaseHelper {
 
     public function getFavourites() {
         if ($this->isLogged() && $this->getUserType()=="client") {
-            $query = "SELECT P.idProdotto, nome, prezzo, offerta, idVenditore FROM PRODOTTO P, LISTA_PREFERITI L WHERE P.idProdotto = L.idProdotto AND L.idCliente = ?"; //manca media recensioni e data consegna
+            $query = "SELECT P.idProdotto, P.nome, prezzo, offerta, idVenditore, I.link, "
+                    ."coalesce(avg(voto), 0) as media_recensioni, count(voto) as num_recensioni "
+                    ."FROM LISTA_PREFERITI L, IMMAGINE I, PRODOTTO P "
+                    ."LEFT JOIN RECENSIONE R ON P.idProdotto = R.idProdotto "
+                    ."WHERE P.idProdotto = L.idProdotto AND P.idProdotto = I.idProdotto AND I.numeroProgressivo = 1 AND L.idCliente = ?";
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('s', $_SESSION["user"]['email']);
             $stmt->execute();

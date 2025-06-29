@@ -11,5 +11,13 @@ if(!$dbh->isLogged()) {
     header("location: login.php");
 }
 
+if(isset($_GET["cart"])) {
+    $dbh->moveToCart($_GET["id"]);
+}
+
+if(isset($_GET["remove"])) {
+    $dbh->removeFromFavourites($_GET["id"]);
+}
+
 require("../template/base.php")
 ?>

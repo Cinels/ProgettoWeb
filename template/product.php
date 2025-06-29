@@ -18,8 +18,7 @@
         <input type="number" id="quantity" name="quantity" min="0" value="1">
     </div>
 
-    <?php setlocale(LC_TIME, 'it_IT.utf8', 'ita', 'it_IT', 'italian');
-    echo "<p>Consegna prevista per ".strftime("%A %d %B", strtotime('+1 day', time()))."</p>"; ?>
+    <?php echo "<p>Consegna prevista per ".strftime("%A %d %B", strtotime('+1 day', time()))."</p>"; ?>
     
     <?php if($dbh->isLogged() && $dbh->getUserType() == "client"): ?>
         <!-- gestisci inserimenti multipli -->
