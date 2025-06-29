@@ -462,10 +462,19 @@ class DatabaseHelper {
     }
     
     public function createOrder($idVenditore) {
-        if (isLogged() && getUserType() == "client") {
+        if ($this->isLogged() && $this->getUserType() == "client") {
             $query = "CALL createOrder(?, ?)";
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('ss', $_SESSION["user"]['email'], $idVenditore);
+            $stmt->execute();
+        }
+    }
+
+    public function updateHistory($product) {
+        if ($this->isLogged() && $this->getUserType() == "client") {
+            $query = "INSERT INTO cronologia_prodotti VALUES (?, NOW(), ?)";
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('si', $_SESSION["user"]['email'], $product);
             $stmt->execute();
         }
     }
