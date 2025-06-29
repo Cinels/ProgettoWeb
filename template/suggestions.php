@@ -1,5 +1,8 @@
 <section>
     <form action="<?php echo PAGES_DIR ?>product.php" method="GET">
+        <?php foreach($templateParams["side_content"] as $content):
+            $templateParams["subtitle"] = $templateParams["subtitles"][array_search($content, $templateParams["side_content"])];
+            $templateParams["results"] = $content; ?>
         <?php if(isset($templateParams["results"]) && count($templateParams["results"]) > 0):
             echo "<h2>".$templateParams['subtitle']."</h2>";
             foreach($templateParams["results"] as $result): ?>
@@ -14,6 +17,7 @@
                     }?>
                 </button>
             <?php endforeach;
-        endif; ?>
+        endif; 
+    endforeach;?>
     </form>
 </section>

@@ -34,11 +34,8 @@
 
         <aside>
             <?php if(isset($templateParams["side_content"])) {
-                foreach($templateParams["side_content"] as $content){
-                    $templateParams["subtitle"] = $templateParams["subtitles"][array_search($content, $templateParams["side_content"])];
-                    $templateParams["results"] = $content;
-                    require("suggestions.php");
-                }
+                    require_once("suggestions.php");
+                
             } ?>
         </aside>
 
