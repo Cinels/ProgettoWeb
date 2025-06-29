@@ -1,7 +1,7 @@
 <section>
     <?php $result = $templateParams["results"][0] ?>
     <!-- gestisci foto -->
-    <img src="<?php echo $templateParams["images"][0]?>" alt="Immagine Prodotto"/><br/>
+    <img src="<?php echo DB_RESOURCERS_DIR.$templateParams["images"][0]['link']?>" alt="Immagine Prodotto"/><br/>
 
     <p><?php echo $result["nome"] ?></p>
     <a href="#Reviews"><?php echo $result['media_recensioni']." ".$result['num_recensioni'] ?><img src="<?php echo RESOURCES_DIR ?>Marco_semplice_W.png" alt=""/></a><br/>

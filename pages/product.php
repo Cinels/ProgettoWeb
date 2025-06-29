@@ -14,6 +14,7 @@ if(isset($_GET["cart"])) {
     $dbh->addToCart($_GET["search"], $_GET["cart"]);
 }
 
+//Implementare questa parte in JavaScript
 if(isset($_GET["favourites"])) {
     if($_GET["favourites"] === "add") {
         $dbh->addToFavourites($_GET["search"]);
