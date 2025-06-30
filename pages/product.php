@@ -14,17 +14,18 @@ if(isset($_GET["search"])) {
 }
 
 //Implementare questa parte in JavaScript
-if(isset($_GET["cart"])) {
+if(isset($_POST["cart"])) {
     checkClientLogin($dbh);
-    $dbh->addToCart($_GET["search"], $_GET["cart"]);
+    $dbh->addToCart($_GET["search"], $_POST["cart"]);
+    header("Location: ".PAGES_DIR."product.php?search=".$_GET["search"]);
 }
 
-//Implementare questa parte in JavaScript
+//Implementare questa parte in JavaScript PEFFOH
 if(isset($_GET["favourites"])) {
     checkClientLogin($dbh);
-    if($_GET["favourites"] === "add") {
+    if($_GET["favourites"] === "add" && !$dbh->isProductFavourite($_GET["search"])) {
         $dbh->addToFavourites($_GET["search"]);
-    } elseif($_GET["favourites"] === "remove") {
+    } elseif($_GET["favourites"] === "remove" && $dbh->isProductFavourite($_GET["search"])) {
         $dbh->removeFromFavourites($_GET["search"]);
     }
 }
