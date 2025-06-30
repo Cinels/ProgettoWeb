@@ -3,7 +3,7 @@
     <!-- gestisci foto -->
     <img src="<?php echo DB_RESOURCERS_DIR.$templateParams["images"][0]['link']?>" alt="Immagine Prodotto"/><br/>
 
-    <p><?php echo $result["nome"] ?></p>
+    <h2><?php echo $result["nome"] ?></h2>
     <a href="#Reviews"><?php echo $result['media_recensioni']."/5 (".$result['num_recensioni'].")" ?><img src="<?php echo RESOURCES_DIR ?>Marco_semplice_W.png" alt=""/></a><br/>
     <?php if($result["offerta"] > 0) {
         $sale = $result["prezzo"] - $result["prezzo"]*($result["offerta"]/100);
@@ -14,7 +14,7 @@
 
     <!-- gestione della quantità -->
     <div>
-        <form action="<?php echo PAGES_DIR.'product.php?search='.$result['idProdotto'] ?>" method="POST">
+        <form action="#" method="POST">
         <label for="quantity">Quantità: </label>
         <input type="number" id="quantity" name="cart" min="0" value="1">
         <button type="submit"> Aggiungi al Carrello <img src="<?php echo RESOURCES_DIR ?>carrello_B.png" alt=""/>
@@ -34,6 +34,10 @@
     <p><?php echo $result["descrizione"] ?></p>
     <p><?php echo $result["proprieta"] ?></p>
 
-    <p id="Reviews">Recensioni</p>
+    <p id="Reviews">
+    <h3>Recensioni</h3>
+    <?php echo $result['media_recensioni']."/5 (".$result['num_recensioni'].")" ?><br/>
+    <?php require_once("reviews.php"); ?>
+</p>
     
 </section>

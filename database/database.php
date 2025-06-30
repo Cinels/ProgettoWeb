@@ -381,10 +381,10 @@ class DatabaseHelper {
         }
     }
 
-    public function getReviews($idProdotto, $n) {
-        $query = "SELECT voto, descrizione FROM RECENSIONI WHERE idProdotto = ? LIMIT ?";
+    public function getReviews($idProdotto, $n = -1) {
+        $query = "SELECT nome, cognome, voto, descrizione FROM RECENSIONE R, CLIENTE C, UTENTE U WHERE R.idCliente = C.email AND U.email = C.email AND idProdotto = ?";
         $stmt = $this->db->prepare($query);
-        $stmt->bind_param('ii', $idProdotto, $n);
+        $stmt->bind_param('i', $idProdotto);
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
