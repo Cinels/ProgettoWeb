@@ -1,7 +1,7 @@
 <?php
 require_once("../database/init.php");
 
-$result = $dbh->getCart();
+$result = $dbh->getFavourites();
 
 
 
