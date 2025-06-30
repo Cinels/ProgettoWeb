@@ -36,15 +36,15 @@ create table COMPATIBILITA (
 
 create table CRONOLOGIA_PRODOTTI (
      idCliente varchar(40) not null,
-     oraRicerca datetime not null,
      idProdotto int not null,
-     constraint IDCRONOLOGIA_PRODOTTI primary key (idCliente, oraRicerca));
+     oraRicerca datetime not null,
+     constraint IDCRONOLOGIA_PRODOTTI primary key (idCliente, idProdotto));
 
 create table CRONOLOGIA_RICERCA (
      idCliente varchar(40) not null,
-     oraRicerca datetime not null,
      testo varchar(50) not null,
-     constraint IDCRONOLOGIA_RICERCA primary key (idCliente, oraRicerca));
+     oraRicerca datetime not null,
+     constraint IDCRONOLOGIA_RICERCA primary key (idCliente, testo));
 
 create table DETTAGLIO_ORDINE (
      idProdotto int not null,
