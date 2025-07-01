@@ -7,7 +7,7 @@
             echo "<h2>".$templateParams['subtitle']."</h2>";
             foreach($templateParams["results"] as $result): ?>
                 <button type="submit" name="search" value="<?php echo $result["idProdotto"] ?>">
-                    <img src="<?php echo $result["link"]?>" alt="Immagine Prodotto"/><br/>
+                    <img src="<?php echo DB_RESOURCES_DIR.$result["link"]?>" alt="Immagine Prodotto"/><br/>
                     <?php echo $result["nome"] ?><br/>
                     <?php if($result["offerta"] > 0) {
                         $sale = $result["prezzo"] - $result["prezzo"]*($result["offerta"]/100);

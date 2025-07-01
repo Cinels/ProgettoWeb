@@ -28,7 +28,7 @@ function generateMainContent(products) {
         content += `
                 <li>
                     <a href="${paths.PAGES_DIR}product.php?search=${product["idProdotto"]}">
-                        <img src="${paths.DB_RESOURCERS_DIR}${product['link']}" alt="Immagine Prodotto"/><br/>
+                        <img src="${paths.DB_RESOURCES_DIR}${product['link']}" alt="Immagine Prodotto"/><br/>
                         ${product['nome']}<br/>`;
         if (typeof product["offerta"] !== 'undefined' && product["offerta"] > 0) {
             let sale = product["prezzo"] - product["prezzo"]*(product["offerta"]/100);
