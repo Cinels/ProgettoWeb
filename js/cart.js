@@ -23,8 +23,8 @@ function generateMainContent(products) {
         <section>
             <h2>Carrello</h2>
             <ul>`;
-    for (let i = 0; i < products.length; i++) {
-        let product = products[i];
+    for (let i = 0; i < !products['empty'] && products['result'].length; i++) {
+        let product = products['result'][i];
         content += `
                 <li>
                     <a href="${paths.PAGES_DIR}product.php?search=${product["idProdotto"]}">

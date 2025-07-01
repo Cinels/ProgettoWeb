@@ -1,11 +1,9 @@
 <?php
 require_once("../database/init.php");
 
-$result = $dbh->getFavourites();
+$result = ['empty' => $dbh->getFavourites()[0]["idProdotto"] === null, 'result' => $dbh->getFavourites()];
 
-if (count($result) > 0) {
-    header('Content-Type: application/json');
-    echo json_encode($result);
-}
+header('Content-Type: application/json');
+echo json_encode($result);
 
 ?>

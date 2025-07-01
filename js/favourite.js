@@ -23,14 +23,14 @@ function generateMainContent(products) {
         <section>
             <h2>Preferiti</h2>
             <ul>`;
-    for (let i = 0; i < products.length; i++) {
-        let product = products[i];
+    for (let i = 0; !products['empty'] && i < products['result'].length; i++) {
+        let product = products['result'][i];
         content += `
                 <li>
                     <a href="${paths.PAGES_DIR}product.php?search=${product["idProdotto"]}">
                         <img src="${paths.DB_RESOURCES_DIR}${product['link']}" alt="Immagine Prodotto"/><br/>
                         ${product['nome']}<br/>`;
-        if (typeof product["offerta"] !== 'undefined' && product["offerta"] > 0) {
+        if (product["offerta"] > 0) {
             let sale = product["prezzo"] - product["prezzo"]*(product["offerta"]/100);
             content += `<ins>${product["offerta"]}% ${sale}</ins> <del>${product["prezzo"]}</del> €"`;
         } else {

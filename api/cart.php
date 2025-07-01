@@ -1,13 +1,9 @@
 <?php
 require_once("../database/init.php");
 
-$result = $dbh->getCart();
+$result = ['empty' => $dbh->getCart()[0]["idProdotto"] === null, 'result' => $dbh->getCart()];
 
-
-
-if (count($result) > 0) {
-    header('Content-Type: application/json');
-    echo json_encode($result);
-}
+header('Content-Type: application/json');
+echo json_encode($result);
 
 ?>
