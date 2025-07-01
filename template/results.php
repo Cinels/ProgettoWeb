@@ -3,7 +3,7 @@
         <?php if(isset($templateParams["results"])):
             foreach($templateParams["results"] as $result): ?>
                 <li>
-                    <a href="<?php echo PAGES_DIR ?>product.php?search=<?php echo $result["idProdotto"]?>"><img src="<?php echo $result["link"]?>" alt="Immagine Prodotto"/><br/>
+                    <a href="<?php echo PAGES_DIR ?>product.php?search=<?php echo $result["idProdotto"]?>"><img src="<?php echo DB_RESOURCES_DIR.$result["link"]?>" alt="Immagine Prodotto"/><br/>
                     <?php echo $result["nome"] ?></a>
 
                     <?php if($dbh->isLogged() && $dbh->getUserType() == "client"): 
