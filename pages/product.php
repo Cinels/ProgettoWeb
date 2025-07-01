@@ -11,6 +11,7 @@ if(isset($_GET["search"])) {
     $templateParams["reviews"] = $dbh->getReviews($_GET["search"]);
     $templateParams["side_content"] = [$dbh->getRelatedProducts($_GET["search"], 10)];
     $templateParams["n_rev"] = min(4, count($templateParams["reviews"]));
+    $templateParams["hasBuyed"] = $dbh->hasBuyedIt($_GET["search"]);
 } else {
     header('Location:'.PAGES_DIR."index.php");    
 }

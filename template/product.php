@@ -37,6 +37,11 @@
     <p id="Reviews">
     <h3>Recensioni</h3>
     <?php echo $result['media_recensioni']."/5 (".$result['num_recensioni'].")" ?><br/>
+    <?php if($templateParams["hasBuyed"]): ?>
+    <a href="lascia_recensione.php?id=<?php $result["idProdotto"] ?>"> </a>
+
+    </form>
+    <?php endif; ?>
     <?php require_once("reviews.php"); ?>
 </p>
     

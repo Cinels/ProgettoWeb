@@ -479,6 +479,17 @@ class DatabaseHelper {
         }
     }
 
+    public function hasBuyedIt($product) {
+        if ($this->isLogged() && $this->getUserType() == "client") {
+            $query = "SELECT * FROM ORDINE O, DETTAGLIO_ORDINE D WHERE O.idOrdine = D.idOrdine AND idCliente = ? AND idProdotto = ?";
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('si', $_SESSION["user"]['email'], $product);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            return count($result->fetch_all(MYSQLI_ASSOC)) > 0;
+        }
+    }
+
     private function isEmailAvailable() {
         $query = "SELECT email FROM UTENTE WHERE email = ?";
         $stmt = $this->db->prepare($query);
