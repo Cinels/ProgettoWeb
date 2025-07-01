@@ -6,9 +6,6 @@ $templateParams["titolo"] = "I tuoi Ordini";
 $templateParams['js'] = [JAVASCRIPT_DIR."orders.js"];
 // $templateParams['results'] = $dbh->getOrders();
 
-// require '../api/orders.php';
-// var_dump($results);
-
 checkLogin($dbh);
 
 require("../template/base.php")
