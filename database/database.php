@@ -339,7 +339,7 @@ class DatabaseHelper {
         if ($this->isLogged()) {
             $query = "SELECT P.idProdotto, P.nome, prezzo, offerta, P.descrizione, quantita, I.link, "
                     ."coalesce(avg(voto), 0) as media_recensioni, count(voto) as num_recensioni "
-                    ."FROM DETTAGLIO_ORDINE D, RECENSIONE R, IMMAGINE I, PRODOTTO P "
+                    ."FROM DETTAGLIO_ORDINE D, IMMAGINE I, PRODOTTO P "
                     ."LEFT JOIN RECENSIONE R ON P.idProdotto = R.idProdotto "
                     ."WHERE P.idProdotto = D.idProdotto AND P.idProdotto = R.idprodotto AND P.idProdotto = I.idProdotto AND I.numeroProgressivo = 1 AND D.idOrdine = ? "
                     ."GROUP BY P.idProdotto, nome, prezzo, offerta, P.descrizione, quantita";

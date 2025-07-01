@@ -4,7 +4,7 @@ $templateParams["titolo"] = "Registrati";
 $templateParams["main_content"] = ["sign_in.php"];
 
 if(isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST["check_password"]) && isset($_POST["name"]) && isset($_POST["surname"]) && isset($_POST["terms"])) {
-    if(isset($_FILES["image"])) {
+    if(isset($_FILES["image"]) && $_FILES["image"]["name"] > 0) {
         list($result, $img) = uploadImage(UPLOAD_DIR, $_FILES["image"]);
     } else {
         $result = 0;
