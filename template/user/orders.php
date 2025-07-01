@@ -17,7 +17,7 @@
                             foreach($templateParams["details"] as $detail): ?>
                                 <li>
                                     <a href="<?php echo PAGES_DIR."product.php".$detail["idProdotto"] ?>">
-                                        <img src="<?php echo $detail['link']?>" alt="Immagine Prodotto"/><br/>
+                                        <img src="<?php echo DB_RESOURCES_DIR.$detail['link']?>" alt="Immagine Prodotto"/><br/>
                                         <?php echo $detail["nome"] ?><br/>
                                         <?php if($detail["offerta"] > 0) {
                                             $sale = $detail["prezzo"] - $detail["prezzo"]*($detail["offerta"]/100);

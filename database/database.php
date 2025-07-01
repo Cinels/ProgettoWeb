@@ -280,7 +280,7 @@ class DatabaseHelper {
     }
 
     public function getYourInterestProducts($n) {
-        $query = "SELECT P.idProdotto, P.nome, prezzo, offerta, link "
+        $query = "SELECT distinct P.idProdotto, P.nome, prezzo, offerta, link "
                 ."FROM PRODOTTO P, CRONOLOGIA_PRODOTTI C, IMMAGINE I "
                 ."WHERE P.idProdotto = C.idProdotto AND C.idCliente = ? AND P.idProdotto = I.idProdotto AND I.numeroProgressivo = 1 "
                 ."LIMIT ?";
