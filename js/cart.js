@@ -28,10 +28,10 @@ function generateMainContent(products) {
         content += `
                 <li>
                     <a href="${paths.PAGES_DIR}product.php?search=${product["idProdotto"]}">
-                        <img src="${product['link']}" alt="Immagine Prodotto"/><br/>
+                        <img src="${paths.DB_RESOURCERS_DIR}${product['link']}" alt="Immagine Prodotto"/><br/>
                         ${product['nome']}<br/>`;
         if (product["offerta"] > 0) {
-            let sale = product["prezzo"] - product["prezzo"]*(product[offerta]/100);
+            let sale = product["prezzo"] - product["prezzo"]*(product["offerta"]/100);
             content += `<ins>${product["offerta"]}% ${sale}</ins> <del>${product["prezzo"]}</del> €"`;
         } else {
             content += `<p>${product["prezzo"]} €</p>`;
