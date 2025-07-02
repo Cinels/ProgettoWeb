@@ -1,6 +1,5 @@
 <section>
     <ul>
-        <?php var_dump(count($templateParams["reviews"])) ?>
         <?php if(isset($templateParams["reviews"]) && count($templateParams["reviews"]) > 0):
             for ($i = 0; $i < $templateParams['n_rev']; $i++): ?>
                 <li>
