@@ -65,7 +65,7 @@ create table LISTA_PREFERITI (
      constraint IDLISTA_PREFERITI primary key (idCliente, idProdotto));
 
 create table NOTIFICA (
-     idNotifica int not null,
+     idNotifica int not null AUTO_INCREMENT,
      tipo varchar(20) not null,
      testo varchar(500) not null,
      letta char not null,
@@ -73,7 +73,7 @@ create table NOTIFICA (
      constraint IDNOTIFICA primary key (idNotifica));
 
 create table ORDINE (
-     idOrdine int not null,
+     idOrdine int not null AUTO_INCREMENT,
      dataOrdine date not null,
      statoOrdine int not null,
      dataArrivoPrevista date not null,
@@ -84,13 +84,13 @@ create table ORDINE (
      constraint IDORDINE_ID primary key (idOrdine));
 
 create table PIATTAFORMA (
-     idPiattaforma int not null,
+     idPiattaforma int not null AUTO_INCREMENT,
      nome varchar(30) not null,
      azienda varchar(30) not null,
      constraint IDPIATTAFORMA primary key (idPiattaforma));
 
 create table PRODOTTO (
-     idProdotto int not null,
+     idProdotto int not null AUTO_INCREMENT,
      nome varchar(50) not null,
      prezzo int not null,
      quantitaDisponibile int not null,
@@ -102,7 +102,7 @@ create table PRODOTTO (
      constraint IDPRODOTTO_ID primary key (idProdotto));
 
 create table RECENSIONE (
-     idRecensione int not null,
+     idRecensione int not null AUTO_INCREMENT,
      descrizione varchar(300),
      voto int not null,
      idProdotto int not null,
