@@ -490,6 +490,26 @@ class DatabaseHelper {
         }
     }
 
+    public function writeReview($product, $vote, $desc) {
+        if($this->isLogged() && $this->getUserType() == "client") {
+            $query = "INSERT INTO RECENSIONE (descrizione, voto, idProdotto, idCliente) VALUES(?, ?, ?, ?)";
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('siis', $desc, $vote, $product, $_SESSION["user"]['email']);
+            $stmt->execute();
+        }
+    }
+
+    public function hasReviewedIt($product) {
+        if($this->isLogged() && $this->getUserType() == "client") {
+            $query = "SELECT idRecensione FROM RECENSIONE WHERE idProdotto = ? AND idCliente = ?";
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('is', $product, $_SESSION["user"]['email']);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            return count($result->fetch_all(MYSQLI_ASSOC)) > 0;
+        }
+    }
+
     private function isEmailAvailable() {
         $query = "SELECT email FROM UTENTE WHERE email = ?";
         $stmt = $this->db->prepare($query);
