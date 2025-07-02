@@ -89,8 +89,10 @@ function generateProductSection(product) {
     const p2 = document.createElement('p');
     p2.innerText = product['idVenditore'];
 
+    const options = {'weekday': 'long', 'month': 'long', 'day': '2-digit'};
+    const date = new Date(new Date().setDate(new Date().getDate() + 1)).toLocaleString('it-IT', options);
     const p3 = document.createElement('p');
-    p3.innerText = "Consegna prevista per: " + Date();
+    p3.innerText = "Consegna prevista per: " + date;
 
     a.appendChild(img_product);
     a.appendChild(span);
