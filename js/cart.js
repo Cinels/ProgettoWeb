@@ -47,7 +47,7 @@ function generateMainContent(products) {
 
     const ul = document.createElement('ul');
     
-    for (let i = 0; i < !products['empty'] && products['result'].length; i++) {
+    for (let i = 0; i < products['result'].length; i++) {
         const product = products['result'][i];
         const li = document.createElement('li');        
         li.appendChild(utils.generateProductSection(product));
@@ -82,7 +82,7 @@ function generateInteractionForm(product) {
     input.value = product['quantita'];
     input.addEventListener('change', (event) => {
         quantityListener(input.value, product['idProdotto'], event);
-    })
+    });
     
     const removeImage = document.createElement('img');
     removeImage.src = utils.RESOURCES_DIR + 'cestino_B.png';

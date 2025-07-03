@@ -9,7 +9,7 @@ if(isset($_POST["action"])) {
     }
 }
 
-$result = ['empty' => $dbh->getFavourites()[0]["idProdotto"] === null, 'result' => $dbh->getFavourites()];
+$result = ['result' => $dbh->getFavourites()];
 
 header('Content-Type: application/json');
 echo json_encode($result);

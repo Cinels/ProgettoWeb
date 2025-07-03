@@ -32,7 +32,7 @@ foreach ($cart as $product) {
         $totalPrice += ($product['prezzo']) * $product['quantita'];
     }
 }
-$result = ['empty' => $dbh->getCart()[0]["idProdotto"] === null, 'result' => $cart, 'total' => $totalPrice];
+$result = ['result' => $cart, 'total' => $totalPrice];
 
 header('Content-Type: application/json');
 echo json_encode($result);

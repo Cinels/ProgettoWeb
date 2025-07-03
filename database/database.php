@@ -223,7 +223,7 @@ class DatabaseHelper {
             $stmt->bind_param('is', $idProdotto, $_SESSION["user"]['email']);
             $stmt->execute();
             $result = $stmt->get_result();
-            if ($result->fetch_all(MYSQLI_ASSOC)[0]['quantita'] > 2) {
+            if ($result->fetch_all(MYSQLI_ASSOC)[0]['quantita'] > 1) {
                 $query = "UPDATE CARRELLO SET quantita = quantita - 1 WHERE idProdotto = ? AND idCliente = ?";
                 $stmt = $this->db->prepare($query);
                 $stmt->bind_param('is', $idProdotto, $_SESSION["user"]['email']);

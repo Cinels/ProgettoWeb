@@ -22,7 +22,7 @@ function generateMainContent(products) {
     h2.textContent ='Preferiti';
     const ul = document.createElement('ul');
     
-    for (let i = 0; i < !products['empty'] && products['result'].length; i++) {
+    for (let i = 0; i < products['result'].length; i++) {
         const product = products['result'][i];
         const li = document.createElement('li');        
         li.appendChild(utils.generateProductSection(product));
