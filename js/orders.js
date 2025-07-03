@@ -24,8 +24,8 @@ function generateMainContent(products) {
             <h2>Ordini</h2>
             <ul>`;
     for (let i = 0; i < !products['empty'] && products['result'].length; i++) {
-        let product = products['result'][i];
-        let details = products['details'][product['idOrdine']];
+        const product = products['result'][i];
+        const details = products['details'][product['idOrdine']];
         content += `
                 <li>
                     <p>N° Ordine: ${product['idOrdine']}</p>
@@ -42,7 +42,7 @@ function generateMainContent(products) {
                                 <img src="${utils.DB_RESOURCES_DIR}${details['link']}" alt="Immagine Prodotto"/><br/>
                                 ${details["nome"]}<br/>`;
             if (details['offerta'] > 0) {
-                let sale = details["prezzo"] - details["prezzo"]*(details["offerta"]/100);
+                const sale = details["prezzo"] - details["prezzo"]*(details["offerta"]/100);
                 content += `    <ins>${details["offerta"]}% ${sale}</ins> <del>${details["prezzo"]}</del> €"`;
             } else {
                 content += `    <p>${details["prezzo"]} €</p>`;
