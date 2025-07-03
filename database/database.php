@@ -481,7 +481,7 @@ class DatabaseHelper {
 
     public function updateHistory($product) {
         if ($this->isLogged() && $this->getUserType() == "client") {
-            $query = "INSERT INTO cronologia_prodotti VALUES (?, ?, NOW()) ON DUPLICATE KEY UPDATE oraRicerca = NOW()";
+            $query = "INSERT INTO cronologia_prodotti VALUES (?, NOW(), ?) ON DUPLICATE KEY UPDATE oraRicerca = NOW()";
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('si', $_SESSION["user"]['email'], $product);
             $stmt->execute();
