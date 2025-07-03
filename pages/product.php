@@ -1,50 +1,15 @@
 <?php
 require_once("../database/init.php");
 $templateParams["titolo"] = "Errore";
-$templateParams["main_content"] = ["product.php"];
+// $templateParams["main_content"] = ["product.php"];
+$templateParams['js'] = [JAVASCRIPT_DIR.'product.js'];
 
 if(isset($_GET["search"])) {
-    $templateParams["results"] = $dbh->getProduct($_GET["search"]);
-    $templateParams["titolo"] = $templateParams['results'][0]['nome'];
-    $dbh->updateHistory($_GET["search"]);
-    $templateParams["images"] = $dbh->getProductImages($_GET["search"]);
+    $templateParams["titolo"] = $dbh->getProduct($_GET["search"])[0]['nome'];
     $templateParams["subtitles"] = ["Correlati"];
-    $templateParams["reviews"] = $dbh->getReviews($_GET["search"]);
     $templateParams["side_content"] = [$dbh->getRelatedProducts($_GET["search"], 10)];
-    $templateParams["n_rev"] = min(4, count($templateParams["reviews"]));
-    $templateParams["hasBuyed"] = $dbh->hasBuyedIt($_GET["search"]);
-    $templateParams["hasReviewed"] = $dbh->hasReviewedIt($_GET["search"]);
 } else {
     header('Location:'.PAGES_DIR."index.php");    
-}
-
-//Implementare questa parte in JavaScript
-if(isset($_POST["cart"])) {
-    checkClientLogin($dbh);
-    $dbh->addToCart($_GET["search"], $_POST["cart"]);
-    header("Location: ".PAGES_DIR."product.php?search=".$_GET["search"]);
-}
-
-//Implementare questa parte in JavaScript PEFFOH
-if(isset($_GET["favourites"])) {
-    checkClientLogin($dbh);
-    if($_GET["favourites"] === "add" && !$dbh->isProductFavourite($_GET["search"])) {
-        $dbh->addToFavourites($_GET["search"]);
-    } elseif($_GET["favourites"] === "remove" && $dbh->isProductFavourite($_GET["search"])) {
-        $dbh->removeFromFavourites($_GET["search"]);
-    }
-}
-
-if(isset($_GET['morerev'])) {
-    $templateParams["n_rev"] = count($templateParams["reviews"]);
-}
-
-function checkClientLogin($dbh) {
-    checkLogin($dbh);
-    if($dbh->isLogged() && $dbh->getUserType() == "vendor") {
-        header("location: profile.php");
-        exit();
-    }
 }
 
 require("../template/base.php")

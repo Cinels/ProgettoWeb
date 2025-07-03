@@ -351,7 +351,7 @@ class DatabaseHelper {
                     ."FROM DETTAGLIO_ORDINE D JOIN PRODOTTO P ON P.idProdotto = D.idProdotto "
                     ."JOIN IMMAGINE I ON P.idProdotto = I.idProdotto "
                     ."LEFT JOIN RECENSIONE R ON P.idProdotto = R.idProdotto "
-                    ."WHERE AND I.numeroProgressivo = 1 AND D.idOrdine = ? "
+                    ."WHERE I.numeroProgressivo = 1 AND D.idOrdine = ? "
                     ."GROUP BY P.idProdotto, nome, prezzo, offerta, P.descrizione, quantita, I.link";
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('i', $idOrdine);
