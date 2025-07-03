@@ -1,20 +1,9 @@
 import * as utils from './utils.js';
-const url = utils.API_DIR + "cart.php";
+const url = utils.API_DIR + "favourite.php";
 displayMainContent();
 
 async function displayMainContent() {
-    const url = utils.API_DIR + "favourite.php";
-    try {
-        const response = await fetch(url);
-        if (!response.ok) {
-            throw new Error(`Response status: ${response.status}`);
-        }
-        const json = await response.json();
-        console.log(json);
-        generateMainContent(json);
-    } catch (error) {
-        console.log(error.message);
-    }
+    generateMainContent(await utils.makePostRequest(url, new FormData()));
 }
 
 function generateMainContent(products) {
@@ -36,7 +25,7 @@ function generateMainContent(products) {
     for (let i = 0; i < !products['empty'] && products['result'].length; i++) {
         const product = products['result'][i];
         const li = document.createElement('li');        
-        li.appendChild(generateProductSection(product));
+        li.appendChild(utils.generateProductSection(product));
         li.appendChild(generateInteractionForm(product));
         ul.appendChild(li);
     }
@@ -46,63 +35,6 @@ function generateMainContent(products) {
     const main = document.querySelector('main');
     main.appendChild(section);
 }
-
-function generateProductSection(product) {
-    // <a href="${paths.PAGES_DIR}product.php?search=${product["idProdotto"]}">
-    //     <img src="${paths.DB_RESOURCES_DIR}${product['link']}" alt="Immagine Prodotto"/><br/>
-    //     ${product['nome']}<br/>`;
-
-    //     if (product["offerta"] > 0) {
-    //         const sale = product["prezzo"] - product["prezzo"]*(product["offerta"]/100);
-    //         <ins>${product["offerta"]}% ${sale}</ins> <del>${product["prezzo"]}</del> €";
-    //     } else {
-    //         <p>${product["prezzo"]} €</p>;
-    //     }
-
-    //     <p>${product["media_recensioni"]} ${product["num_recensioni"]}</p>
-    //     <p>Venditore: ${product["idVenditore"]}</p>
-    //     <p>Consegna prevista per <?php echo strftime("%A %d %B", strtotime('+1 day', time())); ?></p>
-    // </a>
-    
-    const a = document.createElement('a');
-    a.href = utils.PAGES_DIR + 'product.php?search=' + product['idProdotto'];
-    
-    const img_product = document.createElement('img');
-    img_product.src = utils.DB_RESOURCES_DIR + product['link'];
-    img_product.alt = '';
-
-    const span = document.createElement('span');
-    span.textContent = product['nome'];
-
-    const price = document.createElement('p');
-    if (product["offerta"] > 0) {
-        const sale = product["prezzo"] - product["prezzo"]*(product["offerta"]/100);
-        price.innerHTML = `<ins>${product["offerta"]}% ${sale}</ins> <del>${product["prezzo"]}</del> €"`;;
-    } else {
-        price.innerText = product['prezzo'] + '€';            
-    }
-    
-    const p1 = document.createElement('p');
-    p1.innerText = product['media_recensioni'] + " " + product['num_recensioni'];
-
-    const p2 = document.createElement('p');
-    p2.innerText = product['idVenditore'];
-
-    const options = {'weekday': 'long', 'month': 'long', 'day': '2-digit'};
-    const date = new Date(new Date().setDate(new Date().getDate() + 1)).toLocaleString('it-IT', options);
-    const p3 = document.createElement('p');
-    p3.innerText = "Consegna prevista per: " + date;
-
-    a.appendChild(img_product);
-    a.appendChild(span);
-    a.appendChild(price);
-    a.appendChild(p1);
-    a.appendChild(p2);
-    a.appendChild(p3);
-    
-    return a;
-}
-
 
 function generateInteractionForm(product) {
     // <form action="">
@@ -142,24 +74,10 @@ function generateInteractionForm(product) {
 
 async function buttonListener(action, id, event) {
     event.preventDefault();
-    
     console.log(action + " " + id);
 
     const formData = new FormData();
     formData.append('action', action);
     formData.append('id', id);
-    try {
-        const response = await fetch(url, {
-            method: "POST",                   
-            body: formData
-        });
-        if (!response.ok) {
-            throw new Error(`Response status: ${response.status}`);
-        }
-        const json = await response.json();
-        console.log(json);
-        generateMainContent(json);
-    } catch (error) {
-        console.error(error.message);
-    }
+    generateMainContent(await utils.makePostRequest(url, formData));
 }

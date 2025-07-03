@@ -1,12 +1,11 @@
 <?php
 require_once("../database/init.php");
 
-
 if(isset($_POST["action"])) {
-    if($_POST["action"] == 'remove') {
-        $dbh->removeFromFavourites($_GET["id"]);
-    } elseif ($_POST['action'] == 'cart') {
-        $dbh->moveToCart($_GET["id"]);
+    if($_POST["action"] === 'remove') {
+        $dbh->removeFromFavourites($_POST["id"]);
+    } elseif ($_POST['action'] === 'cart') {
+        $dbh->moveToCart($_POST["id"]);
     }
 }
 
