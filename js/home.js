@@ -1,4 +1,4 @@
-import * as paths from './paths.js';
+import * as utils from './utils.js';
 displayMainContent();
 
 function displayMainContent() {
@@ -9,9 +9,9 @@ function displayMainContent() {
 function generateMainContent() {
     let content = `
         <section>
-            <a href="${paths.PAGES_DIR}results.php?search=ps"><img src="${paths.RESOURCES_DIR}playstation.png" alt="Playstation"/></a>
-            <a href="${paths.PAGES_DIR}results.php?search=switch"><img src="${paths.RESOURCES_DIR}switch.png" alt="Nintendo Switch"/></a>
-            <a href="${paths.PAGES_DIR}results.php?search=xbox"><img src="${paths.RESOURCES_DIR}xbox.png" alt="Xbox"/></a>
+            <a href="${utils.PAGES_DIR}results.php?search=ps"><img src="${utils.RESOURCES_DIR}playstation.png" alt="Playstation"/></a>
+            <a href="${utils.PAGES_DIR}results.php?search=switch"><img src="${utils.RESOURCES_DIR}switch.png" alt="Nintendo Switch"/></a>
+            <a href="${utils.PAGES_DIR}results.php?search=xbox"><img src="${utils.RESOURCES_DIR}xbox.png" alt="Xbox"/></a>
         </section>
     `;
     return content;

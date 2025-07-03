@@ -1,4 +1,4 @@
-import * as paths from './paths.js';
+import * as utils from './utils.js';
 displayMainContent();
 
 function displayMainContent() {
@@ -31,7 +31,7 @@ function generateMainContent() {
                     </li><li>
                         <p>o</p>
                     </li><li>
-                        <a href="${paths.PAGES_DIR}sign_in.php"><input type="button" value="Registrati" /></a>
+                        <a href="${utils.PAGES_DIR}sign_in.php"><input type="button" value="Registrati" /></a>
                     </li>
                 </ul>
             </form>
@@ -41,7 +41,7 @@ function generateMainContent() {
 }
 
 async function login(email, password) {
-    const url = `${paths.API_DIR}login.php`;
+    const url = `${utils.API_DIR}login.php`;
     const formData = new FormData();
     formData.append('email', email);
     formData.append('password', password);
@@ -58,7 +58,7 @@ async function login(email, password) {
         console.log(json);
         if(json["success"]) {
             document.querySelector("form > p").innerText = "";
-            location.href = paths.PAGES_DIR + "index.php";
+            location.href = utils.PAGES_DIR + "index.php";
         } else {
             document.querySelector("form > p").innerText = json["message"];
         }

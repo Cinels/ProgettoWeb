@@ -1,8 +1,8 @@
-import * as paths from './paths.js';
+import * as utils from './utils.js';
 displayMainContent();
 
 async function displayMainContent() {
-    const url = paths.API_DIR + "orders.php";
+    const url = utils.API_DIR + "orders.php";
     try {
         const response = await fetch(url);
         if (!response.ok) {
@@ -38,8 +38,8 @@ function generateMainContent(products) {
                     <ul>`;
         for (let j = 0; j < details.length; j++) {
             content =+ `<li>
-                            <a href="${paths.PAGES_DIR}product.php?${details["idProdotto"]}">
-                                <img src="${paths.DB_RESOURCES_DIR}${details['link']}" alt="Immagine Prodotto"/><br/>
+                            <a href="${utils.PAGES_DIR}product.php?${details["idProdotto"]}">
+                                <img src="${utils.DB_RESOURCES_DIR}${details['link']}" alt="Immagine Prodotto"/><br/>
                                 ${details["nome"]}<br/>`;
             if (details['offerta'] > 0) {
                 let sale = details["prezzo"] - details["prezzo"]*(details["offerta"]/100);

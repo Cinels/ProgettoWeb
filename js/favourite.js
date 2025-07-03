@@ -1,9 +1,9 @@
-import * as paths from './paths.js';
-const url = paths.API_DIR + "cart.php";
+import * as utils from './utils.js';
+const url = utils.API_DIR + "cart.php";
 displayMainContent();
 
 async function displayMainContent() {
-    const url = paths.API_DIR + "favourite.php";
+    const url = utils.API_DIR + "favourite.php";
     try {
         const response = await fetch(url);
         if (!response.ok) {
@@ -65,10 +65,10 @@ function generateProductSection(product) {
     // </a>
     
     const a = document.createElement('a');
-    a.href = paths.PAGES_DIR + 'product.php?search=' + product['idProdotto'];
+    a.href = utils.PAGES_DIR + 'product.php?search=' + product['idProdotto'];
     
     const img_product = document.createElement('img');
-    img_product.src = paths.DB_RESOURCES_DIR + product['link'];
+    img_product.src = utils.DB_RESOURCES_DIR + product['link'];
     img_product.alt = '';
 
     const span = document.createElement('span');
@@ -78,10 +78,8 @@ function generateProductSection(product) {
     if (product["offerta"] > 0) {
         const sale = product["prezzo"] - product["prezzo"]*(product["offerta"]/100);
         price.innerHTML = `<ins>${product["offerta"]}% ${sale}</ins> <del>${product["prezzo"]}</del> €"`;;
-        // content += `<ins>${product["offerta"]}% ${sale}</ins> <del>${product["prezzo"]}</del> €"`;
     } else {
         price.innerText = product['prezzo'] + '€';            
-        // content += `<p>${product["prezzo"]} €</p>`;
     }
     
     const p1 = document.createElement('p');
@@ -115,7 +113,7 @@ function generateInteractionForm(product) {
     const form = document.createElement('form');
     
     const removeImage = document.createElement('img');
-    removeImage.src = paths.RESOURCES_DIR + 'cestino_B.png';
+    removeImage.src = utils.RESOURCES_DIR + 'cestino_B.png';
     removeImage.alt = '';
     
     const removeButton = document.createElement('button');
@@ -126,7 +124,7 @@ function generateInteractionForm(product) {
     removeButton.appendChild(removeImage);
 
     const favouriteImage = document.createElement('img');
-    favouriteImage.src = paths.RESOURCES_DIR + 'carrello_B.png';
+    favouriteImage.src = utils.RESOURCES_DIR + 'carrello_B.png';
     favouriteImage.alt = '';
 
     const favouriteButton = document.createElement('button');
