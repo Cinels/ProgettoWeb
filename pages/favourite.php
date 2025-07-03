@@ -11,13 +11,5 @@ $templateParams["js"] = [JAVASCRIPT_DIR."favourite.js"];
 
 checkLogin($dbh);
 
-if(isset($_GET["cart"])) {
-    $dbh->moveToCart($_GET["id"]);
-}
-
-if(isset($_GET["remove"])) {
-    $dbh->removeFromFavourites($_GET["id"]);
-}
-
 require("../template/base.php")
 ?>
