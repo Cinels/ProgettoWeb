@@ -19,7 +19,7 @@ if(isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST["check_pa
     }
     if(isset($signin) && $signin) {
         header('Location:'.PAGES_DIR."index.php");
-    } else {
+    } else if ($_POST["password"] == $_POST["check_password"]) {
         $templateParams["erroresignin"] = "Errore! Email non disponibile, ".$_POST['email'];
     }
 } else {
