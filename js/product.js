@@ -32,7 +32,7 @@ function generateMainContent(result) {
     p2.textContent = product['proprieta'];
     section.appendChild(p2);
     
-    section.appendChild(generateReviewSection(product));
+    section.appendChild(generateReviewSection(product, !result['hasBuyed'], !result['hasReviewed'], result['userReview'], result['reviews']));
 
     const main = document.querySelector('main');
     main.appendChild(section);
@@ -77,13 +77,9 @@ function generateProductSection(product, images) {
     
     const a = document.createElement('a');
     a.href = "#Reviews";
-    a.textContent = product['media_recensioni'] + " (" + product['num_recensioni'] + ")";
+    a.textContent = product['media_recensioni'].substring(0, 3) + " (" + product['num_recensioni'] + ")";
+    a.appendChild(utils.generateReviewStars(product['media_recensioni']));
     
-    const reviewImage = document.createElement('img');
-    reviewImage.src = "";
-    reviewImage.alt = "Media e numero recensioni";
-    a.appendChild(reviewImage);
-
     const price = document.createElement('p');
     if (product["offerta"] > 0) {
         const sale = product["prezzo"] - product["prezzo"]*(product["offerta"]/100);
@@ -141,7 +137,7 @@ function generateInteractionForm(product, isFavourite) {
     const cartButton = document.createElement('button');
     cartButton.textContent = 'Aggiungi al Carrello';
     cartButton.addEventListener('click', (event) => {
-        cartButtonListener(input.value, product['idProdotto'], event);
+        cartButtonListener(input.value, event);
     });
     cartButton.appendChild(cartImage);
 
@@ -152,13 +148,13 @@ function generateInteractionForm(product, isFavourite) {
         favouriteImage.src = utils.RESOURCES_DIR + 'cuore_R.png';
         favouriteButton.textContent = 'Rimuovi dai Preferiti';
         favouriteButton.addEventListener('click', (event) => {
-            favouriteButtonListener('remove', product['idProdotto'], event);
+            favouriteButtonListener('remove', event);
         });
     } else {
         favouriteImage.src = utils.RESOURCES_DIR + 'cuore_B.png';
         favouriteButton.textContent = 'Aggiungi ai Preferiti';
         favouriteButton.addEventListener('click', (event) => {
-            favouriteButtonListener('add', product['idProdotto'], event);
+            favouriteButtonListener('add', event);
         });
     }
     favouriteButton.appendChild(favouriteImage);
@@ -171,7 +167,7 @@ function generateInteractionForm(product, isFavourite) {
     return form;
 }
 
-function generateReviewSection(product, hasBuyed, hasReviewed) {
+function generateReviewSection(product, hasBuyed, hasReviewed, userReview, reviews) {
     // <section id="Reviews">
     //     <h3>Recensioni</h3>
     //     <p>${product['media_recensioni']}/5 (${product['num_recensioni']})</p>
@@ -184,21 +180,24 @@ function generateReviewSection(product, hasBuyed, hasReviewed) {
     // </section>
         
     const section = document.createElement('section');
+    section.id = 'Reviews';
 
     const h3 = document.createElement('h3');
     h3.textContent = 'Recensioni';
     section.appendChild(h3);
 
     const p = document.createElement('p');
-    p.innerText = product['media_recensioni'] + " (" + product['num_recensioni'] + ")";
+    p.innerText = product['media_recensioni'].substring(0, 3) + " (" + product['num_recensioni'] + ")";
+    p.appendChild(utils.generateReviewStars(product['media_recensioni']));
     section.appendChild(p);
 
     const stars = document.createElement('img');
     stars.alt = "Inserisci Voto";
     stars.addEventListener('click', (event) => {
         event.preventDefault();
-        const vote = '';
-        console.log('vote: ' + vote + ", id: " + product['idProdotto']);
+        const vote = (event.offsetX*5/stars.width + 0.5).toFixed(0);
+
+        console.log('vote: ' + vote);
 
         stars.src = utils.RESOURCES_DIR + vote + '_star.png';
         stars.setAttribute('vote', vote);
@@ -206,15 +205,16 @@ function generateReviewSection(product, hasBuyed, hasReviewed) {
     const text = document.createElement('textarea');
     const textButton = document.createElement('button');
     textButton.addEventListener('click', (event) => {
-        reviewButtonListener(stars.getAttribute('vote'), text.name, product['idProdotto'], event);
+        reviewButtonListener(stars.getAttribute('vote'), textButton.name, event);
     });
 
     if(hasBuyed) {
         let vote;
 
         if(hasReviewed) {
-            vote = vote;
-            text.value = "Pippo";
+            vote = userReview['voto'];
+            stars.setAttribute('vote', vote);
+            text.value = userReview['descrizione'];
             textButton.textContent = 'Modifica Recensione';
             textButton.name = 'edit';
         } else {
@@ -233,33 +233,32 @@ function generateReviewSection(product, hasBuyed, hasReviewed) {
     return section;
 }
 
-async function cartButtonListener(quantity, id, event) {
+async function cartButtonListener(quantity, event) {
     event.preventDefault();
-    console.log('cart ' + quantity + ", id: " + id);
+    console.log('cart ' + quantity);
     
     const formData = new FormData();
     formData.append('cart', quantity);
-    formData.append('id', id);
     generateMainContent(await utils.makePostRequest(url, formData));
 }
 
-async function favouriteButtonListener(action, id, event) {
+async function favouriteButtonListener(action, event) {
     event.preventDefault();
-    console.log("favourite: " + action + ", id: " + id);
+    console.log("favourite: " + action);
 
     const formData = new FormData();
     formData.append('favourite', action);
-    formData.append('id', id);
     generateMainContent(await utils.makePostRequest(url, formData));
 }
 
-async function reviewButtonListener(vote, action, id, event) {
+async function reviewButtonListener(vote, action, event) {
     event.preventDefault();
-    console.log('vote: ' + vote + ", review: " + action + ", id: " + id);
+    console.log('vote: ' + vote + ", review: " + action);
 
-    const formData = new FormData();
-    formData.append('vote', vote);
-    formData.append('review', action);
-    formData.append('id', id);
-    generateMainContent(await utils.makePostRequest(url, formData));
+    if(vote !== null && vote > 0) {
+        const formData = new FormData();
+        formData.append('vote', vote);
+        formData.append('review', action);
+        generateMainContent(await utils.makePostRequest(url, formData));
+    }
 }

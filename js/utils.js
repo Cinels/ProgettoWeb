@@ -56,7 +56,8 @@ export function generateProductSection(product) {
     }
     
     const p1 = document.createElement('p');
-    p1.innerText = product['media_recensioni'] + " " + product['num_recensioni'];
+    p1.innerText = product['media_recensioni'].substring(0, 3) + " (" + product['num_recensioni'] + ")";
+    p1.appendChild(generateReviewStars(product['media_recensioni']));
 
     const p2 = document.createElement('p');
     p2.innerText = product['idVenditore'];
@@ -74,4 +75,15 @@ export function generateProductSection(product) {
     a.appendChild(p3);
     
     return a;
+}
+
+export function generateReviewStars(vote) {
+    const image = document.createElement('img');
+    const number = parseFloat(vote);
+    let i;
+    for (i = 5; number < i && i > 0; i-= 0.5);
+    image.src = RESOURCES_DIR + i + '_star.png';
+    image.alt = 'Media e numero recensioni';
+
+    return image;
 }

@@ -525,6 +525,17 @@ class DatabaseHelper {
         }
     }
 
+    public function getUserReview($product) {
+        if($this->isLogged() && $this->getUserType() == "client") {
+            $query = "SELECT idRecensione, descrizione, voto FROM RECENSIONE WHERE idProdotto = ? AND idCliente = ?";
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('is', $product, $_SESSION["user"]['email']);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            return $result->fetch_all(MYSQLI_ASSOC);
+        }
+    }
+
     private function isEmailAvailable() {
         $query = "SELECT email FROM UTENTE WHERE email = ?";
         $stmt = $this->db->prepare($query);

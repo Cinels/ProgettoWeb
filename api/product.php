@@ -4,7 +4,6 @@ require_once("../database/init.php");
 if(isset($_POST["cart"])) {
     checkClientLogin($dbh);
     $dbh->addToCart($_GET["search"], $_POST["cart"]);
-    header("Location: ".PAGES_DIR."product.php?search=".$_GET["search"]);
 }
 
 if(isset($_POST["favourite"])) {
@@ -13,6 +12,14 @@ if(isset($_POST["favourite"])) {
         $dbh->addToFavourites($_GET["search"]);
     } elseif($_POST["favourite"] === "remove" && $dbh->isProductFavourite($_GET["search"])) {
         $dbh->removeFromFavourites($_GET["search"]);
+    }
+}
+
+if(isset($_POST['vote']) && isset($_POST['review'])) {
+    if($_POST['review'] === 'add') {
+
+    } elseif ($_POST['review'] === 'edit') {
+
     }
 }
 
@@ -28,7 +35,6 @@ function checkClientLogin($dbh) {
     }
 }
 
-
 $dbh->updateHistory($_GET["search"]);
 $results['result'] = $dbh->getProduct($_GET["search"]);
 $results['images'] = $dbh->getProductImages($_GET["search"]);
@@ -37,6 +43,8 @@ $results["reviews"] = $dbh->getReviews($_GET["search"]);
 $results["hasBuyed"] = $dbh->hasBuyedIt($_GET["search"]);
 $results["hasReviewed"] = $dbh->hasReviewedIt($_GET["search"]);
 $results['isFavourite'] = $dbh->isProductFavourite($_GET['search']);
+// $results['userReview'] = $dbh->getUserReview($_GET['search']);
+$results['userReview'] = ['voto' => 5, 'descrizione' => 'puppami la fava'];
 
 
 header('Content-Type: application/json');
