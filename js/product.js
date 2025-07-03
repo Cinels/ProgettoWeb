@@ -32,7 +32,7 @@ function generateMainContent(result) {
     p2.textContent = product['proprieta'];
     section.appendChild(p2);
     
-    section.appendChild(generateReviewSection(product, !result['hasBuyed'], !result['hasReviewed'], result['userReview'], result['reviews']));
+    section.appendChild(generateReviewSection(product, result['hasBuyed'], result['hasReviewed'], result['userReview'], result['reviews']));
 
     const main = document.querySelector('main');
     main.appendChild(section);
@@ -210,7 +210,6 @@ function generateReviewSection(product, hasBuyed, hasReviewed, userReview, revie
 
     if(hasBuyed) {
         let vote;
-
         if(hasReviewed) {
             vote = userReview['voto'];
             stars.setAttribute('vote', vote);
@@ -222,13 +221,23 @@ function generateReviewSection(product, hasBuyed, hasReviewed, userReview, revie
             textButton.textContent = 'Effettua Recensione';
             textButton.name = 'add';
         }
-
         stars.src = utils.RESOURCES_DIR + vote + '_star.png';
 
         section.appendChild(stars);
         section.appendChild(text);
         section.appendChild(textButton);
-    } 
+    }
+
+    for (let i = 0; i < reviews.lenght; i++) {
+        const article = document.createElement('article');
+        article.appendChild(utils.generateReviewStars(reviews[i]['voto'], `Voto: ${reviews[i]['voto']} su 5`));
+
+        const p = document.createElement('p');
+        p.innerText = reviews[i]['descrizione'];
+        article.appendChild(p);
+
+        section.appendChild(article);
+    }
     
     return section;
 }

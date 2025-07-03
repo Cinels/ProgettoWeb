@@ -77,13 +77,13 @@ export function generateProductSection(product) {
     return a;
 }
 
-export function generateReviewStars(vote) {
+export function generateReviewStars(vote, alt = 'Media e numero recensioni') {
     const image = document.createElement('img');
     const number = parseFloat(vote);
     let i;
     for (i = 5; number < i && i > 0; i-= 0.5);
     image.src = RESOURCES_DIR + i + '_star.png';
-    image.alt = 'Media e numero recensioni';
+    image.alt = alt;
 
     return image;
 }
