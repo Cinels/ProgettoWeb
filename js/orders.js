@@ -32,7 +32,7 @@ function generateMainContent(products) {
                     <p>Totale: ${product['costoTotale']} €</p>
                     <p>Data ordine: ${product['dataOrdine']}</p>
                     <p>Stato ordine: ${product['statoOrdine']}</p>
-                    <p>Consegna: ${product['dataArrivoPrevista']}</p>
+                    <p>Consegna prevista: ${product['dataArrivoPrevista']}</p>
                     <p>Venditore: ${product['idVenditore']}</p>
 
                     <ul>`;
