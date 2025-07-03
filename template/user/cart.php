@@ -4,7 +4,7 @@
         <?php if(isset($templateParams["results"]) && count($templateParams["results"]) > 0):
             foreach($templateParams["results"] as $result): ?>
                 <li>
-                    <a href="<?php echo PAGES_DIR."product.php".$result["idProdotto"] ?>">
+                    <a href="<?php echo PAGES_DIR."product.php?search=".$result["idProdotto"] ?>">
                         <img src="<?php echo DB_RESOURCES_DIR.$result['link']?>" alt="Immagine Prodotto"/><br/>
                         <?php echo $result["nome"] ?><br/>
                         <?php if($result["offerta"] > 0) {

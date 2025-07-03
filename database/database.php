@@ -276,7 +276,7 @@ class DatabaseHelper {
         $stmt->bind_param('i', $idProdotto);
         $stmt->execute();
         $result = $stmt->get_result();
-        $idPiattaforma = $result->fetch_all(MYSQLI_ASSOC);
+        $idPiattaforma = $result->fetch_all(MYSQLI_ASSOC)[0]['idPiattaforma'];
 
         $query = "SELECT P.idProdotto, P.nome, prezzo, offerta, link FROM PRODOTTO P, COMPATIBILITA C, IMMAGINE I "
                 ."WHERE P.idProdotto = C.idProdotto AND C.idPiattaforma = ? AND C.idProdotto != ? AND P.idProdotto = I.idProdotto AND I.numeroProgressivo = 1 "
@@ -348,10 +348,11 @@ class DatabaseHelper {
         if ($this->isLogged()) {
             $query = "SELECT P.idProdotto, P.nome, prezzo, offerta, P.descrizione, quantita, I.link, "
                     ."coalesce(avg(voto), 0) as media_recensioni, count(voto) as num_recensioni "
-                    ."FROM DETTAGLIO_ORDINE D, IMMAGINE I, PRODOTTO P "
+                    ."FROM DETTAGLIO_ORDINE D JOIN PRODOTTO P ON P.idProdotto = D.idProdotto "
+                    ."JOIN IMMAGINE I ON P.idProdotto = I.idProdotto "
                     ."LEFT JOIN RECENSIONE R ON P.idProdotto = R.idProdotto "
-                    ."WHERE P.idProdotto = D.idProdotto AND P.idProdotto = R.idprodotto AND P.idProdotto = I.idProdotto AND I.numeroProgressivo = 1 AND D.idOrdine = ? "
-                    ."GROUP BY P.idProdotto, nome, prezzo, offerta, P.descrizione, quantita";
+                    ."WHERE AND I.numeroProgressivo = 1 AND D.idOrdine = ? "
+                    ."GROUP BY P.idProdotto, nome, prezzo, offerta, P.descrizione, quantita, I.link";
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('i', $idOrdine);
             $stmt->execute();
@@ -360,13 +361,16 @@ class DatabaseHelper {
         }
     }
 
+    //Non funziona
     public function getCart() {
         if ($this->isLogged() && $this->getUserType()=="client") {
             $query = "SELECT P.idProdotto, P.nome, prezzo, offerta, quantita, idVenditore, I.link, "
                     ."coalesce(avg(voto), 0) as media_recensioni, count(voto) as num_recensioni "
-                    ."FROM CARRELLO C, IMMAGINE I, PRODOTTO P "
+                    ."FROM CARRELLO C JOIN PRODOTTO P ON P.idProdotto = C.idProdotto "
+                    ."JOIN immagine i ON P.idProdotto = I.idProdotto "
                     ."LEFT JOIN RECENSIONE R ON P.idProdotto = R.idProdotto "
-                    ."WHERE P.idProdotto = C.idProdotto AND P.idProdotto = I.idProdotto AND I.numeroProgressivo = 1 AND C.idCliente = ?";
+                    ."WHERE I.numeroProgressivo = 1 AND C.idCliente = ? "
+                    ."GROUP BY P.idProdotto, P.nome, prezzo, offerta, quantita, idVenditore, I.link";
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('s', $_SESSION["user"]['email']);
             $stmt->execute();
@@ -379,9 +383,11 @@ class DatabaseHelper {
         if ($this->isLogged() && $this->getUserType()=="client") {
             $query = "SELECT P.idProdotto, P.nome, prezzo, offerta, idVenditore, I.link, "
                     ."coalesce(avg(voto), 0) as media_recensioni, count(voto) as num_recensioni "
-                    ."FROM LISTA_PREFERITI L, IMMAGINE I, PRODOTTO P "
+                    ."FROM LISTA_PREFERITI L JOIN PRODOTTO P ON P.idProdotto = L.idProdotto "
+                    ."JOIN IMMAGINE I ON P.idProdotto = I.idProdotto "
                     ."LEFT JOIN RECENSIONE R ON P.idProdotto = R.idProdotto "
-                    ."WHERE P.idProdotto = L.idProdotto AND P.idProdotto = I.idProdotto AND I.numeroProgressivo = 1 AND L.idCliente = ?";
+                    ."WHERE I.numeroProgressivo = 1 AND L.idCliente = ? "
+                    ."GROUP BY P.idProdotto, P.nome, prezzo, offerta, idVenditore, I.link";
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('s', $_SESSION["user"]['email']);
             $stmt->execute();

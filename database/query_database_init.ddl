@@ -92,7 +92,7 @@ create table PIATTAFORMA (
 create table PRODOTTO (
      idProdotto int not null AUTO_INCREMENT,
      nome varchar(50) not null,
-     prezzo int not null,
+     prezzo number(3,2) not null,
      quantitaDisponibile int not null,
      descrizione varchar(500) not null,
      proprieta varchar(300) not null,
