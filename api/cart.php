@@ -18,10 +18,21 @@ if(isset($_POST['action']) && isset($_POST['id'])) {
         $dbh->removeFromCart($_POST["id"]);
     } elseif($_POST['action'] === 'favourite') {
         $dbh->moveToFavourites($_POST["id"]);
+    } elseif($_POST['action'] === 'buy') {
+        $dbh->createOrder(null);
     }
 }
 
-$result = ['empty' => $dbh->getCart()[0]["idProdotto"] === null, 'result' => $dbh->getCart()];
+$cart = $dbh->getCart();
+$totalPrice = 0.00;
+foreach ($cart as $product) {
+    if ($product["offerta"] > 0) {
+        $totalPrice += ($product["prezzo"] - $product["prezzo"]*($product["offerta"]/100)) * $product['quantita'];
+    } else {
+        $totalPrice += ($product['prezzo']) * $product['quantita'];
+    }
+}
+$result = ['empty' => $dbh->getCart()[0]["idProdotto"] === null, 'result' => $cart, 'total' => $totalPrice];
 
 header('Content-Type: application/json');
 echo json_encode($result);
