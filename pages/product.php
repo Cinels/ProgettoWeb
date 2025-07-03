@@ -1,14 +1,19 @@
 <?php
 require_once("../database/init.php");
-$templateParams["titolo"] = "Prodotto";
+$templateParams["titolo"] = "Errore";
 $templateParams["main_content"] = ["product.php"];
 
 if(isset($_GET["search"])) {
     $templateParams["results"] = $dbh->getProduct($_GET["search"]);
+    $templateParams["titolo"] = $templateParams['results'][0]['nome'];
     $dbh->updateHistory($_GET["search"]);
     $templateParams["images"] = $dbh->getProductImages($_GET["search"]);
     $templateParams["subtitles"] = ["Correlati"];
+    $templateParams["reviews"] = $dbh->getReviews($_GET["search"]);
     $templateParams["side_content"] = [$dbh->getRelatedProducts($_GET["search"], 10)];
+    $templateParams["n_rev"] = min(4, count($templateParams["reviews"]));
+    $templateParams["hasBuyed"] = $dbh->hasBuyedIt($_GET["search"]);
+    $templateParams["hasReviewed"] = $dbh->hasReviewedIt($_GET["search"]);
 } else {
     header('Location:'.PAGES_DIR."index.php");    
 }
@@ -28,6 +33,10 @@ if(isset($_GET["favourites"])) {
     } elseif($_GET["favourites"] === "remove" && $dbh->isProductFavourite($_GET["search"])) {
         $dbh->removeFromFavourites($_GET["search"]);
     }
+}
+
+if(isset($_GET['morerev'])) {
+    $templateParams["n_rev"] = count($templateParams["reviews"]);
 }
 
 function checkClientLogin($dbh) {

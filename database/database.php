@@ -390,10 +390,10 @@ class DatabaseHelper {
         }
     }
 
-    public function getReviews($idProdotto, $n) {
-        $query = "SELECT voto, descrizione FROM RECENSIONI WHERE idProdotto = ? LIMIT ?";
+    public function getReviews($idProdotto, $n = -1) {
+        $query = "SELECT nome, cognome, voto, descrizione FROM RECENSIONE R, CLIENTE C, UTENTE U WHERE R.idCliente = C.email AND U.email = C.email AND idProdotto = ?";
         $stmt = $this->db->prepare($query);
-        $stmt->bind_param('ii', $idProdotto, $n);
+        $stmt->bind_param('i', $idProdotto);
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
@@ -485,6 +485,37 @@ class DatabaseHelper {
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('si', $_SESSION["user"]['email'], $product);
             $stmt->execute();
+        }
+    }
+
+    public function hasBuyedIt($product) {
+        if ($this->isLogged() && $this->getUserType() == "client") {
+            $query = "SELECT * FROM ORDINE O, DETTAGLIO_ORDINE D WHERE O.idOrdine = D.idOrdine AND idCliente = ? AND idProdotto = ?";
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('si', $_SESSION["user"]['email'], $product);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            return count($result->fetch_all(MYSQLI_ASSOC)) > 0;
+        }
+    }
+
+    public function writeReview($product, $vote, $desc) {
+        if($this->isLogged() && $this->getUserType() == "client") {
+            $query = "INSERT INTO RECENSIONE (descrizione, voto, idProdotto, idCliente) VALUES(?, ?, ?, ?)";
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('siis', $desc, $vote, $product, $_SESSION["user"]['email']);
+            $stmt->execute();
+        }
+    }
+
+    public function hasReviewedIt($product) {
+        if($this->isLogged() && $this->getUserType() == "client") {
+            $query = "SELECT idRecensione FROM RECENSIONE WHERE idProdotto = ? AND idCliente = ?";
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('is', $product, $_SESSION["user"]['email']);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            return count($result->fetch_all(MYSQLI_ASSOC)) > 0;
         }
     }
 
