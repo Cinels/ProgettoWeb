@@ -17,11 +17,9 @@ function generateMainContent() {
     let content = `
         <section>
             <h2>Accedi</h2>
-            <form action="#" method="POST">`;
-    // if(typeof input !== 'undefined') {
-        content += `<p></p>`;
-    // }
-    content += `<ul>
+            <form action="#" method="POST">
+                <p></p>
+                <ul>
                     <li>
                         <label for="email">Email:</label><input type="email" id="email" name="email" required/>
                     </li><li>
@@ -45,24 +43,11 @@ async function login(email, password) {
     const formData = new FormData();
     formData.append('email', email);
     formData.append('password', password);
-    try {
-        const response = await fetch(url, {
-            method: "POST",                   
-            body: formData
-        });
-
-        if (!response.ok) {
-            throw new Error(`Response status: ${response.status}`);
-        }
-        const json = await response.json();
-        console.log(json);
-        if(json["success"]) {
-            document.querySelector("form > p").innerText = "";
-            location.href = utils.PAGES_DIR + "index.php";
-        } else {
-            document.querySelector("form > p").innerText = json["message"];
-        }
-    } catch (error) {
-        console.log(error.message);
+    const result = await utils.makePostRequest(url, formData);
+    if(result["success"]) {
+        document.querySelector("form > p").innerText = "";
+        location.href = document.referrer;
+    } else {
+        document.querySelector("form > p").innerText = json["message"];
     }
 }

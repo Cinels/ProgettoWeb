@@ -10,11 +10,5 @@ if(isset($_POST["email"]) && isset($_POST["password"])) {
     }
     header('Content-Type: application/json');
     echo json_encode($result);
-
-    // if($dbh->checkLogin($_POST["email"], $_POST["password"])) {
-    //     header('Location:'.PAGES_DIR."index.php");
-    // } else {
-    //     $result["errorelogin"] = "Errore! Controllare username e password";
-    // }
 }
 ?>
