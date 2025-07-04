@@ -6,9 +6,9 @@
                 $templateParams['details'] = $dbh->getOrderDetails($result["idOrdine"]);?>
                 <li>
                     <p>N° Ordine: <?php echo $result["idOrdine"] ?></p>
-                    <p>Totale: <?php echo $result["costoTotale"] ?></p>
-                    <p>Data ordine: <p><?php echo strftime("%A %d %B", time()); ?></p></p>
-                    <p>Stato ordine: <?php echo $result["statoOrdine"] ?></p>
+                    <p>Totale: <?php echo $result["costoTotale"].'€' ?></p>
+                    <p>Data ordine: <?php echo strftime("%A %d %B", time()); ?></p>
+                    <p>Stato ordine: <?php echo $templateParams['order_state'][$result["statoOrdine"]-1] ?></p>
                     <p>Consegna: <?php echo strftime("%A %d %B", strtotime('+1 day', time())); ?></p>
                     <p>Venditore: <?php echo $result["idVenditore"] ?></p>
 
@@ -18,17 +18,16 @@
                                 <li>
                                     <a href="<?php echo PAGES_DIR."product.php".$detail["idProdotto"] ?>">
                                         <img src="<?php echo DB_RESOURCES_DIR.$detail['link']?>" alt="Immagine Prodotto"/><br/>
-                                        <?php echo $detail["nome"] ?><br/>
+                                        <?php echo $detail["nome"] ?></a><br/>
                                         <?php if($detail["offerta"] > 0) {
                                             $sale = $detail["prezzo"] - $detail["prezzo"]*($detail["offerta"]/100);
                                             echo "<ins>".$detail["offerta"]."% ".$sale."</ins> <del>".$detail['prezzo']."</del> €";
                                         } else {
                                             echo "<p>".$detail['prezzo']." €</p>";
                                         }?>
-                                        <p><?php echo $detail['media_recensioni']." ".$detail['num_recensioni'] ?></p>
-                                        <p>Descrizione: <?php $detail["descrizione"] ?></p>
+                                        <p><?php echo $detail['media_recensioni']."/5 (".$detail['num_recensioni'].")" ?></p>
+                                        <p>Descrizione: <?php echo $detail["descrizione"] ?></p>
                                         <p>Quantità: <?php echo $detail["quantita"] ?></p>
-                                    </a>
                                 </li>
                             <?php endforeach;
                         endif; ?>
