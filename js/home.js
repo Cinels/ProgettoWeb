@@ -3,7 +3,7 @@ displayMainContent();
 
 function displayMainContent() {
     const main = document.querySelector("main");
-    main.innerHTML += generateMainContent();
+    main.innerHTML = generateMainContent();
 }
 
 function generateMainContent() {

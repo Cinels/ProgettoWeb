@@ -34,8 +34,7 @@ function generateMainContent(result) {
     
     section.appendChild(generateReviewSection(product, result['hasBuyed'], result['hasReviewed'], result['userReview'], result['reviews'], result['n_rev']));
 
-    const main = document.querySelector('main');
-    main.appendChild(section);
+    document.querySelector('main').appendChild(section);
 }
 
 function generateProductSection(product, images) {

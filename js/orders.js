@@ -12,7 +12,7 @@ async function displayMainContent() {
         console.log(json);
         const content = generateMainContent(json);
         const main = document.querySelector("main");
-        main.innerHTML += content;
+        main.innerHTML = content;
     } catch (error) {
         console.log(error.message);
     }

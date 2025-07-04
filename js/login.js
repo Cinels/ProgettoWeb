@@ -3,7 +3,7 @@ displayMainContent();
 
 function displayMainContent() {
     const main = document.querySelector("main");
-    main.innerHTML += generateMainContent();
+    main.innerHTML = generateMainContent();
 
     document.querySelector("main form").addEventListener("submit", function (event) {
         event.preventDefault();

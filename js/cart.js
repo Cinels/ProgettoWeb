@@ -58,8 +58,8 @@ function generateMainContent(products) {
     section.appendChild(h2);
     section.appendChild(form);
     section.appendChild(ul);
-    const main = document.querySelector('main');
-    main.appendChild(section);
+    
+    document.querySelector('main').appendChild(section);
 }
 
 function generateInteractionForm(product) {
