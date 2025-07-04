@@ -18,38 +18,45 @@ async function displayMainContent() {
     }
 }
 
-function generateMainContent(products) {
+function generateMainContent(result) {
+    const orders = result['result'];
     let content = `
         <section>
             <h2>Ordini</h2>
             <ul>`;
-    for (let i = 0; i < !products['empty'] && products['result'].length; i++) {
-        const product = products['result'][i];
-        const details = products['details'][product['idOrdine']];
+    for (let i = 0; i < orders.length; i++) {
+        const order = orders[i];
+        const details = result['details'][order['idOrdine']];
         content += `
                 <li>
-                    <p>N° Ordine: ${product['idOrdine']}</p>
-                    <p>Totale: ${product['costoTotale']} €</p>
-                    <p>Data ordine: ${product['dataOrdine']}</p>
-                    <p>Stato ordine: ${product['statoOrdine']}</p>
-                    <p>Consegna prevista: ${product['dataArrivoPrevista']}</p>
-                    <p>Venditore: ${product['idVenditore']}</p>
+                    <p>N° Ordine: ${order['idOrdine']}</p>
+                    <p>Totale: ${order['costoTotale']} €</p>
+                    <p>Data ordine: ${order['dataOrdine']}</p>
+                    <p>Stato ordine: ${order['statoOrdine']}</p>
+                    <p>Consegna prevista: ${order['dataArrivoPrevista']}</p>
+                    <p>Venditore: ${order['idVenditore']}</p>
 
                     <ul>`;
         for (let j = 0; j < details.length; j++) {
-            content =+ `<li>
-                            <a href="${utils.PAGES_DIR}product.php?${details["idProdotto"]}">
-                                <img src="${utils.DB_RESOURCES_DIR}${details['link']}" alt="Immagine Prodotto"/><br/>
-                                ${details["nome"]}<br/>`;
-            if (details['offerta'] > 0) {
-                const sale = details["prezzo"] - details["prezzo"]*(details["offerta"]/100);
-                content += `    <ins>${details["offerta"]}% ${sale}</ins> <del>${details["prezzo"]}</del> €"`;
+            const detail = details[j];
+            content += `<li>
+                            <a href="${utils.PAGES_DIR}product.php?${detail["idProdotto"]}">
+                                <img src="${utils.DB_RESOURCES_DIR}${detail['link']}" alt="Immagine Prodotto"/><br/>
+                                <p>${detail["nome"]}</p><br/>`;
+            if (detail['offerta'] > 0) {
+                const sale = detail["prezzo"] - detail["prezzo"]*(detail["offerta"]/100);
+                content += `    <ins>${detail["offerta"]}% ${sale}</ins> <del>${detail["prezzo"]}</del> €"`;
             } else {
-                content += `    <p>${details["prezzo"]} €</p>`;
+                content += `    <p>${detail["prezzo"]} €</p>`;
             }
-            content += `        <p>${details['media_recensioni']} ${details['num_recensioni']}</p>
-                                <p>Descrizione: ${details['descrizione']}</p>
-                                <p>Quantità: ${details['quantita']}</p>
+            const number = parseFloat(detail['media_recensioni']);
+            let k;
+            for (k = 5; number < k && k > 0; k-= 0.5);            
+            content += `        <p>${detail['media_recensioni'].substring(0, 3)} (${detail['num_recensioni']})
+                                    <img src='${utils.RESOURCES_DIR + k}_star.png' alt='Media e numero recensioni'/>
+                                </p>
+                                <p>Descrizione: ${detail['descrizione']}</p>
+                                <p>Quantità: ${detail['quantita']}</p>
                             </a>
                         </li>`;
         }
