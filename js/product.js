@@ -22,7 +22,7 @@ function generateMainContent(result) {
     const section = document.createElement('section');
 
     section.appendChild(generateProductSection(product, result['images']));
-    section.appendChild(generateInteractionForm(product, result['isFavourite']));
+    section.appendChild(generateInteractionForm(result['isFavourite']));
     
     const p1 = document.createElement('p');
     p1.textContent = product['descrizione'];
@@ -32,7 +32,7 @@ function generateMainContent(result) {
     p2.textContent = product['proprieta'];
     section.appendChild(p2);
     
-    section.appendChild(generateReviewSection(product, result['hasBuyed'], result['hasReviewed'], result['userReview'], result['reviews']));
+    section.appendChild(generateReviewSection(product, result['hasBuyed'], result['hasReviewed'], result['userReview'], result['reviews'], result['n_rev']));
 
     const main = document.querySelector('main');
     main.appendChild(section);
@@ -107,7 +107,7 @@ function generateProductSection(product, images) {
     return section;
 }
 
-function generateInteractionForm(product, isFavourite) {
+function generateInteractionForm(isFavourite) {
     // <form action="">
     //     <label for="quantity">Quantità: </label>
     //     <input type="number" id="quantity" name="cart" min="0" value="1">
@@ -167,7 +167,7 @@ function generateInteractionForm(product, isFavourite) {
     return form;
 }
 
-function generateReviewSection(product, hasBuyed, hasReviewed, userReview, reviews) {
+function generateReviewSection(product, hasBuyed, hasReviewed, userReview, reviews, n) {
     // <section id="Reviews">
     //     <h3>Recensioni</h3>
     //     <p>${product['media_recensioni']}/5 (${product['num_recensioni']})</p>
@@ -205,7 +205,7 @@ function generateReviewSection(product, hasBuyed, hasReviewed, userReview, revie
     const text = document.createElement('textarea');
     const textButton = document.createElement('button');
     textButton.addEventListener('click', (event) => {
-        reviewButtonListener(stars.getAttribute('vote'), textButton.name, event);
+        reviewButtonListener(textButton.name, stars.getAttribute('vote'), text.value, event);
     });
 
     if(hasBuyed) {
@@ -228,7 +228,7 @@ function generateReviewSection(product, hasBuyed, hasReviewed, userReview, revie
         section.appendChild(textButton);
     }
 
-    for (let i = 0; i < reviews.lenght; i++) {
+    for (let i = 0; i < reviews.lenght && i < n; i++) {
         const article = document.createElement('article');
         article.appendChild(utils.generateReviewStars(reviews[i]['voto'], `Voto: ${reviews[i]['voto']} su 5`));
 
@@ -238,6 +238,21 @@ function generateReviewSection(product, hasBuyed, hasReviewed, userReview, revie
 
         section.appendChild(article);
     }
+
+    const morerev = document.createElement('a');
+    morerev.href = '';
+    if (!Number.isInteger(n)) {
+        morerev.textContent = 'Mostra altro';
+        morerev.addEventListener('click', async (event) => {
+            reviewNumberListener('true', event);
+        });
+    } else {
+        morerev.textContent = 'Mostra meno';
+        morerev.addEventListener('click', async (event) => {
+            reviewNumberListener('false', event);
+        });
+    }
+    section.appendChild(morerev);
     
     return section;
 }
@@ -260,14 +275,23 @@ async function favouriteButtonListener(action, event) {
     generateMainContent(await utils.makePostRequest(url, formData));
 }
 
-async function reviewButtonListener(vote, action, event) {
+async function reviewButtonListener(action, vote, description, event) {
     event.preventDefault();
-    console.log('vote: ' + vote + ", review: " + action);
+    console.log("review: " + action + ', vote: ' + vote + ', description: ' + description);
 
     if(vote !== null && vote > 0) {
         const formData = new FormData();
         formData.append('vote', vote);
         formData.append('review', action);
+        formData.append('description', description);
         generateMainContent(await utils.makePostRequest(url, formData));
     }
+}
+
+async function reviewNumberListener(action, event) {
+    event.preventDefault();
+    console.log('more_rev ' + action);
+
+    const formData = new FormData();
+    generateMainContent(await utils.makePostRequest(url + '&more_rev=' + action, formData));
 }

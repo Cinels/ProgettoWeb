@@ -15,17 +15,13 @@ if(isset($_POST["favourite"])) {
     }
 }
 
-if(isset($_POST['vote']) && isset($_POST['review'])) {
+if(isset($_POST['vote']) && isset($_POST['review']) && isset($_POST['description'])) {
     if($_POST['review'] === 'add') {
-
+        $dbh->writeReview($_GET['search'], $_POST['vote'], $_POST['description']);
     } elseif ($_POST['review'] === 'edit') {
-
+        $dbh->editReview($_GET['search'], $_POST['vote'], $_POST['description']);
     }
 }
-
-// if(isset($_GET['morerev'])) {
-//     $results["n_rev"] = count($results["reviews"]);
-// }
 
 function checkClientLogin($dbh) {
     checkLogin($dbh);
@@ -39,13 +35,16 @@ $dbh->updateHistory($_GET["search"]);
 $results['result'] = $dbh->getProduct($_GET["search"]);
 $results['images'] = $dbh->getProductImages($_GET["search"]);
 $results["reviews"] = $dbh->getReviews($_GET["search"]);
-// $results["n_rev"] = min(4, count($results["reviews"]));
 $results["hasBuyed"] = $dbh->hasBuyedIt($_GET["search"]);
 $results["hasReviewed"] = $dbh->hasReviewedIt($_GET["search"]);
 $results['isFavourite'] = $dbh->isProductFavourite($_GET['search']);
-// $results['userReview'] = $dbh->getUserReview($_GET['search']);
-$results['userReview'] = ['voto' => 5, 'descrizione' => 'puppami la fava'];
+$results['userReview'] = $dbh->getUserReview($_GET['search']);
 
+if(isset($_GET['more_rev']) && $_GET['more_rev'] === 'true') {
+    $results["n_rev"] = count($results["reviews"]);
+} else {
+    $results["n_rev"] = min(4, count($results["reviews"])) - 0.1;
+}
 
 header('Content-Type: application/json');
 echo json_encode($results);

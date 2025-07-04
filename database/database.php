@@ -515,6 +515,14 @@ class DatabaseHelper {
             $stmt->execute();
         }
     }
+    public function editReview($product, $vote, $desc) {
+        if($this->isLogged() && $this->getUserType() == "client") {
+            $query = "UPDATE RECENSIONE SET descrizione = ?, voto = ? WHERE idProdotto = ? AND idCliente = ?";
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('siis', $desc, $vote, $product, $_SESSION["user"]['email']);
+            $stmt->execute();
+        }
+    }
 
     public function hasReviewedIt($product) {
         if($this->isLogged() && $this->getUserType() == "client") {
