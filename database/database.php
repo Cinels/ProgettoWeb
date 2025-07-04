@@ -347,7 +347,7 @@ class DatabaseHelper {
     public function getOrderDetails($idOrdine) {
         if ($this->isLogged()) {
             $query = "SELECT P.idProdotto, P.nome, prezzo, offerta, P.descrizione, quantita, I.link, "
-                    ."coalesce(avg(voto), 0) as media_recensioni, count(voto) as num_recensioni "
+                    ."ROUND(COALESCE(AVG(voto), 0), 1) as media_recensioni, count(voto) as num_recensioni "
                     ."FROM DETTAGLIO_ORDINE D JOIN PRODOTTO P ON P.idProdotto = D.idProdotto "
                     ."JOIN IMMAGINE I ON P.idProdotto = I.idProdotto "
                     ."LEFT JOIN RECENSIONE R ON P.idProdotto = R.idProdotto "
@@ -365,7 +365,7 @@ class DatabaseHelper {
     public function getCart() {
         if ($this->isLogged() && $this->getUserType()=="client") {
             $query = "SELECT P.idProdotto, P.nome, prezzo, offerta, quantita, idVenditore, I.link, "
-                    ."coalesce(avg(voto), 0) as media_recensioni, count(voto) as num_recensioni "
+                    ."ROUND(COALESCE(AVG(voto), 0), 1) as media_recensioni, count(voto) as num_recensioni "
                     ."FROM CARRELLO C JOIN PRODOTTO P ON P.idProdotto = C.idProdotto "
                     ."JOIN immagine i ON P.idProdotto = I.idProdotto "
                     ."LEFT JOIN RECENSIONE R ON P.idProdotto = R.idProdotto "
@@ -382,7 +382,7 @@ class DatabaseHelper {
     public function getFavourites() {
         if ($this->isLogged() && $this->getUserType()=="client") {
             $query = "SELECT P.idProdotto, P.nome, prezzo, offerta, idVenditore, I.link, "
-                    ."coalesce(avg(voto), 0) as media_recensioni, count(voto) as num_recensioni "
+                    ."ROUND(COALESCE(AVG(voto), 0), 1) as media_recensioni, count(voto) as num_recensioni "
                     ."FROM LISTA_PREFERITI L JOIN PRODOTTO P ON P.idProdotto = L.idProdotto "
                     ."JOIN IMMAGINE I ON P.idProdotto = I.idProdotto "
                     ."LEFT JOIN RECENSIONE R ON P.idProdotto = R.idProdotto "
@@ -481,7 +481,9 @@ class DatabaseHelper {
             $query = "CALL createOrder(?, ?)";
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('ss', $_SESSION["user"]['email'], $idVenditore);
-            $stmt->execute();
+            if (!$stmt->execute()) {
+                die("Errore nella stored procedure: ".$stmt->error);
+            }
         }
     }
 
