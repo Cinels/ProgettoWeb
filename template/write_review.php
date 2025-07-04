@@ -1,7 +1,7 @@
 <?php $product = $templateParams['product'][0] ?>
 <h2>Recensisci <?php echo $product['nome'] ?></h2>
 <img src="<?php echo DB_RESOURCES_DIR.$templateParams['img']['link'] ?>" />
-<form action="write_review.php" method="POST">
+<form action="#" method="POST">
     <input type="hidden" id="id" name="id" value=<?php echo $product['idProdotto'] ?>>
     <input type="radio" id="onestar" name="vote" value="1" required>
     <label for="onestar">1</label>
