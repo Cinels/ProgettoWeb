@@ -18,8 +18,6 @@ if(isset($_POST['action']) && isset($_POST['id'])) {
         $dbh->removeFromCart($_POST["id"]);
     } elseif($_POST['action'] === 'favourite') {
         $dbh->moveToFavourites($_POST["id"]);
-    } elseif($_POST['action'] === 'buy') {
-        $dbh->createOrder(null);
     }
 }
 

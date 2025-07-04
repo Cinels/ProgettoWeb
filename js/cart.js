@@ -38,7 +38,10 @@ function generateMainContent(products) {
     const buyButton = document.createElement('button');
     buyButton.textContent = 'Acquista';
     buyButton.addEventListener('click', (event) => {
-        buyButtonListener(event);
+        event.preventDefault();
+        if (products['result'].length > 0) {
+            document.location = utils.PAGES_DIR + 'payment.php';
+        }
     });
     buyButton.appendChild(buyImage);
 
@@ -131,14 +134,5 @@ async function quantityListener(quantity, id, event) {
     const formData = new FormData();
     formData.append('quantity', quantity);
     formData.append('id', id);
-    generateMainContent(await utils.makePostRequest(url, formData));
-}
-
-async function buyButtonListener(event) {
-    event.preventDefault();
-    console.log('buy');
-    
-    const formData = new FormData();
-    formData.append('action', 'buy');
     generateMainContent(await utils.makePostRequest(url, formData));
 }
