@@ -32,7 +32,7 @@ function generateMainContent(result) {
                     <p>N° Ordine: ${order['idOrdine']}</p>
                     <p>Totale: ${order['costoTotale']} €</p>
                     <p>Data ordine: ${order['dataOrdine']}</p>
-                    <p>Stato ordine: ${order['statoOrdine']}</p>
+                    <p>Stato ordine: ${result['order_state'][order['statoOrdine']]}</p>
                     <p>Consegna prevista: ${order['dataArrivoPrevista']}</p>
                     <p>Venditore: ${order['idVenditore']}</p>
 

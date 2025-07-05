@@ -5,7 +5,6 @@ $templateParams["titolo"] = "I tuoi Ordini";
 
 $templateParams['js'] = [JAVASCRIPT_DIR."orders.js"];
 // $templateParams['results'] = $dbh->getOrders();
-$templateParams['order_state'] = ["Ordinato", "Spedito", "In consegna", "Consegnato"];
 
 checkLogin($dbh);
 
