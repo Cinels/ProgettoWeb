@@ -8,8 +8,7 @@
                     <img src="<?php echo DB_RESOURCES_DIR.$result['link']?>" alt="Immagine Prodotto"/><br/>
                     <?php echo $result["nome"] ?><br/>
                     <?php if($result["offerta"] > 0) {
-                        $sale = $result["prezzo"] - $result["prezzo"]*($result["offerta"]/100);
-                        echo "<ins>".$result["offerta"]."% ".$sale."</ins> <del>".$result['prezzo']."</del> €";
+                        echo "<ins>".$result["offerta"]."% ".$result["prezzoScontato"]."</ins> <del>".$result['prezzo']."</del> €";
                     } else {
                         echo "<p>".$result['prezzo']." €</p>";
                     }?>

@@ -2,20 +2,20 @@
     <h2>Carrello</h2>
     <ul>
     <!-- Sostituire 100 con attuale totale -->
+        
+        <?php if(isset($templateParams["results"]) && count($templateParams["results"]) > 0): ?>
         <form action="payment.php" method="POST">
             <label for="buy">Totale: 100€</label>
             <input type="hidden" name="tot" value="100" />
             <button type='submit' name='buy'>Acquista<img src="<?php echo RESOURCES_DIR.'ciamioncino_B.png' ?>" alt="" name='buy'></button>
         </form>
-        <?php if(isset($templateParams["results"]) && count($templateParams["results"]) > 0):
-            foreach($templateParams["results"] as $result): ?>
+            <?php foreach($templateParams["results"] as $result): ?>
                 <li>
                     <a href="<?php echo PAGES_DIR."product.php?search=".$result["idProdotto"] ?>">
                         <img src="<?php echo DB_RESOURCES_DIR.$result['link']?>" alt="Immagine Prodotto"/><br/>
                         <?php echo $result["nome"] ?><br/>
                         <?php if($result["offerta"] > 0) {
-                            $sale = $result["prezzo"] - $result["prezzo"]*($result["offerta"]/100);
-                            echo "<ins>".$result["offerta"]."% ".$sale."</ins> <del>".$result['prezzo']."</del> €";
+                            echo "<ins>".$result["offerta"]."% ".$result["prezzoScontato"]."</ins> <del>".$result['prezzo']."</del> €";
                         } else {
                             echo "<p>".$result['prezzo']." €</p>";
                         }?>

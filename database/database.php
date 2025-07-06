@@ -149,7 +149,7 @@ class DatabaseHelper {
     }
 
     public function getProduct($id) {
-        $query = "SELECT P.idProdotto, nome, prezzo, quantitaDisponibile, P.descrizione, proprieta, offerta, tipo, idVenditore, "
+        $query = "SELECT P.idProdotto, nome, prezzo, ROUND(prezzo - prezzo*(offerta/100), 2) AS prezzoScontato, quantitaDisponibile, P.descrizione, proprieta, offerta, tipo, idVenditore, "
                 ."ROUND(COALESCE(AVG(voto), 0), 1) as media_recensioni, count(voto) as num_recensioni "
                 ."FROM PRODOTTO P LEFT JOIN RECENSIONE R ON P.idProdotto = R.idProdotto WHERE P.idProdotto = ?";
         $stmt = $this->db->prepare($query);
@@ -260,7 +260,7 @@ class DatabaseHelper {
     }
 
     public function getProductsOnSale($n) {
-        $query = "SELECT P.idProdotto, P.nome, prezzo, offerta, link FROM PRODOTTO P, IMMAGINE I "
+        $query = "SELECT P.idProdotto, P.nome, prezzo, offerta, link, ROUND(prezzo - prezzo*(offerta/100), 2) AS prezzoScontato FROM PRODOTTO P, IMMAGINE I "
         ."WHERE offerta > 0 AND P.idProdotto = I.idProdotto AND I.numeroProgressivo = 1 "
         ."ORDER BY offerta desc LIMIT ?";
         $stmt = $this->db->prepare($query);
@@ -278,7 +278,7 @@ class DatabaseHelper {
         $result = $stmt->get_result();
         $idPiattaforma = $result->fetch_all(MYSQLI_ASSOC)[0]['idPiattaforma'];
 
-        $query = "SELECT P.idProdotto, P.nome, prezzo, offerta, link FROM PRODOTTO P, COMPATIBILITA C, IMMAGINE I "
+        $query = "SELECT P.idProdotto, P.nome, prezzo, offerta, link, ROUND(prezzo - prezzo*(offerta/100), 2) AS prezzoScontato FROM PRODOTTO P, COMPATIBILITA C, IMMAGINE I "
                 ."WHERE P.idProdotto = C.idProdotto AND C.idPiattaforma = ? AND C.idProdotto != ? AND P.idProdotto = I.idProdotto AND I.numeroProgressivo = 1 "
                 ."LIMIT ?";
         $stmt = $this->db->prepare($query);
@@ -289,7 +289,7 @@ class DatabaseHelper {
     }
 
     public function getYourInterestProducts($n) {
-        $query = "SELECT distinct P.idProdotto, P.nome, prezzo, offerta, link "
+        $query = "SELECT distinct P.idProdotto, P.nome, prezzo, offerta, link, ROUND(prezzo - prezzo*(offerta/100), 2) AS prezzoScontato "
                 ."FROM PRODOTTO P, CRONOLOGIA_PRODOTTI C, IMMAGINE I "
                 ."WHERE P.idProdotto = C.idProdotto AND C.idCliente = ? AND P.idProdotto = I.idProdotto AND I.numeroProgressivo = 1 "
                 ."LIMIT ?";
@@ -301,7 +301,7 @@ class DatabaseHelper {
     }
 
     public function getProductsFromResearch($searched) {
-        $query = "SELECT distinct p.idProdotto, P.nome, prezzo, offerta, link "
+        $query = "SELECT distinct p.idProdotto, P.nome, prezzo, offerta, link, ROUND(prezzo - prezzo*(offerta/100), 2) AS prezzoScontato "
             ."FROM PRODOTTO P, IMMAGINE I, PIATTAFORMA PI, COMPATIBILITA C "
             ."WHERE P.idProdotto = I.idProdotto "
             ."AND P.idProdotto = C.idProdotto "
@@ -317,13 +317,13 @@ class DatabaseHelper {
     }
 
     public function getTrendProducts($n) {
-        $query = "SELECT P.idProdotto, P.nome, prezzo, offerta, link "
+        $query = "SELECT P.idProdotto, P.nome, prezzo, offerta, link, ROUND(prezzo - prezzo*(offerta/100), 2) AS prezzoScontato "
                 ."FROM PRODOTTO P, IMMAGINE I, ORDINE O, DETTAGLIO_ORDINE D "
                 ."WHERE P.idProdotto = I.idProdotto "
                 ."AND O.idOrdine = D.idOrdine "
                 ."AND D.idProdotto = P.idProdotto "
                 ."AND numeroProgressivo = 1 "
-                ."group by P.idProdotto, nome, prezzo, offerta, link "
+                ."group by P.idProdotto, P.nome, prezzo, offerta, link "
                 ."order by sum(D.quantita) "
                 ."limit ?";
         $stmt = $this->db->prepare($query);
@@ -335,7 +335,7 @@ class DatabaseHelper {
 
     public function getOrders() {
         if ($this->isLogged() && $this->getUserType()=="client") {
-            $query = "SELECT idOrdine, dataOrdine, statoOrdine, dataArrivoPrevista, idVenditore, costoTotale FROM ORDINE WHERE idCliente = ?";
+            $query = "SELECT idOrdine, dataOrdine, statoOrdine, dataArrivoPrevista, idVenditore, costoTotale FROM ORDINE WHERE idCliente = ? ORDER BY dataOrdine, idOrdine DESC";
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('s', $_SESSION["user"]['email']);
             $stmt->execute();
@@ -346,13 +346,13 @@ class DatabaseHelper {
 
     public function getOrderDetails($idOrdine) {
         if ($this->isLogged()) {
-            $query = "SELECT P.idProdotto, P.nome, prezzo, offerta, P.descrizione, quantita, I.link, "
+            $query = "SELECT P.idProdotto, P.nome, prezzo, offerta, P.descrizione, quantita, I.link, ROUND(prezzo - prezzo*(offerta/100), 2) AS prezzoScontato, "
                     ."ROUND(COALESCE(AVG(voto), 0), 1) as media_recensioni, count(voto) as num_recensioni "
                     ."FROM DETTAGLIO_ORDINE D JOIN PRODOTTO P ON P.idProdotto = D.idProdotto "
                     ."JOIN IMMAGINE I ON P.idProdotto = I.idProdotto "
                     ."LEFT JOIN RECENSIONE R ON P.idProdotto = R.idProdotto "
                     ."WHERE I.numeroProgressivo = 1 AND D.idOrdine = ? "
-                    ."GROUP BY P.idProdotto, nome, prezzo, offerta, P.descrizione, quantita, I.link";
+                    ."GROUP BY P.idProdotto, P.nome, prezzo, offerta, P.descrizione, quantita, I.link";
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('i', $idOrdine);
             $stmt->execute();
@@ -361,10 +361,9 @@ class DatabaseHelper {
         }
     }
 
-    //Non funziona
     public function getCart() {
         if ($this->isLogged() && $this->getUserType()=="client") {
-            $query = "SELECT P.idProdotto, P.nome, prezzo, offerta, quantita, idVenditore, I.link, "
+            $query = "SELECT P.idProdotto, P.nome, prezzo, offerta, quantita, idVenditore, I.link, ROUND(prezzo - prezzo*(offerta/100), 2) AS prezzoScontato, "
                     ."ROUND(COALESCE(AVG(voto), 0), 1) as media_recensioni, count(voto) as num_recensioni "
                     ."FROM CARRELLO C JOIN PRODOTTO P ON P.idProdotto = C.idProdotto "
                     ."JOIN immagine i ON P.idProdotto = I.idProdotto "
@@ -381,7 +380,7 @@ class DatabaseHelper {
 
     public function getFavourites() {
         if ($this->isLogged() && $this->getUserType()=="client") {
-            $query = "SELECT P.idProdotto, P.nome, prezzo, offerta, idVenditore, I.link, "
+            $query = "SELECT P.idProdotto, P.nome, prezzo, offerta, ROUND(prezzo - prezzo*(offerta/100), 2) AS prezzoScontato, idVenditore, I.link, "
                     ."ROUND(COALESCE(AVG(voto), 0), 1) as media_recensioni, count(voto) as num_recensioni "
                     ."FROM LISTA_PREFERITI L JOIN PRODOTTO P ON P.idProdotto = L.idProdotto "
                     ."JOIN IMMAGINE I ON P.idProdotto = I.idProdotto "
@@ -429,7 +428,7 @@ class DatabaseHelper {
 
     public function getVendorProducts() {
         if ($this->isLogged() && $this->getUserType() == "vendor") {
-            $query = "SELECT nome, prezzo, offerta, link FROM PRODOTTO P, IMMAGINE I WHERE P.idProdotto = I.idProdotto AND idVenditore = ? AND numeroProgressivo = 1";
+            $query = "SELECT nome, prezzo, offerta, ROUND(prezzo - prezzo*(offerta/100), 2) AS prezzoScontato, link FROM PRODOTTO P, IMMAGINE I WHERE P.idProdotto = I.idProdotto AND idVenditore = ? AND numeroProgressivo = 1";
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('s', $_SESSION["user"]['email']);
             $stmt->execute();

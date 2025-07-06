@@ -80,7 +80,7 @@ create table ORDINE (
      tipoPagamento int not null,
      idCliente varchar(40) not null,
      idVenditore varchar(40) not null,
-     costoTotale int not null,
+     costoTotale decimal(6,2) not null,
      constraint IDORDINE_ID primary key (idOrdine));
 
 create table PIATTAFORMA (
@@ -92,7 +92,7 @@ create table PIATTAFORMA (
 create table PRODOTTO (
      idProdotto int not null AUTO_INCREMENT,
      nome varchar(50) not null,
-     prezzo float(6,2) not null,
+     prezzo decimal(6,2) not null,
      quantitaDisponibile int not null,
      descrizione varchar(500) not null,
      proprieta varchar(300) not null,
@@ -226,7 +226,7 @@ DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `createOrder`(IN `vCliente` VARCHAR(40) CHARSET utf8, IN `vVenditore` VARCHAR(40) CHARSET utf8)
     MODIFIES SQL DATA
 BEGIN
-DECLARE somma int;
+DECLARE somma float(6,2);
 DECLARE vOrd int;
 
 SELECT SUM((prezzo - prezzo*(offerta/100)) * C.quantita) into somma
@@ -246,7 +246,14 @@ SET vOrd = LAST_INSERT_ID();
 
 INSERT INTO DETTAGLIO_ORDINE SELECT idProdotto, vOrd, quantita FROM CARRELLO WHERE idCliente = vCliente;
 
+UPDATE prodotto P
+JOIN(
+    SELECT idProdotto, quantita
+    FROM dettaglio_ordine
+    WHERE idOrdine = vOrd
+) D ON D.idProdotto = P.idProdotto
+SET P.quantitaDisponibile = P.quantitaDisponibile - D.quantita;
+
 DELETE FROM CARRELLO WHERE idCliente = vCliente;
 end$$
 DELIMITER ;
-
