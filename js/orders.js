@@ -44,8 +44,7 @@ function generateMainContent(result) {
                                 <img src="${utils.DB_RESOURCES_DIR}${detail['link']}" alt="Immagine Prodotto"/><br/>
                                 <p>${detail["nome"]}</p><br/>`;
             if (detail['offerta'] > 0) {
-                const sale = detail["prezzo"] - detail["prezzo"]*(detail["offerta"]/100);
-                content += `    <ins>${detail["offerta"]}% ${sale}</ins> <del>${detail["prezzo"]}</del> €"`;
+                content += `    <ins>${detail["offerta"]}% ${detail['prezzoScontato']}</ins> <del>${detail["prezzo"]}</del> €"`;
             } else {
                 content += `    <p>${detail["prezzo"]} €</p>`;
             }
