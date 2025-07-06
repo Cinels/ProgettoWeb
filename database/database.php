@@ -337,12 +337,13 @@ class DatabaseHelper {
 
     public function getOrderDetails($idOrdine) {
         if ($this->isLogged()) {
-            $query = "SELECT P.idProdotto, P.nome, prezzo, offerta, ROUND(prezzo - prezzo*(offerta/100), 2) AS prezzoScontato, P.descrizione, quantita, I.link, "
+            $query = "SELECT P.idProdotto, P.nome, prezzo, offerta, P.descrizione, quantita, I.link, ROUND(prezzo - prezzo*(offerta/100), 2) AS prezzoScontato, "
                     ."ROUND(COALESCE(AVG(voto), 0), 1) as media_recensioni, count(voto) as num_recensioni "
                     ."FROM DETTAGLIO_ORDINE D JOIN PRODOTTO P ON P.idProdotto = D.idProdotto "
                     ."JOIN IMMAGINE I ON P.idProdotto = I.idProdotto "
                     ."LEFT JOIN RECENSIONE R ON P.idProdotto = R.idProdotto "
-                    ."WHERE I.numeroProgressivo = 1 AND D.idOrdine = ?";
+                    ."WHERE I.numeroProgressivo = 1 AND D.idOrdine = ? "
+                    ."GROUP BY P.idProdotto, P.nome, prezzo, offerta, P.descrizione, quantita, I.link";
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('i', $idOrdine);
             $stmt->execute();
@@ -353,12 +354,13 @@ class DatabaseHelper {
 
     public function getCart() {
         if ($this->isLogged() && $this->getUserType()=="client") {
-            $query = "SELECT P.idProdotto, P.nome, prezzo, offerta, ROUND(prezzo - prezzo*(offerta/100), 2) AS prezzoScontato, quantita, idVenditore, I.link, "
+            $query = "SELECT P.idProdotto, P.nome, prezzo, offerta, quantita, idVenditore, I.link, ROUND(prezzo - prezzo*(offerta/100), 2) AS prezzoScontato, "
                     ."ROUND(COALESCE(AVG(voto), 0), 1) as media_recensioni, count(voto) as num_recensioni "
                     ."FROM CARRELLO C JOIN PRODOTTO P ON P.idProdotto = C.idProdotto "
                     ."JOIN immagine i ON P.idProdotto = I.idProdotto "
                     ."LEFT JOIN RECENSIONE R ON P.idProdotto = R.idProdotto "
-                    ."WHERE I.numeroProgressivo = 1 AND C.idCliente = ?";
+                    ."WHERE I.numeroProgressivo = 1 AND C.idCliente = ? "
+                    ."GROUP BY P.idProdotto, P.nome, prezzo, offerta, quantita, idVenditore, I.link";
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('s', $_SESSION["user"]['email']);
             $stmt->execute();
@@ -374,7 +376,8 @@ class DatabaseHelper {
                     ."FROM LISTA_PREFERITI L JOIN PRODOTTO P ON P.idProdotto = L.idProdotto "
                     ."JOIN IMMAGINE I ON P.idProdotto = I.idProdotto "
                     ."LEFT JOIN RECENSIONE R ON P.idProdotto = R.idProdotto "
-                    ."WHERE I.numeroProgressivo = 1 AND L.idCliente = ?";
+                    ."WHERE I.numeroProgressivo = 1 AND L.idCliente = ? "
+                    ."GROUP BY P.idProdotto, P.nome, prezzo, offerta, idVenditore, I.link";
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('s', $_SESSION["user"]['email']);
             $stmt->execute();
