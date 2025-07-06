@@ -1,0 +1,35 @@
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `createOrder`(IN `vCliente` VARCHAR(40) CHARSET utf8, IN `vVenditore` VARCHAR(40) CHARSET utf8)
+    MODIFIES SQL DATA
+BEGIN
+DECLARE somma float(6,2);
+DECLARE vOrd int;
+
+SELECT SUM((prezzo - prezzo*(offerta/100)) * C.quantita) into somma
+FROM prodotto P, carrello C
+where P.idProdotto = C.idProdotto and C.idCliente = vCliente;
+
+INSERT INTO ORDINE (dataOrdine,
+statoOrdine,
+dataArrivoPrevista,
+tipoPagamento,
+idCliente,
+idVenditore,
+costoTotale) 
+VALUES (CURDATE(), 1, DATE_ADD(CURDATE(), INTERVAL 1 DAY), 1, vCliente, vVenditore, somma);
+
+SET vOrd = LAST_INSERT_ID();
+
+INSERT INTO DETTAGLIO_ORDINE SELECT idProdotto, vOrd, quantita FROM CARRELLO WHERE idCliente = vCliente;
+
+UPDATE prodotto P
+JOIN(
+    SELECT idProdotto, quantita
+    FROM dettaglio_ordine
+    WHERE idOrdine = vOrd
+) D ON D.idProdotto = P.idProdotto
+SET P.quantitaDisponibile = P.quantitaDisponibile - D.quantita;
+
+DELETE FROM CARRELLO WHERE idCliente = vCliente;
+end$$
+DELIMITER ;

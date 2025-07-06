@@ -326,7 +326,7 @@ class DatabaseHelper {
 
     public function getOrders() {
         if ($this->isLogged() && $this->getUserType()=="client") {
-            $query = "SELECT idOrdine, dataOrdine, statoOrdine, dataArrivoPrevista, idVenditore, costoTotale FROM ORDINE WHERE idCliente = ?";
+            $query = "SELECT idOrdine, dataOrdine, statoOrdine, dataArrivoPrevista, idVenditore, costoTotale FROM ORDINE WHERE idCliente = ? ORDER BY dataOrdine, idOrdine DESC";
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('s', $_SESSION["user"]['email']);
             $stmt->execute();
