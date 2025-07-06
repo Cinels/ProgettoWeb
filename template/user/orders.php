@@ -16,12 +16,11 @@
                         <?php if(isset($templateParams["details"]) && count($templateParams["details"]) > 0):
                             foreach($templateParams["details"] as $detail): ?>
                                 <li>
-                                    <a href="<?php echo PAGES_DIR."product.php".$detail["idProdotto"] ?>">
+                                    <a href="<?php echo PAGES_DIR."product.php?search=".$detail["idProdotto"] ?>">
                                         <img src="<?php echo DB_RESOURCES_DIR.$detail['link']?>" alt="Immagine Prodotto"/><br/>
                                         <?php echo $detail["nome"] ?></a><br/>
                                         <?php if($detail["offerta"] > 0) {
-                                            $sale = $detail["prezzo"] - $detail["prezzo"]*($detail["offerta"]/100);
-                                            echo "<ins>".$detail["offerta"]."% ".$sale."</ins> <del>".$detail['prezzo']."</del> €";
+                                            echo "<ins>".$detail["offerta"]."% ".$detail['prezzoScontato']."</ins> <del>".$detail['prezzo']."</del> €";
                                         } else {
                                             echo "<p>".$detail['prezzo']." €</p>";
                                         }?>
