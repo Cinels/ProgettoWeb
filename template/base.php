@@ -35,9 +35,14 @@
         <aside>
             <?php if(isset($templateParams["side_content"])) {
                     require_once("suggestions.php");
-                
             } ?>
         </aside>
+
+        <?php if(isset($templateParams["js"])): 
+            foreach($templateParams["js"] as $script): ?>
+                <script type="module" src="<?php echo $script; ?>"></script>
+            <?php endforeach;
+        endif; ?>
 
         <footer>
             <p>Tecnologie Web - A.A. 2024/2025</p>

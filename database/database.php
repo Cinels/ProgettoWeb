@@ -223,16 +223,25 @@ class DatabaseHelper {
             $stmt->bind_param('is', $idProdotto, $_SESSION["user"]['email']);
             $stmt->execute();
             $result = $stmt->get_result();
-            if ($result->fetch_all(MYSQLI_ASSOC)['quantita'] > 2) {
+            if ($result->fetch_all(MYSQLI_ASSOC)[0]['quantita'] > 1) {
                 $query = "UPDATE CARRELLO SET quantita = quantita - 1 WHERE idProdotto = ? AND idCliente = ?";
                 $stmt = $this->db->prepare($query);
                 $stmt->bind_param('is', $idProdotto, $_SESSION["user"]['email']);
                 $stmt->execute();
-                $result = $stmt->get_result();
-                return $result->fetch_all(MYSQLI_ASSOC);
             } else {
                 $this->removeFromCart($idProdotto);
             }
+        }
+    }
+
+    public function getCartQuantity($idProdotto) {
+        if ($this->isLogged() && $this->getUserType()=="client") {
+            $query = "SELECT quantita FROM CARRELLO WHERE idProdotto = ? AND idCliente = ?";
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('is', $idProdotto, $_SESSION["user"]['email']);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            return $result->fetch_all(MYSQLI_ASSOC);
         }
     }
 
@@ -509,6 +518,14 @@ class DatabaseHelper {
             $stmt->execute();
         }
     }
+    public function editReview($product, $vote, $desc) {
+        if($this->isLogged() && $this->getUserType() == "client") {
+            $query = "UPDATE RECENSIONE SET descrizione = ?, voto = ? WHERE idProdotto = ? AND idCliente = ?";
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('siis', $desc, $vote, $product, $_SESSION["user"]['email']);
+            $stmt->execute();
+        }
+    }
 
     public function hasReviewedIt($product) {
         if($this->isLogged() && $this->getUserType() == "client") {
@@ -518,6 +535,17 @@ class DatabaseHelper {
             $stmt->execute();
             $result = $stmt->get_result();
             return count($result->fetch_all(MYSQLI_ASSOC)) > 0;
+        }
+    }
+
+    public function getUserReview($product) {
+        if($this->isLogged() && $this->getUserType() == "client") {
+            $query = "SELECT idRecensione, descrizione, voto FROM RECENSIONE WHERE idProdotto = ? AND idCliente = ?";
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('is', $product, $_SESSION["user"]['email']);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            return $result->fetch_all(MYSQLI_ASSOC);
         }
     }
 
