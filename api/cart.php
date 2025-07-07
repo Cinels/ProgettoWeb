@@ -24,11 +24,7 @@ if(isset($_POST['action']) && isset($_POST['id'])) {
 $cart = $dbh->getCart();
 $totalPrice = 0.00;
 foreach ($cart as $product) {
-    if ($product["offerta"] > 0) {
-        $totalPrice += ($product["prezzo"] - $product["prezzo"]*($product["offerta"]/100)) * $product['quantita'];
-    } else {
-        $totalPrice += ($product['prezzo']) * $product['quantita'];
-    }
+    $totalPrice += ($product['prezzoScontato']) * $product['quantita'];
 }
 $result = ['result' => $cart, 'total' => $totalPrice];
 
