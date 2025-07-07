@@ -2,7 +2,7 @@
 require_once("../database/init.php");
 
 $result['logout'] = false;
-if(isset($_POST["logout"])) {
+if(isset($_POST["logout"]) && $_POST['logout'] === 'true') {
     $dbh->logout();
     $result['logout'] = true;
 }

@@ -29,7 +29,7 @@ function generateMainContent() {
                     </li><li>
                         <p>o</p>
                     </li><li>
-                        <a href="${utils.PAGES_DIR}sign_in.php"><input type="button" value="Registrati" /></a>
+                        <a href="${utils.PAGES_DIR}sign_in.php?action=create"><input type="button" value="Registrati" /></a>
                     </li>
                 </ul>
             </form>
