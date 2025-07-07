@@ -326,7 +326,7 @@ class DatabaseHelper {
 
     public function getOrders() {
         if ($this->isLogged() && $this->getUserType()=="client") {
-            $query = "SELECT idOrdine, dataOrdine, statoOrdine, dataArrivoPrevista, idVenditore, costoTotale FROM ORDINE WHERE idCliente = ? ORDER BY dataOrdine, idOrdine DESC";
+            $query = "SELECT idOrdine, dataOrdine, statoOrdine, dataArrivoPrevista, idVenditore, costoTotale FROM ORDINE WHERE idCliente = ? ORDER BY idOrdine DESC";
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('s', $_SESSION["user"]['email']);
             $stmt->execute();
@@ -468,12 +468,16 @@ class DatabaseHelper {
     
     public function createOrder($idVenditore) {
         if ($this->isLogged() && $this->getUserType() == "client") {
-            $query = "CALL createOrder(?, ?)";
+            $this->db->query("SET @id = 0;");
+            $query = "CALL createOrder(?, ?, @id)";
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('ss', $_SESSION["user"]['email'], $idVenditore);
             if (!$stmt->execute()) {
                 die("Errore nella stored procedure: ".$stmt->error);
             }
+            $result = $this->db->query("SELECT @id AS id");
+            $row = $result->fetch_assoc();
+            return $row['id'];
         }
     }
 
@@ -515,6 +519,38 @@ class DatabaseHelper {
             $result = $stmt->get_result();
             return count($result->fetch_all(MYSQLI_ASSOC)) > 0;
         }
+    }
+
+    public function getSoldOutProductsNow($order) {
+        $query = "SELECT P.idProdotto FROM DETTAGLIO_ORDINE D, PRODOTTO P WHERE P.idProdotto = D.idProdotto AND D.idOrdine = ? AND P.quantitaDisponibile <= ?";
+            $stmt = $this->db->prepare($query);
+            $zero = 0;
+            $stmt->bind_param('ii', $order, $zero);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function notifySoldoutProduct($product, $vendor) {
+            $query = "INSERT INTO NOTIFICA (tipo, testo, letta, idUtente, idProdotto) "
+                ."VALUES (?, ?, ?, ?, ?)";
+            $stmt = $this->db->prepare($query);
+            $type = 'PROD_OUT';
+            $zero = 0;
+            $message = "Il prodotto ".$this->getProductName($product)." è esaurito";
+            $stmt->bind_param('ssisi', $type, $message, $zero, $vendor, $product);
+            $stmt->execute();
+    }
+
+    private function getProductName($product) {
+        $query = "SELECT nome FROM PRODOTTO WHERE idProdotto = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('i', $product);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $result = $result->fetch_all(MYSQLI_ASSOC);
+        var_dump($result);
+        return $result[0]["nome"];
     }
 
     private function isEmailAvailable() {

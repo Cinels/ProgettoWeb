@@ -70,6 +70,8 @@ create table NOTIFICA (
      testo varchar(500) not null,
      letta char not null,
      idUtente varchar(40) not null,
+     idOrdine int DEFAULT NULL,
+     idProdotto int DEFAULT NULL
      constraint IDNOTIFICA primary key (idNotifica));
 
 create table ORDINE (
@@ -182,6 +184,10 @@ alter table NOTIFICA add constraint FKriceve
      foreign key (idUtente)
      references UTENTE (email);
 
+ALTER TABLE `notifica`
+  ADD CONSTRAINT `FKoptOrder` FOREIGN KEY (`idOrdine`) REFERENCES `ordine` (`idOrdine`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `FKoptProd` FOREIGN KEY (`idProdotto`) REFERENCES `prodotto` (`idProdotto`) ON DELETE SET NULL ON UPDATE CASCADE;
+
 -- Not implemented
 -- alter table ORDINE add constraint IDORDINE_CHK
 --     check(exists(select * from DETTAGLIO_ORDINE
@@ -223,11 +229,10 @@ alter table VENDITORE add constraint FKR_FK
 -- _____________
 
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `createOrder`(IN `vCliente` VARCHAR(40) CHARSET utf8, IN `vVenditore` VARCHAR(40) CHARSET utf8)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `createOrder`(IN `vCliente` VARCHAR(40) CHARSET utf8, IN `vVenditore` VARCHAR(40) CHARSET utf8, OUT `vOrd` INT)
     MODIFIES SQL DATA
 BEGIN
-DECLARE somma float(6,2);
-DECLARE vOrd int;
+DECLARE somma decimal(6,2);
 
 SELECT SUM((prezzo - prezzo*(offerta/100)) * C.quantita) into somma
 FROM prodotto P, carrello C
@@ -253,6 +258,9 @@ JOIN(
     WHERE idOrdine = vOrd
 ) D ON D.idProdotto = P.idProdotto
 SET P.quantitaDisponibile = P.quantitaDisponibile - D.quantita;
+
+INSERT INTO notifica (tipo, testo, letta, idUtente, idOrdine)
+VALUES ('ORD_REC', CONCAT('Hai ricevuto un ordine con id ', vOrd, ' da ', vCliente,' da spedire per il giorno ', DATE_ADD(CURDATE(), INTERVAL 1 DAY)), false, vVenditore, vOrd);
 
 DELETE FROM CARRELLO WHERE idCliente = vCliente;
 end$$
