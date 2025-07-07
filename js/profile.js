@@ -31,7 +31,7 @@ function generateMainContent(result) {
         console.log("logout");
 
         const formData = new FormData();
-        formData.append('logout');
+        formData.append('logout', true);
         const result = await utils.makePostRequest(url, formData)
         if (result['logout']) {
             document.location = utils.PAGES_DIR + 'index.php';
@@ -54,6 +54,7 @@ function generateProfileSection(profile, user_type) {
     //     <p>Nome: ${profile['nome']} ${profile['cognome']}</p>
     //     <p>Email: ${profile['email']}</p>
     //     <p>Tipo profilo: ${user_type}</p>
+    //     <button name='edit_profile'>Modifica<img src="${utils.RESOURCES_DIR}matita.png" alt=''/></button>
     // </section>
 
     const section = document.createElement('section');
@@ -71,10 +72,24 @@ function generateProfileSection(profile, user_type) {
     const p3 = document.createElement('p');
     p3.textContent = 'Tipo profilo: ' + user_type;
 
+    const editImage = document.createElement('img');
+    editImage.src = utils.RESOURCES_DIR + 'matita.png';
+    editImage.alt = '';
+    
+    const button = document.createElement('button');
+    button.name = 'edit_profile';
+    button.textContent = 'Modifica Profilo';
+    button.addEventListener('click', (event) => {
+        event.preventDefault();
+        document.location = utils.PAGES_DIR + 'sign_in.php?action=edit';
+    });
+    button.appendChild(editImage);
+
     section.appendChild(img);
     section.appendChild(p1);
     section.appendChild(p2);
     section.appendChild(p3);
+    section.appendChild(button);
 
     return section;
 }
