@@ -10,7 +10,7 @@
                         if($dbh->isProductFavourite($result["idProdotto"])): ?>
                             <a href="?search=<?php echo $_GET["search"] ?>&id=<?php echo $result["idProdotto"]; ?>&favourites=remove <?php /*$dbh->removeFromFavourites($result["idProdotto"])*/ ?>"><img src="<?php echo RESOURCES_DIR?>cuore_R.png" alt="Rimuovi dai Preferiti"/></a>
                         <?php else: ?>
-                            <a href="?search=<?php echo $_GET["search"] ?>&id=<?php echo $result["idProdotto"]; ?>&favourites=add <?php /*$dbh->addToFavourites($result["idProdotto"])*/ ?>"><img src="<?php echo RESOURCES_DIR?>cuore_B.png" alt="Aggiungi ai Preferiti"/></a>
+                            <a href="?search=<?php echo $_GET["search"] ?>&id=<?php echo $result["idProdotto"]; ?>&favourites=add <?php /*$dbh->addToFavourites($result["idProdotto"], $dbh->getUser()['email'])*/ ?>"><img src="<?php echo RESOURCES_DIR?>cuore_B.png" alt="Aggiungi ai Preferiti"/></a>
                         <?php endif;
                     endif; ?>
                     <?php if($result["offerta"] > 0) {

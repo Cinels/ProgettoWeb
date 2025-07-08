@@ -168,11 +168,11 @@ class DatabaseHelper {
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function addToFavourites($idProdotto) {
+    public function addToFavourites($idProdotto, $idCliente) {
         if ($this->isLogged() && $this->getUserType()=="client") {
             $query = "INSERT INTO LISTA_PREFERITI (idCliente, idProdotto) VALUE (?, ?)";
             $stmt = $this->db->prepare($query);
-            $stmt->bind_param('si', $_SESSION["user"]['email'], $idProdotto);
+            $stmt->bind_param('si', $idCliente, $idProdotto);
             $stmt->execute();
         }
     }
@@ -207,11 +207,11 @@ class DatabaseHelper {
         }
     }
 
-    public function removeFromCart($idProdotto) {
+    public function removeFromCart($idProdotto, $idCliente) {
         if ($this->isLogged() && $this->getUserType()=="client") {
             $query = "DELETE FROM CARRELLO WHERE idProdotto = ? AND idCliente = ?";
             $stmt = $this->db->prepare($query);
-            $stmt->bind_param('is', $idProdotto, $_SESSION["user"]['email']);
+            $stmt->bind_param('is', $idProdotto, $idCliente);
             $stmt->execute();
         }
     }
@@ -229,7 +229,7 @@ class DatabaseHelper {
                 $stmt->bind_param('is', $idProdotto, $_SESSION["user"]['email']);
                 $stmt->execute();
             } else {
-                $this->removeFromCart($idProdotto);
+                $this->removeFromCart($idProdotto, $_SESSION["user"]['email']);
             }
         }
     }
@@ -252,10 +252,10 @@ class DatabaseHelper {
         }
     }
 
-    public function moveToFavourites($idProdotto) {
+    public function moveToFavourites($idProdotto, $idCliente) {
         if ($this->isLogged() && $this->getUserType()=="client") {
-            $this->removeFromCart($idProdotto);
-            $this->addToFavourites($idProdotto);
+            $this->removeFromCart($idProdotto, $idCliente);
+            $this->addToFavourites($idProdotto, $idCliente);
         }
     }
 
@@ -568,6 +568,31 @@ class DatabaseHelper {
             $message = "Il prodotto ".$this->getProductName($product)." è esaurito";
             $stmt->bind_param('ssisi', $type, $message, $zero, $vendor, $product);
             $stmt->execute();
+    }
+
+    public function manageLowQuantity($product, $quantity) {
+        $query = "SELECT idCliente FROM CARRELLO WHERE idProdotto = ? AND quantita >= ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('ii', $product, $quantity);
+        $stmt->execute();
+        $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        foreach($result['idCliente'] as $cliente) {
+            if ($quantity == 0) {
+                $this->moveToFavourites($product, $cliente);
+            } else {
+                $stmt = $this->db->prepare("UPDATE CARRELLO SET quantita = ? WHERE idProdotto = ? AND idCliente = ?");
+                $stmt->bind_param('iis', $quantity, $product, $cliente);
+                $stmt->execute();
+            }
+            $query = "INSERT INTO NOTIFICA (tipo, testo, letta, idUtente, idProdotto) "
+                ."VALUES (?, ?, ?, ?, ?)";
+            $stmt = $this->db->prepare($query);
+            $type = 'CART_MOD';
+            $zero = 0;
+            $message = $quantity == 0 ? "Il prodotto ".$this->getProductName($product)." è attualmente non disponibile ed è stato aggiunto ai tuoi preferiti" : "La quantità disponibile del prodotto ".$this->getProductName($product)." non soddisfa le richieste del tuo carrello, la quantità nel carrello è stata diminuita";
+            $stmt->bind_param('ssisi', $type, $message, $zero, $cliente, $product);
+            $stmt->execute();
+        }
     }
 
     private function getProductName($product) {

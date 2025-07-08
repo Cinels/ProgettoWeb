@@ -9,7 +9,7 @@ if(isset($_POST["cart"])) {
 if(isset($_POST["favourite"])) {
     checkClientLogin($dbh);
     if($_POST["favourite"] === "add" && !$dbh->isProductFavourite($_GET["search"])) {
-        $dbh->addToFavourites($_GET["search"]);
+        $dbh->addToFavourites($_GET["search"], $dbh->getUser()['email']);
     } elseif($_POST["favourite"] === "remove" && $dbh->isProductFavourite($_GET["search"])) {
         $dbh->removeFromFavourites($_GET["search"]);
     }

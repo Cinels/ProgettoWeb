@@ -15,9 +15,9 @@ if(isset($_POST["quantity"]) && isset($_POST['id'])) {
 
 if(isset($_POST['action']) && isset($_POST['id'])) {
     if($_POST['action'] === 'remove') {
-        $dbh->removeFromCart($_POST["id"]);
+        $dbh->removeFromCart($_POST["id"], $dbh->getUser()['email']);
     } elseif($_POST['action'] === 'favourite') {
-        $dbh->moveToFavourites($_POST["id"]);
+        $dbh->moveToFavourites($_POST["id"], $dbh->getUser()['email']);
     }
 }
 
