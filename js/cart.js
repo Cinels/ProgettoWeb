@@ -19,35 +19,39 @@ function generateMainContent(products) {
     //     </ul>
     // </section>
     
+    
     document.querySelector('main').innerHTML = "";
-
+    
     const section = document.createElement('section');
     const h2 = document.createElement('h2');
     h2.textContent ='Carrello';
-
-    const form = document.createElement('form');
+    section.appendChild(h2);
     
-    const label = document.createElement('label');
-    label.setAttribute = 'buy';
-    label.textContent = 'Totale: ' + products['total'] + " €";
+    if (products['result'].length > 0) {
 
-    const buyImage = document.createElement('img');
-    buyImage.src = utils.RESOURCES_DIR + 'ciamioncino_B.png';
-    buyImage.alt = '';
-
-    const buyButton = document.createElement('button');
-    buyButton.textContent = 'Acquista';
-    buyButton.addEventListener('click', (event) => {
+        const form = document.createElement('form');
+        
+        const label = document.createElement('label');
+        label.setAttribute = 'buy';
+        label.textContent = 'Totale: ' + products['total'] + " €";
+        
+        const buyImage = document.createElement('img');
+        buyImage.src = utils.RESOURCES_DIR + 'ciamioncino_B.png';
+        buyImage.alt = '';
+        
+        const buyButton = document.createElement('button');
+        buyButton.textContent = 'Acquista';
+        buyButton.addEventListener('click', (event) => {
         event.preventDefault();
         if (products['result'].length > 0) {
             document.location = utils.PAGES_DIR + 'payment.php';
         }
     });
     buyButton.appendChild(buyImage);
-
+    
     form.appendChild(label);
     form.appendChild(buyButton);
-
+    
     const ul = document.createElement('ul');
     
     for (let i = 0; i < products['result'].length; i++) {
@@ -58,10 +62,9 @@ function generateMainContent(products) {
         ul.appendChild(li);
     }
     
-    section.appendChild(h2);
     section.appendChild(form);
     section.appendChild(ul);
-    
+}
     document.querySelector('main').appendChild(section);
 }
 
