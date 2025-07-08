@@ -81,7 +81,7 @@ function generateProductSection(product, images) {
     
     const price = document.createElement('p');
     if (product["offerta"] > 0) {
-        price.innerHTML = `<ins>${product["offerta"]}% ${product['prezzoScontato']}</ins> <del>${product["prezzo"]}</del> €"`;;
+        price.innerHTML = `<ins>${product["offerta"]}% ${product['prezzoScontato']}</ins> <del>${product["prezzo"]}</del>€`;;
     } else {
         price.innerText = product['prezzo'] + '€';            
     }
