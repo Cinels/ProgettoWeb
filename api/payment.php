@@ -1,18 +1,21 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 require_once("../database/init.php");
 
 $totalPrice = 0.00;
+$numberProducts = 0;
 foreach ($dbh->getCart() as $product) {
-        $totalPrice += ($product['prezzoScontato']) * $product['quantita'];
+    $totalPrice += ($product['prezzoScontato']) * $product['quantita'];
+    $numberProducts += $product['quantita'];
 }
-
 $result['total'] = $totalPrice;
-$result['num_products'] = count($dbh->getCart());
+$result['num_products'] = $numberProducts;
 $result['hasOrdered'] = false;
 
 if(isset($_POST["card_number"]) && isset($_POST["expire_date"]) && isset($_POST["ccv"])){
     $result['hasOrdered'] = true;
-    $dbh->createOrder("venditore@negozio.it");
     $idOrder=$dbh->createOrder("venditore@negozio.it");
     $soldout=$dbh->getSoldOutProductsNow($idOrder);
     if(count($soldout) > 0) {
@@ -21,8 +24,8 @@ if(isset($_POST["card_number"]) && isset($_POST["expire_date"]) && isset($_POST[
         }
     }
     $orderDetails=$dbh->getOrderDetails($idOrder);
-    foreach($orderDetails['idProdotto'] as $product) {
-        $dbh->manageLowQuantity($product, $dbh->getProduct($product)[0]['quantitaDisponibile']);
+    foreach($orderDetails as $product) {
+        $dbh->manageLowQuantity($product['idProdotto'], $dbh->getProduct($product)[0]['quantitaDisponibile']);
     }
     
 }

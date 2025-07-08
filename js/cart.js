@@ -36,7 +36,7 @@ function generateMainContent(products) {
         label.textContent = 'Totale: ' + products['total'] + " €";
         
         const buyImage = document.createElement('img');
-        buyImage.src = utils.RESOURCES_DIR + 'ciamioncino_B.png';
+        buyImage.src = utils.RESOURCES_DIR + 'pay.png';
         buyImage.alt = '';
         
         const buyButton = document.createElement('button');
@@ -78,9 +78,9 @@ function generateInteractionForm(product) {
     
     const form = document.createElement('form');
 
-    const label = document.createElement('label');
-    label.setAttribute = 'quantity';
-    label.textContent = 'Quantità: ';
+    // const label = document.createElement('label');
+    // label.setAttribute = 'quantity';
+    // label.textContent = 'Quantità: ';
 
     const input = document.createElement('input');
     input.type = 'number';
@@ -112,7 +112,7 @@ function generateInteractionForm(product) {
     });
     favouriteButton.appendChild(favouriteImage);
     
-    form.appendChild(label);
+    // form.appendChild(label);
     form.appendChild(input);
     form.appendChild(removeButton);
     form.appendChild(favouriteButton);

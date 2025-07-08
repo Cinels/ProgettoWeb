@@ -71,7 +71,7 @@ create table NOTIFICA (
      letta char not null,
      idUtente varchar(40) not null,
      idOrdine int DEFAULT NULL,
-     idProdotto int DEFAULT NULL
+     idProdotto int DEFAULT NULL,
      constraint IDNOTIFICA primary key (idNotifica));
 
 create table ORDINE (

@@ -81,6 +81,17 @@ class DatabaseHelper {
         return false;
     }
 
+    public function editProfile($name, $surname, $old_password, $new_password, $image) {
+        $email = $_SESSION['user']['email'];
+        $pro_pic = $image ?? $_SESSION['user']['fotoProfilo'];
+        $encryptedPassword = hash('sha256', $new_password ?? $old_password);
+        $query = "UPDATE UTENTE SET nome = ?, cognome = ?, password = ?, fotoProfilo = ? WHERE email = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('sssss', $name, $surname, $encryptedPassword, $pro_pic, $email);
+        $stmt->execute();
+        return $this->checkLogin($email, $new_password ?? $old_password);
+    }
+
     public function logout() {
         $_SESSION["is_logged"] = false;
         $_SESSION["user"] = null;
@@ -576,12 +587,12 @@ class DatabaseHelper {
         $stmt->bind_param('ii', $product, $quantity);
         $stmt->execute();
         $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-        foreach($result['idCliente'] as $cliente) {
+        foreach($result as $cliente) {
             if ($quantity == 0) {
-                $this->moveToFavourites($product, $cliente);
+                $this->moveToFavourites($product, $cliente['idCliente']);
             } else {
                 $stmt = $this->db->prepare("UPDATE CARRELLO SET quantita = ? WHERE idProdotto = ? AND idCliente = ?");
-                $stmt->bind_param('iis', $quantity, $product, $cliente);
+                $stmt->bind_param('iis', $quantity, $product, $cliente['idCliente']);
                 $stmt->execute();
             }
             $query = "INSERT INTO NOTIFICA (tipo, testo, letta, idUtente, idProdotto) "
@@ -590,7 +601,7 @@ class DatabaseHelper {
             $type = 'CART_MOD';
             $zero = 0;
             $message = $quantity == 0 ? "Il prodotto ".$this->getProductName($product)." è attualmente non disponibile ed è stato aggiunto ai tuoi preferiti" : "La quantità disponibile del prodotto ".$this->getProductName($product)." non soddisfa le richieste del tuo carrello, la quantità nel carrello è stata diminuita";
-            $stmt->bind_param('ssisi', $type, $message, $zero, $cliente, $product);
+            $stmt->bind_param('ssisi', $type, $message, $zero, $cliente['idCliente'], $product);
             $stmt->execute();
         }
     }
@@ -606,7 +617,7 @@ class DatabaseHelper {
         return $result[0]["nome"];
     }
 
-    private function isEmailAvailable() {
+    private function isEmailAvailable($email) {
         $query = "SELECT email FROM UTENTE WHERE email = ?";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('s', $email);
