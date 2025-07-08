@@ -19,8 +19,11 @@ $result["results"] = $dbh->getProductsFromResearch($_GET["search"]);
 $result['user_type'] = $dbh->isLogged() ? $dbh->getUserType() : null;
 
 $favourites = array();
-foreach($dbh->getFavourites() as $product) {
-    array_push($favourites, $product['idProdotto']);
+$dbfav = $dbh->getFavourites();
+if($dbfav != NULL) {
+    foreach($dbfav as $product) {
+        array_push($favourites, $product['idProdotto']);
+    }
 }
 $result['favourites'] = $favourites;
 
