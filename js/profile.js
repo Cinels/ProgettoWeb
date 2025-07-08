@@ -96,8 +96,7 @@ function generateProfileSection(profile, user_type) {
 
 function generateNotificationSection(notifications) {
     // <section>
-    //     <img src="${utils.RESOURCES_DIR}campanella.png" alt=""/>
-    //     <h2>Notifiche</h2>
+    //     <h2><img src="${utils.RESOURCES_DIR}campanella.png" alt=""/>Notifiche</h2>
     //     <ul>
     //         for (let i = 0; i < notifications.length; i++) {
     //             const notification = notifications[i];
@@ -164,6 +163,7 @@ function generateNotificationSection(notifications) {
         ul.appendChild(li);
     }
 
+    section.appendChild(img);
     section.appendChild(h2);
     section.appendChild(ul);
 

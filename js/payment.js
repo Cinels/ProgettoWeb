@@ -108,22 +108,27 @@ function generateInteractionForm() {
     input3.maxLength = 3;
     input3.required = true;
 
-    const inputButotn = document.createElement('input');
-    inputButotn.type = 'submit';
-    inputButotn.value = 'Acquista ora';
+    const cancelImage = document.createElement('img');
+    cancelImage.src = utils.RESOURCES_DIR + 'x.png';
+    cancelImage.alt = '';
 
-    form.appendChild(p);
-    form.appendChild(label1);
-    form.appendChild(input1);
-    form.appendChild(document.createElement('br'));
-    form.appendChild(label2);
-    form.appendChild(input2);
-    form.appendChild(label3);
-    form.appendChild(input3);
-    form.appendChild(document.createElement('br'));
-    form.appendChild(inputButotn);
-
-    form.addEventListener('submit', async (event) => {
+    const cancelButton = document.createElement('button');
+    cancelButton.type = 'button';
+    cancelButton.textContent = 'Annulla';
+    cancelButton.appendChild(cancelImage);
+    cancelButton.addEventListener('click', (event) => {
+        event.preventDefault();
+        location.href = utils.PAGES_DIR + 'cart.php';
+    });
+    
+    const buyImage = document.createElement('img');
+    buyImage.src = utils.RESOURCES_DIR + 'pay.png';
+    buyImage.alt = '';
+    
+    const buyButton = document.createElement('button');
+    buyButton.textContent = 'Acquista ora';
+    buyButton.appendChild(buyImage);
+    buyButton.addEventListener('click', async (event) => {
         event.preventDefault();
         console.log('n_card: ' + input1.value + ', exp_date: ' + input2.value + ', ccv: ' + input3.value);
 
@@ -140,6 +145,36 @@ function generateInteractionForm() {
             generateMainContent(json);
         }
     });
+
+    form.appendChild(p);
+    form.appendChild(label1);
+    form.appendChild(input1);
+    form.appendChild(document.createElement('br'));
+    form.appendChild(label2);
+    form.appendChild(input2);
+    form.appendChild(label3);
+    form.appendChild(input3);
+    form.appendChild(document.createElement('br'));
+    form.appendChild(cancelButton);
+    form.appendChild(buyButton);
+
+    // form.addEventListener('submit', async (event) => {
+    //     event.preventDefault();
+    //     console.log('n_card: ' + input1.value + ', exp_date: ' + input2.value + ', ccv: ' + input3.value);
+
+    //     const formData = new FormData();
+    //     formData.append('card_number', input1.value);
+    //     formData.append('expire_date', input2.value);
+    //     formData.append('ccv', input3.value);
+    //     const json = await utils.makePostRequest(url, formData);
+    //     if (json['hasOrdered']) {
+    //         alert('Ordine effettuato');
+    //         location.href = utils.PAGES_DIR + 'orders.php';
+    //     } else {
+    //         document.querySelector('main form p').innerText = 'Errore durante il pagamento!';
+    //         generateMainContent(json);
+    //     }
+    // });
 
     return form;
 }
