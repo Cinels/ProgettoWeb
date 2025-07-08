@@ -134,7 +134,7 @@ function generateInteractionForm() {
         const json = await utils.makePostRequest(url, formData);
         if (json['hasOrdered']) {
             alert('Ordine effettuato');
-            document.location = utils.PAGES_DIR + 'orders.php';
+            location.href = utils.PAGES_DIR + 'orders.php';
         } else {
             document.querySelector('main form p').innerText = 'Errore durante il pagamento!';
             generateMainContent(json);
