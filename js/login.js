@@ -46,8 +46,8 @@ async function login(email, password) {
     const result = await utils.makePostRequest(url, formData);
     if(result["success"]) {
         document.querySelector("form > p").innerText = "";
-        location.href = document.referrer;
+        location.href = utils.PAGES_DIR + 'index.php';
     } else {
-        document.querySelector("form > p").innerText = json["message"];
+        document.querySelector("form > p").innerText = result["message"];
     }
 }

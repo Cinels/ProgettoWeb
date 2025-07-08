@@ -81,6 +81,17 @@ class DatabaseHelper {
         return false;
     }
 
+    public function editProfile($name, $surname, $old_password, $new_password, $image) {
+        $email = $_SESSION['user']['email'];
+        $pro_pic = $image ?? $_SESSION['user']['fotoProfilo'];
+        $encryptedPassword = hash('sha256', $new_password ?? $old_password);
+        $query = "UPDATE UTENTE SET nome = ?, cognome = ?, password = ?, fotoProfilo = ? WHERE email = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('sssss', $name, $surname, $encryptedPassword, $pro_pic, $email);
+        $stmt->execute();
+        return $this->checkLogin($email, $new_password ?? $old_password);
+    }
+
     public function logout() {
         $_SESSION["is_logged"] = false;
         $_SESSION["user"] = null;
@@ -581,7 +592,7 @@ class DatabaseHelper {
         return $result[0]["nome"];
     }
 
-    private function isEmailAvailable() {
+    private function isEmailAvailable($email) {
         $query = "SELECT email FROM UTENTE WHERE email = ?";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('s', $email);

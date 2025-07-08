@@ -64,7 +64,7 @@ function generateProfileSection(profile, user_type) {
     img.alt = 'Foto Profilo';
 
     const p1 = document.createElement('p');
-    p1.textContent = 'Nome: ' + profile['name'] + ' ' + profile['cognome'];
+    p1.textContent = 'Nome: ' + profile['nome'] + ' ' + profile['cognome'];
 
     const p2 = document.createElement('p');
     p2.textContent = 'Email: ' + profile['email'];

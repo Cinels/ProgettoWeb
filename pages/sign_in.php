@@ -1,30 +1,8 @@
 <?php
 require_once("../database/init.php");
 $templateParams["titolo"] = "Registrati";
-$templateParams["main_content"] = ["sign_in.php"];
-
-if(isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST["check_password"]) && isset($_POST["name"]) && isset($_POST["surname"]) && isset($_POST["terms"])) {
-    if(isset($_FILES["image"]) && $_FILES["image"]["name"] > 0) {
-        list($result, $img) = uploadImage(UPLOAD_DIR, $_FILES["image"]);
-    } else {
-        $result = 0;
-    }
-    if($_POST["password"] != $_POST["check_password"]) {
-        $templateParams["erroresignin"] = "Errore! Le password non coincidono";
-    } elseif($result != 0 && isset($_FILES["image"])) {
-        $signin = $dbh->signIn($_POST["name"], $_POST["surname"], $_POST["email"], $_POST["password"], $img);
-    } else {
-        $signin = $dbh->signIn($_POST["name"], $_POST["surname"], $_POST["email"], $_POST["password"], null);
-        $templateParams["erroresignin"] = $img;
-    }
-    if(isset($signin) && $signin) {
-        header('Location:'.PAGES_DIR."index.php");
-    } else if ($_POST["password"] == $_POST["check_password"]) {
-        $templateParams["erroresignin"] = "Errore! Email non disponibile, ".$_POST['email'];
-    }
-} else {
-    $templateParams["erroresignin"] = "Errore! Compilare tutti i campi";
-}
+// $templateParams["main_content"] = ["sign_in.php"];
+$templateParams['js'] = [JAVASCRIPT_DIR.'sign_in.js'];
 
 require("../template/base.php")
 ?>
