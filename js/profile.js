@@ -50,7 +50,7 @@ function generateMainContent(result) {
 
 function generateProfileSection(profile, user_type) {
     // <section>
-    //     <img src="${profile['foto_profilo'] ?? utils.RESOURCES_DIR + "header/utente.png"}" alt="Foto Profilo"/>
+    //     <img src="${profile['fotoProfilo'] ?? utils.RESOURCES_DIR + "header/utente.png"}" alt="Foto Profilo"/>
     //     <p>Nome: ${profile['nome']} ${profile['cognome']}</p>
     //     <p>Email: ${profile['email']}</p>
     //     <p>Tipo profilo: ${user_type}</p>
@@ -60,7 +60,7 @@ function generateProfileSection(profile, user_type) {
     const section = document.createElement('section');
     
     const img = document.createElement('img');
-    img.src = profile['foto_profilo'] ?? utils.RESOURCES_DIR + 'header/utente.png';
+    img.src = profile['fotoProfilo'] ?? utils.RESOURCES_DIR + 'header/utente.png';
     img.alt = 'Foto Profilo';
 
     const p1 = document.createElement('p');
