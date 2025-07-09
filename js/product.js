@@ -61,7 +61,7 @@ function generateProductSection(product, images) {
     mainImage.alt = "Immagine Prodotto";
     
     const article = document.createElement('article');
-    for(let i = 0; i < images.lenght; i++) {
+    for(let i = 0; i < images.length; i++) {
         const img = document.createElement('img');
         img.src = utils.DB_RESOURCES_DIR + images[i]['link'];
         img.alt = '';

@@ -1,10 +1,6 @@
-* {
-    background-color: black;
-    color: lightcyan;
-}
-
-header img {
-    max-width: 50px;
+body, main *, aside * {
+    /* background-color: black; */
+    /* color: lightcyan; */
 }
 
 img {
