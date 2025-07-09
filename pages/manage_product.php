@@ -39,7 +39,6 @@ if (isset($_POST['nome'], $_POST['prezzo'], $_POST['quantitaDisponibile'], $_POS
     header("Location:".PAGES_DIR."product.php?search=".$id);
 }
 
-
-$templateParams['css'] = [CSS_DIR."style.css"];
+$templateParams['css'] = [CSS_DIR."base.css", CSS_DIR."style.css"];
 require("../template/base.php")
 ?>
