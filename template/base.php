@@ -22,7 +22,6 @@
             <?php endif; ?>
             <a href="<?php echo PAGES_DIR ?>orders.php"><img src="<?php echo RESOURCES_DIR ?>header/ciamioncino.png" alt="Ordini"/></a>
             <a href="<?php echo PAGES_DIR ?>profile.php"><img src="<?php echo ($dbh->getProfileImage() !== null ? DB_RESOURCES_DIR.$dbh->getProfileImage() : RESOURCES_DIR."header/utente.png") ?>" alt="Profilo"/></a>
-            <a href="<?php echo $dbh->getProfileImage() ?>"></a>
         </header>
 
         <main>
