@@ -40,6 +40,6 @@ if (isset($_POST['nome'], $_POST['prezzo'], $_POST['quantitaDisponibile'], $_POS
 }
 
 
-
+$templateParams['css'] = [CSS_DIR."style.css"];
 require("../template/base.php")
 ?>

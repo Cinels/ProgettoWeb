@@ -1,10 +1,6 @@
-* {
-    background-color: black;
-    color: lightcyan;
-}
-
-header img {
-    max-width: 50px;
+body, main *, aside * {
+    /* background-color: black; */
+    /* color: lightcyan; */
 }
 
 img {
@@ -13,4 +9,8 @@ img {
 
 label > img, span > a > img {
     max-width: 20px;
+}
+
+aside img {
+    max-width: 150px;
 }
