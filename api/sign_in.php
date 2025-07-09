@@ -7,7 +7,7 @@ $result['signin'] = '';
 if(isset($_GET['action']) && $_GET['action'] === 'edit') {
     if(isset($_POST["old_password"]) && isset($_POST["name"]) && isset($_POST["surname"])) {
         if(isset($_FILES["image"]) && $_FILES["image"]["name"] > 0) {
-            list($res, $img) = uploadImage(UPLOAD_DIR, $_FILES["image"]);
+            list($res, $img) = uploadImage("Utenti/", $_FILES["image"]);
         } else {
             $res = 0;
         }
@@ -31,7 +31,7 @@ if(isset($_GET['action']) && $_GET['action'] === 'edit') {
 } else {
     if(isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST["check_password"]) && isset($_POST["name"]) && isset($_POST["surname"])) {
         if(isset($_FILES["image"]) && $_FILES["image"]["name"] > 0) {
-            list($res, $img) = uploadImage(UPLOAD_DIR, $_FILES["image"]);
+            list($res, $img) = uploadImage("Utenti/", $_FILES["image"]);
         } else {
             $res = 0;
         }

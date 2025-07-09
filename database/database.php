@@ -50,7 +50,7 @@ class DatabaseHelper {
         if (count($data) == 1) {
             $_SESSION["is_logged"] = true;
             $_SESSION["user"] = $data[0];
-            if (!isset($_SESSION["user"]['fotoProfilo']) || !file_exists($_SESSION["user"]['fotoProfilo'])) {
+            if (!isset($_SESSION["user"]['fotoProfilo']) && !file_exists("../resources/database_img/".$_SESSION["user"]['fotoProfilo'])) {
                 $_SESSION["user"]['fotoProfilo'] = null;
             }
             if($this->isClientProfile($email)) {
@@ -468,21 +468,36 @@ class DatabaseHelper {
         }
     }
 
-    public function updateProduct($id, $nome, $prezzo, $quantita, $descrizione, $proprieta, $offerta, $tipo) {
+    public function updateProduct($id, $nome, $prezzo, $quantita, $descrizione, $proprieta, $offerta, $piattaforma) {
         if ($this->isLogged() && $this->getUserType() == "vendor") {
-            $query = "UPDATE PRODOTTO SET nome = ?, prezzo = ?, quantitaDisponibile = ?, descrizione = ?, proprieta = ?, tipo = ? WHERE idProdotto = ?";
+            $query = "UPDATE PRODOTTO SET nome = ?, prezzo = ?, quantitaDisponibile = ?, descrizione = ?, proprieta = ?, offerta = ? WHERE idProdotto = ?";
             $stmt = $this->db->prepare($query);
-            $stmt->bind_param('sdissiii', $nome, $prezzo, $quantita, $descrizione, $proprieta, $offerta, $tipo, $id);
+            $stmt->bind_param('sdissii', $nome, $prezzo, $quantita, $descrizione, $proprieta, $offerta, $id);
+            $stmt->execute();
+            $query = "UPDATE COMPATIBILITA SET idPiattaforma = ? WHERE idProdotto = ?";
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('ii', $piattaforma, $id);
             $stmt->execute();
         }
     }
 
-    public function insertProduct($nome, $prezzo, $quantita, $descrizione, $proprieta, $offerta, $tipo) {
+    public function insertProduct($nome, $prezzo, $quantita, $descrizione, $proprieta, $offerta, $tipo, $piattaforma, $immagine) {
         if ($this->isLogged() && $this->getUserType() == "vendor") {
-            $query = "INSERT INTO PRODOTTO VALUE (?, ?, ?, ?, ?, ?, ?, ?)";
+            $query = "INSERT INTO PRODOTTO (nome, prezzo, quantitaDisponibile, descrizione, proprieta, offerta, tipo, idVenditore) VALUE (?, ?, ?, ?, ?, ?, ?, ?)";
             $stmt = $this->db->prepare($query);
+            $placeholder = 1;
             $stmt->bind_param('sdissiis', $nome, $prezzo, $quantita, $descrizione, $proprieta, $offerta, $tipo, $_SESSION["user"]['email']);
             $stmt->execute();
+            $id = $stmt->insert_id;
+            $query = "INSERT INTO COMPATIBILITA VALUES (?, ?)";
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('ii', $id, $piattaforma);
+            $stmt->execute();
+            $query = "INSERT INTO IMMAGINE VALUES (?, ?, ?, ?)";
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('siis', $nome, $id, $placeholder, $immagine);
+            $stmt->execute();
+            return $id;
         }
     }
     
@@ -613,7 +628,6 @@ class DatabaseHelper {
         $stmt->execute();
         $result = $stmt->get_result();
         $result = $result->fetch_all(MYSQLI_ASSOC);
-        var_dump($result);
         return $result[0]["nome"];
     }
 
@@ -633,6 +647,14 @@ class DatabaseHelper {
         $stmt->execute();
         $result = $stmt->get_result();
         return count($result->fetch_all(MYSQLI_ASSOC)) == 1;
+    }
+
+    private function getLastInsertedId() {
+        $query = "SELECT LAST_INSERT_ID() as id";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC)[0]['id'];
     }
 }
 ?>
