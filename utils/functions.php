@@ -8,8 +8,7 @@ function checkLogin($dbh) {
 
 function uploadImage($path, $image){
     $imageName = basename($image["name"]);
-    $fullPath = $path.$imageName;
-    
+    $fullPath = DB_RESOURCES_DIR.$path.$imageName;
     $maxKB = 5000;
     $acceptedExtensions = array("jpg", "jpeg", "png", "gif");
     $result = 0;
@@ -38,7 +37,7 @@ function uploadImage($path, $image){
             $imageName = pathinfo(basename($image["name"]), PATHINFO_FILENAME)."_$i.".$imageFileType;
         }
         while(file_exists($path.$imageName));
-        $fullPath = $path.$imageName;
+        $fullPath = DB_RESOURCES_DIR.$path.$imageName;
     }
 
     //Se non ci sono errori, sposto il file dalla posizione temporanea alla cartella di destinazione
@@ -48,9 +47,27 @@ function uploadImage($path, $image){
         }
         else{
             $result = 1;
-            $msg = UPLOAD_DIR.$imageName;
+            $msg = $path.$imageName;
         }
     }
     return array($result, $msg);
+}
+
+function getProductImagePath($type) {
+    switch ($type) {
+        case 1:
+            return 'Console/';
+            break;
+        case 2:
+            return 'Controller/';
+            break;
+        case 3:
+            return 'Videogiochi/';
+            break;
+        
+        default:
+            return '/';
+            break;
+    }
 }
 ?>
