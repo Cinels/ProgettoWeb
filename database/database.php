@@ -171,7 +171,7 @@ class DatabaseHelper {
     }
 
     public function getProductImages($id) {
-        $query = "SELECT numeroProgressivo, link FROM IMMAGINE WHERE idProdotto = ?";
+        $query = "SELECT numeroProgressivo, link FROM IMMAGINE WHERE idProdotto = ? ORDER BY numeroProgressivo";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('i', $id);
         $stmt->execute();
@@ -459,7 +459,7 @@ class DatabaseHelper {
 
     public function getProductForUpdate($id) {
         if ($this->isLogged() && $this->getUserType() == "vendor") {
-            $query = "SELECT nome, prezzo, quantitaDisponibile, descrizione, proprieta, offerta, tipo FROM PRODOTTO WHERE idProdotto = ?";
+            $query = "SELECT nome, prezzo, quantitaDisponibile, descrizione, proprieta, offerta, tipo, idPiattaforma FROM PRODOTTO P, COMPATIBILITA C WHERE C.idProdotto = P.idProdotto AND P.idProdotto = ?";
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('i', $id);
             $stmt->execute();
@@ -481,11 +481,12 @@ class DatabaseHelper {
         }
     }
 
-    public function insertProduct($nome, $prezzo, $quantita, $descrizione, $proprieta, $offerta, $tipo, $piattaforma, $immagine) {
+    public function insertProduct($nome, $prezzo, $quantita, $descrizione, $proprieta, $offerta, $tipo, $piattaforma, $immagine1, $immagine2) {
         if ($this->isLogged() && $this->getUserType() == "vendor") {
-            $query = "INSERT INTO PRODOTTO (nome, prezzo, quantitaDisponibile, descrizione, proprieta, offerta, tipo, idVenditore) VALUE (?, ?, ?, ?, ?, ?, ?, ?)";
+            $query = "INSERT INTO PRODOTTO (nome, prezzo, quantitaDisponibile, descrizione, proprieta, offerta, tipo, idVenditore) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             $stmt = $this->db->prepare($query);
-            $placeholder = 1;
+            $uno = 1;
+            $due = 2;
             $stmt->bind_param('sdissiis', $nome, $prezzo, $quantita, $descrizione, $proprieta, $offerta, $tipo, $_SESSION["user"]['email']);
             $stmt->execute();
             $id = $stmt->insert_id;
@@ -493,9 +494,13 @@ class DatabaseHelper {
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('ii', $id, $piattaforma);
             $stmt->execute();
-            $query = "INSERT INTO IMMAGINE VALUES (?, ?, ?, ?)";
+            $query = "INSERT INTO IMMAGINE VALUES (?, ?, ?, ?), (?, ?, ?, ?)";
             $stmt = $this->db->prepare($query);
-            $stmt->bind_param('siis', $nome, $id, $placeholder, $immagine);
+            $nomeimg1=$nome.'_1';
+            $nomeimg2=$nome.'_2';
+            var_dump($immagine1);
+            var_dump($immagine2);
+            $stmt->bind_param('siissiis', $nomeimg1, $id, $uno, $immagine1, $nomeimg2, $id, $due, $immagine2);
             $stmt->execute();
             return $id;
         }
@@ -619,6 +624,13 @@ class DatabaseHelper {
             $stmt->bind_param('ssisi', $type, $message, $zero, $cliente['idCliente'], $product);
             $stmt->execute();
         }
+    }
+
+    public function updateImage($product, $n, $link) {
+        $query = "UPDATE IMMAGINE SET link = ? WHERE idProdotto = ? AND numeroProgressivo = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('sii', $link, $product, $n);
+        $stmt->execute();
     }
 
     private function getProductName($product) {

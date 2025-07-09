@@ -11,7 +11,11 @@
   <label for="prezzo">Prezzo (€):</label><br>
   <input type="number" id="prezzo" name="prezzo" step="0.01" min="0" max="9999.99" value ="<?php echo $templateParams["product"]["prezzo"] ?? "" ?>" required><br><br>
 
-  <input type="file" name="image" accept="image/*"/><br><br>
+  <label for="image1">Immagine 1:<img src="<?php echo (isset($templateParams['id'])) ? DB_RESOURCES_DIR.$templateParams['images'][0]['link'] : ""?>" /></label><br>
+  <input type="file" name="image1" id="image1" accept="image/*" <?php echo (!isset($templateParams['id']) ? "required" : "") ?>/><br><br>
+
+  <label for="image2">Immagine 2:<img src="<?php echo (isset($templateParams['id'])) ? DB_RESOURCES_DIR.$templateParams['images'][1]['link'] : ""?>" /></label><br>
+  <input type="file" name="image2" id="image2" accept="image/*"/><br><br>
 
   <label for="quantita">Quantità Disponibile:</label><br>
   <input type="number" id="quantita" name="quantitaDisponibile" min="0" value ="<?php echo $templateParams["product"]["quantitaDisponibile"] ?? "" ?>" required><br><br>
@@ -36,9 +40,9 @@
   <label for="piattaforma">Piattaforma :</label><br>
   <select id="piattaforma" name="piattaforma" required>
     <option value="">-- Seleziona un piattaforma --</option>
-    <option value="1" <?php echo $templateParams["product"]["piattaforma"] == 1 ? "selected" : "" ?>>Nintendo</option>
-    <option value="2" <?php echo $templateParams["product"]["piattaforma"] == 2 ? "selected" : "" ?>>Sony</option>
-    <option value="3" <?php echo $templateParams["product"]["piattaforma"] == 3 ? "selected" : "" ?>>Microsoft</option>
+    <option value="1" <?php echo $templateParams["product"]["idPiattaforma"] == 1 ? "selected" : "" ?>>Nintendo</option>
+    <option value="2" <?php echo $templateParams["product"]["idPiattaforma"] == 2 ? "selected" : "" ?>>Sony</option>
+    <option value="3" <?php echo $templateParams["product"]["idPiattaforma"] == 3 ? "selected" : "" ?>>Microsoft</option>
   </select><br><br>
 
   <button type="submit"><?php echo $templateParams["h2"] ?></button>
