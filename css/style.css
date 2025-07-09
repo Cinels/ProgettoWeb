@@ -1,16 +1,7 @@
-main *, aside * {
-    background-color: black;
-    color: lightcyan;
-}
-
 img {
     max-width: 500px;
 }
 
 label > img, span > a > img {
     max-width: 20px;
-}
-
-aside img {
-    max-height: 200px;
 }
