@@ -14,3 +14,7 @@ img {
 label > img, span > a > img {
     max-width: 20px;
 }
+
+aside img {
+    max-width: 150px;
+}

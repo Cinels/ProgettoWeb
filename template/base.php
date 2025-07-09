@@ -2,7 +2,12 @@
 <html lang="it">
     <head>
         <title><?php echo $templateParams["titolo"]; ?></title>
-        <link rel="stylesheet" type="text/css" href="../css/style.css" />
+
+        <?php if(isset($templateParams["css"])): 
+            foreach($templateParams["css"] as $script): ?>
+                <link rel="stylesheet" type="text/css" href="<?php echo $script; ?>" />
+            <?php endforeach;
+        endif; ?>
     </head>
     <body>
         <header>
