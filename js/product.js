@@ -261,7 +261,8 @@ async function cartButtonListener(quantity, event) {
     
     const formData = new FormData();
     formData.append('cart', quantity);
-    generateMainContent(await utils.makePostRequest(url, formData));
+    const result = await utils.makePostRequest(url, formData);
+    isClient(result);
 }
 
 async function favouriteButtonListener(action, event) {
@@ -270,7 +271,8 @@ async function favouriteButtonListener(action, event) {
 
     const formData = new FormData();
     formData.append('favourite', action);
-    generateMainContent(await utils.makePostRequest(url, formData));
+    const result = await utils.makePostRequest(url, formData);
+    isClient(result);
 }
 
 async function reviewButtonListener(action, vote, description, event) {
@@ -282,7 +284,8 @@ async function reviewButtonListener(action, vote, description, event) {
         formData.append('vote', vote);
         formData.append('review', action);
         formData.append('description', description);
-        generateMainContent(await utils.makePostRequest(url, formData));
+        const result = await utils.makePostRequest(url, formData);
+        isClient(result);
     }
 }
 
@@ -292,4 +295,12 @@ async function reviewNumberListener(action, event) {
 
     const formData = new FormData();
     generateMainContent(await utils.makePostRequest(url + '&more_rev=' + action, formData));
+}
+
+function isClient(result) {
+    if (result['logged'] === 'client') {
+        generateMainContent(result);
+    } else {
+        location.href = utils.PAGES_DIR + (result['logged'] === 'vendor') ? 'profile.php' : 'login.php' ;
+    }
 }

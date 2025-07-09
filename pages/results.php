@@ -1,7 +1,6 @@
 <?php
 require_once("../database/init.php");
 $templateParams["titolo"] = "Risultati";
-// $templateParams["main_content"] = ["results.php"];
 $templateParams['js'] = [JAVASCRIPT_DIR.'results.js'];
 
 if(!isset($_GET["search"])) {

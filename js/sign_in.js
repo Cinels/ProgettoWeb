@@ -32,10 +32,7 @@ function generateSignInContent(result) {
                     <label for="password">Password:</label><input type="password" id="password" name="password" required/>
                 </li><li>
                     <label for="check_password">Conferma Password:</label><input type="password" id="check_password" name="check_password" required/>
-                </li>`/*<li>
-                    <input type="checkbox" id="terms" name="terms" value="accept" required/>
-                    <label for="terms">Accetto <a href=#>i termini e le condizioni</a></label>
-                </li>*/ + `<li>
+                </li><li>
                     <input type="submit" name="submit" value="Registrati" />
                 </li><li>
                     <p>o</p>

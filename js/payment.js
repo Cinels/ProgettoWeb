@@ -159,23 +159,5 @@ function generateInteractionForm() {
     form.appendChild(cancelButton);
     form.appendChild(buyButton);
 
-    // form.addEventListener('submit', async (event) => {
-    //     event.preventDefault();
-    //     console.log('n_card: ' + input1.value + ', exp_date: ' + input2.value + ', ccv: ' + input3.value);
-
-    //     const formData = new FormData();
-    //     formData.append('card_number', input1.value);
-    //     formData.append('expire_date', input2.value);
-    //     formData.append('ccv', input3.value);
-    //     const json = await utils.makePostRequest(url, formData);
-    //     if (json['hasOrdered']) {
-    //         alert('Ordine effettuato');
-    //         location.href = utils.PAGES_DIR + 'orders.php';
-    //     } else {
-    //         document.querySelector('main form p').innerText = 'Errore durante il pagamento!';
-    //         generateMainContent(json);
-    //     }
-    // });
-
     return form;
 }

@@ -42,29 +42,29 @@ function generateMainContent(products) {
         const buyButton = document.createElement('button');
         buyButton.textContent = 'Acquista';
         buyButton.addEventListener('click', (event) => {
-        event.preventDefault();
-        if (products['result'].length > 0) {
-            document.location = utils.PAGES_DIR + 'payment.php';
+            event.preventDefault();
+            if (products['result'].length > 0) {
+                document.location = utils.PAGES_DIR + 'payment.php';
+            }
+        });
+        buyButton.appendChild(buyImage);
+        
+        form.appendChild(label);
+        form.appendChild(buyButton);
+        
+        const ul = document.createElement('ul');
+        
+        for (let i = 0; i < products['result'].length; i++) {
+            const product = products['result'][i];
+            const li = document.createElement('li');        
+            li.appendChild(utils.generateProductSection(product));
+            li.appendChild(generateInteractionForm(product));
+            ul.appendChild(li);
         }
-    });
-    buyButton.appendChild(buyImage);
-    
-    form.appendChild(label);
-    form.appendChild(buyButton);
-    
-    const ul = document.createElement('ul');
-    
-    for (let i = 0; i < products['result'].length; i++) {
-        const product = products['result'][i];
-        const li = document.createElement('li');        
-        li.appendChild(utils.generateProductSection(product));
-        li.appendChild(generateInteractionForm(product));
-        ul.appendChild(li);
+        
+        section.appendChild(form);
+        section.appendChild(ul);
     }
-    
-    section.appendChild(form);
-    section.appendChild(ul);
-}
     document.querySelector('main').appendChild(section);
 }
 
