@@ -1,4 +1,7 @@
 <?php
+//ini_set('display_errors', 1);
+//ini_set('display_startup_errors', 1);
+//error_reporting(E_ALL);
 class DatabaseHelper {
     private $db;
     
@@ -461,6 +464,15 @@ class DatabaseHelper {
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('ii', $new_state, $id);
             $stmt->execute();
+            $query = "INSERT INTO NOTIFICA (tipo, testo, letta, idUtente, idOrdine) "
+                ."VALUES (?, ?, ?, ?, ?)";
+            $stmt = $this->db->prepare($query);
+            $type = 'ORD_UPD';
+            $zero = 0;
+            $client = $this->getClientByOrder($id);
+            $message = "Il tuo ordine N°".$id." è stato aggiornato, controlla nella pagina dei tuoi ordini";
+            $stmt->bind_param('ssisi', $type, $message, $zero, $client, $id);
+            $stmt->execute();
         }
     }
 
@@ -641,14 +653,14 @@ class DatabaseHelper {
         $stmt->execute();
     }
 
-    public function removeProduct($product) {
-        $query = "UPDATE PRODOTTO SET quantitaDisponibile = ? WHERE idProdotto = ?";
-        $zero = 0;
-        $stmt = $this->db->prepare($query);
-        $stmt->bind_param('ii', $zero, $product);
-        $stmt->execute();
-        $this->manageLowQuantity($product, 0);
-    }
+    //public function removeProduct($product) {
+    //    $query = "UPDATE PRODOTTO SET quantitaDisponibile = ? WHERE idProdotto = ?";
+    //    $zero = 0;
+    //    $stmt = $this->db->prepare($query);
+    //    $stmt->bind_param('ii', $zero, $product);
+    //    $stmt->execute();
+    //    $this->manageLowQuantity($product, 0);
+    //}
 
     private function getProductName($product) {
         $query = "SELECT nome FROM PRODOTTO WHERE idProdotto = ?";
@@ -678,12 +690,13 @@ class DatabaseHelper {
         return count($result->fetch_all(MYSQLI_ASSOC)) == 1;
     }
 
-    private function getLastInsertedId() {
-        $query = "SELECT LAST_INSERT_ID() as id";
+    private function getClientByOrder($order) {
+        $query = "SELECT idCliente FROM ORDINE WHERE idOrdine = ?";
         $stmt = $this->db->prepare($query);
+        $stmt->bind_param('i', $order);
         $stmt->execute();
         $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC)[0]['id'];
+        return $result->fetch_all(MYSQLI_ASSOC)[0]['idCliente'];
     }
 }
 ?>
