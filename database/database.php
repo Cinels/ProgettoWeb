@@ -439,7 +439,13 @@ class DatabaseHelper {
 
     public function getVendorProducts() {
         if ($this->isLogged() && $this->getUserType() == "vendor") {
-            $query = "SELECT nome, prezzo, offerta, ROUND(prezzo - prezzo*(offerta/100), 2) AS prezzoScontato, link FROM PRODOTTO P, IMMAGINE I WHERE P.idProdotto = I.idProdotto AND idVenditore = ? AND numeroProgressivo = 1";
+            $query = "SELECT P.idProdotto, P.nome, prezzo, offerta, P.descrizione, quantitaDisponibile, I.link, ROUND(prezzo - prezzo*(offerta/100), 2) AS prezzoScontato, "
+                    ."ROUND(COALESCE(AVG(voto), 0), 1) as media_recensioni, count(voto) as num_recensioni "
+                    ."FROM VENDITORE V JOIN PRODOTTO P ON P.idVenditore = V.email "
+                    ."JOIN IMMAGINE I ON P.idProdotto = I.idProdotto "
+                    ."LEFT JOIN RECENSIONE R ON P.idProdotto = R.idProdotto "
+                    ."WHERE I.numeroProgressivo = 1 AND V.email = ? "
+                    ."GROUP BY P.idProdotto, P.nome, prezzo, offerta, P.descrizione, quantitaDisponibile, I.link";
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('s', $_SESSION["user"]['email']);
             $stmt->execute();
@@ -631,6 +637,10 @@ class DatabaseHelper {
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('sii', $link, $product, $n);
         $stmt->execute();
+    }
+
+    public function removeProduct($product) {
+        
     }
 
     private function getProductName($product) {
