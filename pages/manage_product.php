@@ -6,12 +6,12 @@ $templateParams["main_content"] = ["user/manage_product.php"];
 $templateParams["product"]["idPiattaforma"] = null;
 $templateParams["product"]["tipo"] = null;
 
-if (isset($_GET['product'])) {
-    $templateParams["product"] = $dbh->getProductForUpdate($_GET['product'])[0];
+if (isset($_GET['id'])) {
+    $templateParams["product"] = $dbh->getProductForUpdate($_GET['id'])[0];
     $templateParams["titolo"] = "Aggiorna Prodotto";
     $templateParams["h2"] = "Aggiorna prodotto";
-    $templateParams["id"] = $_GET['product'];
-    $templateParams["images"] = $dbh->getProductImages($_GET['product']);
+    $templateParams["id"] = $_GET['id'];
+    $templateParams["images"] = $dbh->getProductImages($_GET['id']);
 }
 
 // if(isset($_FILES["image"]) && $_FILES["image"]["name"] > 0) {
