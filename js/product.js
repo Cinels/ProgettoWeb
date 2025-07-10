@@ -144,11 +144,12 @@ function generateInteractionForm(idProduct, isFavourite, user_type) {
         form.appendChild(editButton);
     } else {
         const label = document.createElement('label');
-        label.setAttribute = 'quantity';
+        label.setAttribute('for', 'quantity');
         label.textContent = 'Quantità';
 
         const input = document.createElement('input');
         input.type = 'number';
+        input.id = 'quantity';
         input.min = 0;
         input.value = 1;
 

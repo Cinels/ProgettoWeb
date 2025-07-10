@@ -31,9 +31,8 @@ function generateMainContent(products) {
 
         const form = document.createElement('form');
         
-        const label = document.createElement('label');
-        label.setAttribute = 'buy';
-        label.textContent = 'Totale: ' + products['total'] + " €";
+        const h3 = document.createElement('h3');
+        h3.textContent = 'Totale: ' + products['total'] + " €";
         
         const buyImage = document.createElement('img');
         buyImage.src = utils.RESOURCES_DIR + 'pay.png';
@@ -49,7 +48,7 @@ function generateMainContent(products) {
         });
         buyButton.appendChild(buyImage);
         
-        form.appendChild(label);
+        form.appendChild(h3);
         form.appendChild(buyButton);
         
         const ul = document.createElement('ul');
@@ -70,17 +69,12 @@ function generateMainContent(products) {
 
 function generateInteractionForm(product) {
     // <form action="">
-    //     <label for="quantity">Quantità: </label>
     //     <input type="number" id="quantity" name="quantity" min="0" value="${product["quantita"]}">;
     //     <button type='submit' name='remove'>Rimuovi<img src="${paths.RESOURCES_DIR}cestino_B.png" alt="" name='remove'></button>
     //     <button type='submit' name='favourite'>Sposta nei Preferiti<img src="${paths.RESOURCES_DIR}cuore_B.png" alt="" name='favourite'></button>
     // </form>
     
     const form = document.createElement('form');
-
-    // const label = document.createElement('label');
-    // label.setAttribute = 'quantity';
-    // label.textContent = 'Quantità: ';
 
     const input = document.createElement('input');
     input.type = 'number';
