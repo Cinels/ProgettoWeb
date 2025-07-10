@@ -99,7 +99,7 @@ class DatabaseHelper {
 
     public function getNotifications() { //manca la data e l'ora
         if ($this->isLogged()) {
-            $query = "SELECT idNotifica, tipo, testo, letta FROM NOTIFICA WHERE idUtente = ?";
+            $query = "SELECT idNotifica, tipo, testo, letta FROM NOTIFICA WHERE idUtente = ? ORDER BY idNotifica DESC";
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('s', $_SESSION["user"]['email']);
             $stmt->execute();
@@ -180,12 +180,10 @@ class DatabaseHelper {
     }
 
     public function addToFavourites($idProdotto, $idCliente) {
-        if ($this->isLogged() && $this->getUserType()=="client") {
             $query = "INSERT INTO LISTA_PREFERITI (idCliente, idProdotto) VALUE (?, ?)";
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('si', $idCliente, $idProdotto);
             $stmt->execute();
-        }
     }
 
     public function removeFromFavourites($idProdotto) {
@@ -219,12 +217,10 @@ class DatabaseHelper {
     }
 
     public function removeFromCart($idProdotto, $idCliente) {
-        if ($this->isLogged() && $this->getUserType()=="client") {
             $query = "DELETE FROM CARRELLO WHERE idProdotto = ? AND idCliente = ?";
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('is', $idProdotto, $idCliente);
             $stmt->execute();
-        }
     }
      
     public function removeOneFromCart($idProdotto) {
@@ -264,10 +260,10 @@ class DatabaseHelper {
     }
 
     public function moveToFavourites($idProdotto, $idCliente) {
-        if ($this->isLogged() && $this->getUserType()=="client") {
+            var_dump("p: ". $idProdotto);
+            var_dump("c: ". $idCliente);
             $this->removeFromCart($idProdotto, $idCliente);
             $this->addToFavourites($idProdotto, $idCliente);
-        }
     }
 
     public function getProductsOnSale($n) {
@@ -489,6 +485,7 @@ class DatabaseHelper {
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('ii', $piattaforma, $id);
             $stmt->execute();
+            $this->manageLowQuantity($id, $quantita);
         }
     }
 
@@ -645,7 +642,12 @@ class DatabaseHelper {
     }
 
     public function removeProduct($product) {
-
+        $query = "UPDATE PRODOTTO SET quantitaDisponibile = ? WHERE idProdotto = ?";
+        $zero = 0;
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('ii', $zero, $product);
+        $stmt->execute();
+        $this->manageLowQuantity($product, 0);
     }
 
     private function getProductName($product) {
