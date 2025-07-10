@@ -345,8 +345,13 @@ class DatabaseHelper {
     }
 
     public function getOrders() {
-        if ($this->isLogged() && $this->getUserType()=="client") {
-            $query = "SELECT idOrdine, dataOrdine, statoOrdine, dataArrivoPrevista, idVenditore, costoTotale FROM ORDINE WHERE idCliente = ? ORDER BY idOrdine DESC";
+        if ($this->isLogged()) {
+            $query = "SELECT idOrdine, dataOrdine, statoOrdine, dataArrivoPrevista, costoTotale, ";
+            if($this->getUserType()=="client") {
+                $query = $query."idVenditore as idP FROM ORDINE WHERE idCliente = ? ORDER BY idOrdine DESC";
+            } elseif ($this->getUserType()=="vendor") {
+                $query = $query."idCliente as idP FROM ORDINE WHERE idVenditore = ? ORDER BY idOrdine DESC";
+            }
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('s', $_SESSION["user"]['email']);
             $stmt->execute();
@@ -640,7 +645,7 @@ class DatabaseHelper {
     }
 
     public function removeProduct($product) {
-        
+
     }
 
     private function getProductName($product) {

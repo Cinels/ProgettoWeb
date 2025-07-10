@@ -26,6 +26,7 @@ function generateMainContent(result) {
             <ul>`;
     for (let i = 0; i < orders.length; i++) {
         const order = orders[i];
+        console.log(order);
         const details = result['details'][order['idOrdine']];
         content += `
                 <li>
@@ -34,17 +35,17 @@ function generateMainContent(result) {
                     <p>Data ordine: ${order['dataOrdine']}</p>
                     <p>Stato ordine: ${result['order_state'][order['statoOrdine']]}</p>
                     <p>Consegna prevista: ${order['dataArrivoPrevista']}</p>
-                    <p>Venditore: ${order['idVenditore']}</p>
+                    <p>${result['type']}: ${order['idP']}</p>
 
                     <ul>`;
         for (let j = 0; j < details.length; j++) {
             const detail = details[j];
             content += `<li>
-                            <a href="${utils.PAGES_DIR}product.php?search=${detail["idProdotto"]}">
+                            <a href="${utils.PAGES_DIR}product.php?${detail["idProdotto"]}">
                                 <img src="${utils.DB_RESOURCES_DIR}${detail['link']}" alt="Immagine Prodotto"/><br/>
                                 <p>${detail["nome"]}</p><br/>`;
             if (detail['offerta'] > 0) {
-                content += `    <ins>${detail["offerta"]}% ${detail['prezzoScontato']}</ins> <del>${detail["prezzo"]}</del> €`;
+                content += `    <ins>${detail["offerta"]}% ${detail['prezzoScontato']}</ins> <del>${detail["prezzo"]}</del> €"`;
             } else {
                 content += `    <p>${detail["prezzo"]} €</p>`;
             }

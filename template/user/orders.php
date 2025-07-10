@@ -1,4 +1,5 @@
 <section>
+    <!-- <?php //echo $templateParams['order_state'][$result["statoOrdine"]-1]?> !-->
     <h2>Ordini</h2>
     <ul>
         <?php if(isset($templateParams["results"]) && count($templateParams["results"]) > 0):
@@ -8,7 +9,17 @@
                     <p>N° Ordine: <?php echo $result["idOrdine"] ?></p>
                     <p>Totale: <?php echo $result["costoTotale"].'€' ?></p>
                     <p>Data ordine: <?php echo strftime("%A %d %B", time()); ?></p>
-                    <p>Stato ordine: <?php echo $templateParams['order_state'][$result["statoOrdine"]-1] ?></p>
+                    <p>Stato ordine: <!-- Da qua !--> <form action="#" method="POST">
+                        <input type="hidden" name="id" value="<?php echo $result["idOrdine"] ?>">
+                <select id="stato" name="stato" required>
+    <option value="1" <?php echo $result["statoOrdine"] == 1 ? "selected" : "" ?>><?php echo $templateParams['order_state'][0] ?></option>
+    <option value="2" <?php echo $result["statoOrdine"] == 2 ? "selected" : "" ?>><?php echo $templateParams['order_state'][1] ?></option>
+    <option value="3" <?php echo $result["statoOrdine"] == 3 ? "selected" : "" ?>><?php echo $templateParams['order_state'][2] ?></option>
+    <option value="4" <?php echo $result["statoOrdine"] == 4 ? "selected" : "" ?>><?php echo $templateParams['order_state'][3] ?></option>
+  </select>
+            </form> <!-- A qua !--> 
+                    </p>
+
                     <p>Consegna: <?php echo strftime("%A %d %B", strtotime('+1 day', time())); ?></p>
                     <p>Venditore: <?php echo $result["idVenditore"] ?></p>
 
