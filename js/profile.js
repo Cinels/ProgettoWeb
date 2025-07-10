@@ -9,10 +9,10 @@ async function displayMainContent() {
 function generateMainContent(result) {
     // <section>
     //     <section>Profilo</section>
-    //     <section>Notifiche</section>
     //     <form action="" method="POST">
     //         <button type="submit" name="logout" value="Esci">Esci<img src="${utils.RESOURCES_DIR}exit.png" alt=""/></button>
     //     </form>
+    //     <section>Notifiche</section>
     // </section>
 
     document.querySelector('main').innerHTML = "";
@@ -42,8 +42,8 @@ function generateMainContent(result) {
     button.appendChild(img);
 
     section.appendChild(generateProfileSection(result['user'], result['user_type']));
-    section.appendChild(generateNotificationSection(result['notifications']));
     section.appendChild(button);
+    section.appendChild(generateNotificationSection(result['notifications']));
     
     document.querySelector('main').appendChild(section);
 }
