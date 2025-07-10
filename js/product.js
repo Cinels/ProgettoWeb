@@ -22,7 +22,7 @@ function generateMainContent(result) {
     const section = document.createElement('section');
 
     section.appendChild(generateProductSection(product, result['images']));
-    section.appendChild(generateInteractionForm(result['isFavourite']));
+    section.appendChild(generateInteractionForm(product['idProdotto'], result['isFavourite'], result['logged']));
     
     const p1 = document.createElement('p');
     p1.textContent = product['descrizione'];
@@ -53,6 +53,7 @@ function generateProductSection(product, images) {
     // const options = {'weekday': 'long', 'month': 'long', 'day': '2-digit'};
     // const date = new Date(new Date().setDate(new Date().getDate() + 1)).toLocaleString('it-IT', options);
     // <p>Consegna prevista per ${date}</p>
+    // <p>Disponibili: ${product['quantitaDisponibile']}</p>
     
     const section = document.createElement('section');
     
@@ -94,6 +95,9 @@ function generateProductSection(product, images) {
     const p3 = document.createElement('p');
     p3.innerText = "Consegna prevista per: " + date;
 
+    const p4 = document.createElement('p');
+    p4.innerText = "Disponibili: " + product['quantitaDisponibile'];
+
     section.appendChild(mainImage);
     section.appendChild(article);
     section.appendChild(h2);
@@ -101,66 +105,87 @@ function generateProductSection(product, images) {
     section.appendChild(price);
     section.appendChild(p2);
     section.appendChild(p3);
+    section.appendChild(p4);
 
     return section;
 }
 
-function generateInteractionForm(isFavourite) {
-    // <form action="">
-    //     <label for="quantity">Quantità: </label>
-    //     <input type="number" id="quantity" name="cart" min="0" value="1">
-    //     <button> Aggiungi al Carrello <img src="${utils.RESOURCES_DIR}carrello_B.png" alt=""/>
-    //     if(isFavourite){
-    //         <button>Rimuovi dai Preferiti<img src="${utils.RESOURCES_DIR}cuore_R.png" alt=""/>
+function generateInteractionForm(idProduct, isFavourite, user_type) {
+    // <form action="">'
+    //     if (user_type === 'client') {
+    //         <label for="quantity">Quantità: </label>
+    //         <input type="number" id="quantity" name="cart" min="0" value="1">
+    //         <button> Aggiungi al Carrello <img src="${utils.RESOURCES_DIR}carrello_B.png" alt=""/></button>
+    //         if(isFavourite){
+    //             <button>Rimuovi dai Preferiti<img src="${utils.RESOURCES_DIR}cuore_R.png" alt=""/></button>
+    //         } else {
+    //             <button>Aggiungi ai Preferiti<img src="${utils.RESOURCES_DIR}cuore_B.png" alt=""/></button>
+    //         }
     //     } else {
-    //         <button>Aggiungi ai Preferiti<img src="${utils.RESOURCES_DIR}cuore_B.png" alt=""/>
+    //         <button>Modifica<img src="${utils.RESOURCES_DIR}cuore_B.png" alt=""/></button>
     //     }
     // </form>
 
     const form = document.createElement('form');
 
-    const label = document.createElement('label');
-    label.setAttribute = 'quantity';
-    label.textContent = 'Quantità';
+    if (user_type === 'vendor') {
+        const editImg = document.createElement('img');
+        editImg.src = utils.RESOURCES_DIR + 'matita.png';
+        editImg.alt = '';
 
-    const input = document.createElement('input');
-    input.type = 'number';
-    input.min = 0;
-    input.value = 1;
-
-    const cartImage = document.createElement('img');
-    cartImage.src = utils.RESOURCES_DIR + "carrello_B.png";
-    cartImage.alt = "";
-    
-    const cartButton = document.createElement('button');
-    cartButton.textContent = 'Aggiungi al Carrello';
-    cartButton.addEventListener('click', (event) => {
-        cartButtonListener(input.value, event);
-    });
-    cartButton.appendChild(cartImage);
-
-    const favouriteImage = document.createElement('img');
-    favouriteImage.alt = '';
-    const favouriteButton = document.createElement('button');
-    if(isFavourite) {
-        favouriteImage.src = utils.RESOURCES_DIR + 'cuore_R.png';
-        favouriteButton.textContent = 'Rimuovi dai Preferiti';
-        favouriteButton.addEventListener('click', (event) => {
-            favouriteButtonListener('remove', event);
+        const editButton = document.createElement('button');
+        editButton.textContent = 'Modifica';
+        editButton.appendChild(editImg);
+        editButton.addEventListener('click', (event) => {
+            event.preventDefault();
+            location.href = utils.PAGES_DIR + 'manage_product.php' + '?id=' + idProduct;
         });
+
+        form.appendChild(editButton);
     } else {
-        favouriteImage.src = utils.RESOURCES_DIR + 'cuore_B.png';
-        favouriteButton.textContent = 'Aggiungi ai Preferiti';
-        favouriteButton.addEventListener('click', (event) => {
-            favouriteButtonListener('add', event);
-        });
-    }
-    favouriteButton.appendChild(favouriteImage);
+        const label = document.createElement('label');
+        label.setAttribute = 'quantity';
+        label.textContent = 'Quantità';
 
-    form.appendChild(label);
-    form.appendChild(input);
-    form.appendChild(cartButton);
-    form.appendChild(favouriteButton);
+        const input = document.createElement('input');
+        input.type = 'number';
+        input.min = 0;
+        input.value = 1;
+
+        const cartImage = document.createElement('img');
+        cartImage.src = utils.RESOURCES_DIR + "carrello_B.png";
+        cartImage.alt = "";
+        
+        const cartButton = document.createElement('button');
+        cartButton.textContent = 'Aggiungi al Carrello';
+        cartButton.addEventListener('click', (event) => {
+            cartButtonListener(input.value, event);
+        });
+        cartButton.appendChild(cartImage);
+
+        const favouriteImage = document.createElement('img');
+        favouriteImage.alt = '';
+        const favouriteButton = document.createElement('button');
+        if(isFavourite) {
+            favouriteImage.src = utils.RESOURCES_DIR + 'cuore_R.png';
+            favouriteButton.textContent = 'Rimuovi dai Preferiti';
+            favouriteButton.addEventListener('click', (event) => {
+                favouriteButtonListener('remove', event);
+            });
+        } else {
+            favouriteImage.src = utils.RESOURCES_DIR + 'cuore_B.png';
+            favouriteButton.textContent = 'Aggiungi ai Preferiti';
+            favouriteButton.addEventListener('click', (event) => {
+                favouriteButtonListener('add', event);
+            });
+        }
+        favouriteButton.appendChild(favouriteImage);
+
+        form.appendChild(label);
+        form.appendChild(input);
+        form.appendChild(cartButton);
+        form.appendChild(favouriteButton);
+    }
 
     return form;
 }
