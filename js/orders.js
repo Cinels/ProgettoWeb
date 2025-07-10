@@ -1,21 +1,9 @@
 import * as utils from './utils.js';
+const url = utils.API_DIR + "orders.php";
 displayMainContent();
 
 async function displayMainContent() {
-    const url = utils.API_DIR + "orders.php";
-    try {
-        const response = await fetch(url);
-        if (!response.ok) {
-            throw new Error(`Response status: ${response.status}`);
-        }
-        const json = await response.json();
-        console.log(json);
-        const content = generateMainContent(json);
-        const main = document.querySelector("main");
-        main.innerHTML = content;
-    } catch (error) {
-        console.log(error.message);
-    }
+    generateMainContent(await utils.makePostRequest(url, new FormData()));
 }
 
 function generateMainContent(result) {
@@ -26,15 +14,27 @@ function generateMainContent(result) {
             <ul>`;
     for (let i = 0; i < orders.length; i++) {
         const order = orders[i];
-        console.log(order);
         const details = result['details'][order['idOrdine']];
         content += `
                 <li>
                     <p>N° Ordine: ${order['idOrdine']}</p>
                     <p>Totale: ${order['costoTotale']} €</p>
-                    <p>Data ordine: ${order['dataOrdine']}</p>
-                    <p>Stato ordine: ${result['order_state'][order['statoOrdine']]}</p>
-                    <p>Consegna prevista: ${order['dataArrivoPrevista']}</p>
+                    <p>Data ordine: ${order['dataOrdine']}</p>`;
+        if (result['type'] == 'Venditore') {
+            content += `<p>Stato ordine: ${result['order_state'][order['statoOrdine']]}</p>`;
+        } else {
+            content += `<form action="#" method="POST">
+                            <label for='stato'>Stato ordine: </label> 
+                            <input type="hidden" name="id" value="${order["idOrdine"]}">
+                            <select id="stato" name="stato" required>
+                                <option value="1" ${order['statoOrdine'] === 1 ? 'selected' : ''}>${result['order_state'][0]}</option>
+                                <option value="2" ${order['statoOrdine'] === 2 ? 'selected' : ''}>${result['order_state'][1]}</option>
+                                <option value="3" ${order['statoOrdine'] === 3 ? 'selected' : ''}>${result['order_state'][2]}</option>
+                                <option value="4" ${order['statoOrdine'] === 4 ? 'selected' : ''}>${result['order_state'][3]}</option>
+                            </select>
+                        </form>`;
+        }
+        content += `<p>Consegna prevista: ${order['dataArrivoPrevista']}</p>
                     <p>${result['type']}: ${order['idP']}</p>
 
                     <ul>`;
@@ -63,8 +63,28 @@ function generateMainContent(result) {
         content += `</ul>
                 </li>`;
     }
-    content +=`
+    content += `
             </ul>
         </section>`;
-    return content;
+    
+    document.querySelector('main').innerHTML = content;
+
+    addFormListeners(result['type']);
+}
+
+function addFormListeners(user_type) {
+    if(user_type === 'Cliente') {
+        const forms = document.querySelectorAll('main section ul li form');
+        forms.forEach(form => {
+            form.addEventListener('change', async (event) => {
+                event.preventDefault();
+                console.log('id: ' + form.querySelector('input').value + ', new state: ' + form.querySelector('select').value);
+
+                const formData = new FormData();
+                formData.append('id', form.querySelector('input').value);
+                formData.append('state', form.querySelector('select').value);
+                generateMainContent(await utils.makePostRequest(url, formData));
+            });
+        });
+    }
 }
