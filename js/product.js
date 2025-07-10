@@ -301,6 +301,6 @@ function isClient(result) {
     if (result['logged'] === 'client') {
         generateMainContent(result);
     } else {
-        location.href = utils.PAGES_DIR + (result['logged'] === 'vendor') ? 'profile.php' : 'login.php' ;
+        location.href = utils.PAGES_DIR + (result['logged'] === 'vendor' ? 'profile.php' : 'login.php') ;
     }
 }

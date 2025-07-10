@@ -1,0 +1,55 @@
+h2, p {
+    margin: 0;
+    padding: 0;
+}
+
+aside > section {
+    background-color: lightcyan;
+    border-width: 1.5px;
+    border-color: #a0bfbf;
+    border-style: outset;
+    border-radius: 30px;
+    margin: 2%;
+    padding: 2%;
+}
+
+aside > section > h2 {
+    text-align: center;
+}
+
+aside > section > form {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+aside > section > form > button {
+    background-color: white;
+    border-width: 1px;
+    border-color: #ddd;
+    border-radius: 20px;
+    padding: 1%;
+    margin: 1%;
+    width: 48%;
+    height: 175px;
+    overflow: hidden;
+}
+
+aside img {
+    border-radius: 10px;
+    max-height: 60%;
+    max-width: 90%;
+}
+
+aside > section > form > button > p, aside > section > form > button > span {
+    font-weight: bold;
+}
+
+aside > section > form > button > ins {
+    font-weight: bold;
+    color: red;
+    text-decoration: none;
+}
+
+aside > section > form > button > del {
+    color: #444;
+}

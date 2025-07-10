@@ -25,32 +25,30 @@ async function displaySideContent() {
 }
 
 function generateSideContent(results, title) {
-    let content = `
-    <section>
-        <form action="${utils.PAGES_DIR}product.php" method="GET">`;
-    if (results.length > 0) {
-        content += `
-            <h2>${title}</h2>`;
+    if (results.length > 0) {            
+        let content = `
+            <section>
+                <h2>${title}</h2>
+                <form action="${utils.PAGES_DIR}product.php" method="GET">`;
         for (let i = 0; i < results.length; i++) {
             const product = results[i];
             content += `
-                <button type="submit" name="search" value="${product['idProdotto']}">
-                    <img src="${utils.DB_RESOURCES_DIR}${product['link']}" alt="Immagine Prodotto"/><br/>
-                    ${product['nome']}<br/>`;
+                    <button type="submit" name="search" value="${product['idProdotto']}">
+                        <img src="${utils.DB_RESOURCES_DIR}${product['link']}" alt="Immagine Prodotto"/>
+                        <p>${product['nome']}</p>`;
             if (product['offerta'] > 0) {
                 content += `
-                <ins>${product['offerta']}% ${product["prezzoScontato"]}</ins> <del>${product['prezzo']}</del> €`;
+                        <ins>${product['offerta']}% ${product["prezzoScontato"]}</ins> <del>${product['prezzo']}</del><span> €</span>`;
             } else {
                 content += `
-                <p>${product['prezzo']} €</p>`;
+                        <span>${product['prezzo']} €</span>`;
             }
             content += `
-                </button>`;
+                    </button>`;
         }
-    }        
-    content += `
-        </form>
-    </section>`;
-
-    document.querySelector('aside').innerHTML += content;
+        content += `
+                </form>
+            </section>`;
+        document.querySelector('aside').innerHTML += content;
+    }
 }

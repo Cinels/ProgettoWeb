@@ -1,13 +1,13 @@
 <?php
 require_once("../database/init.php");
 
-$results['logged'] = null;
+$results['logged'] = checkClientLogin($dbh);
 
-if(isset($_POST["cart"]) && checkClientLogin($dbh)) {
+if(isset($_POST["cart"]) && checkClientLogin($dbh) === 'client') {
     $dbh->addToCart($_GET["search"], $_POST["cart"]);
 }
 
-if(isset($_POST["favourite"]) && checkClientLogin($dbh)) {
+if(isset($_POST["favourite"]) && checkClientLogin($dbh) === 'client') {
     if($_POST["favourite"] === "add" && !$dbh->isProductFavourite($_GET["search"])) {
         $dbh->addToFavourites($_GET["search"], $dbh->getUser()['email']);
     } elseif($_POST["favourite"] === "remove" && $dbh->isProductFavourite($_GET["search"])) {
@@ -15,7 +15,7 @@ if(isset($_POST["favourite"]) && checkClientLogin($dbh)) {
     }
 }
 
-if(isset($_POST['vote']) && isset($_POST['review']) && isset($_POST['description']) && checkClientLogin($dbh)) {
+if(isset($_POST['vote']) && isset($_POST['review']) && isset($_POST['description']) && checkClientLogin($dbh) === 'client') {
     if($_POST['review'] === 'add') {
         $dbh->writeReview($_GET['search'], $_POST['vote'], $_POST['description']);
     } elseif ($_POST['review'] === 'edit') {
@@ -24,8 +24,7 @@ if(isset($_POST['vote']) && isset($_POST['review']) && isset($_POST['description
 }
 
 function checkClientLogin($dbh) {
-    $results['logged'] = $dbh->isLogged() ? $dbh->getUserType() : null ;
-    return $dbh->isLogged() && $dbh->getUserType() === "client";
+    return $dbh->isLogged() ? $dbh->getUserType() : null ;
 }
 
 $dbh->updateHistory($_GET["search"]);
