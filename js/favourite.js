@@ -6,7 +6,7 @@ async function displayMainContent() {
     generateMainContent(await utils.makePostRequest(url, new FormData()));
 }
 
-function generateMainContent(products) {
+function generateMainContent(result) {
     // <section>
     //     <h2>Preferiti</h2>
     //     <ul>
@@ -22,11 +22,11 @@ function generateMainContent(products) {
     h2.textContent ='Preferiti';
     const ul = document.createElement('ul');
     
-    for (let i = 0; i < products['result'].length; i++) {
-        const product = products['result'][i];
+    for (let i = 0; i < result['result'].length; i++) {
+        const product = result['result'][i];
         const li = document.createElement('li');        
         li.appendChild(utils.generateProductSection(product));
-        li.appendChild(generateInteractionForm(product));
+        li.appendChild(generateInteractionForm(product, result['cartQuantity'][product['idProdotto']], result['available'][product['idProdotto']]));
         ul.appendChild(li);
     }
     
@@ -36,7 +36,7 @@ function generateMainContent(products) {
     document.querySelector('main').appendChild(section);
 }
 
-function generateInteractionForm(product) {
+function generateInteractionForm(product, cartQuantity, available) {
     // <form action="">
     //     <button type='submit' name='remove'>Rimuovi<img src="${paths.RESOURCES_DIR}cestino_B.png" alt="" name='remove'></button>
     //     <button type='submit' name='favourite'>Sposta nei Preferiti<img src="${paths.RESOURCES_DIR}cuore_B.png" alt="" name='favourite'></button>
@@ -51,7 +51,7 @@ function generateInteractionForm(product) {
     const removeButton = document.createElement('button');
     removeButton.textContent = 'Rimuovi';
     removeButton.addEventListener('click', (event) => {
-        buttonListener('remove', product['idProdotto'], event);
+        buttonListener('remove', product['idProdotto'], event, 0, 0);
     });
     removeButton.appendChild(removeImage);
 
@@ -62,7 +62,7 @@ function generateInteractionForm(product) {
     const favouriteButton = document.createElement('button');
     favouriteButton.textContent = 'Sposta nel Carrello';
     favouriteButton.addEventListener('click', (event) => {
-        buttonListener('cart', product['idProdotto'], event);
+        buttonListener('cart', product['idProdotto'], event, Number(cartQuantity) + 1, available);
     });
     favouriteButton.appendChild(favouriteImage);
     
@@ -72,12 +72,16 @@ function generateInteractionForm(product) {
     return form;
 }
 
-async function buttonListener(action, id, event) {
+async function buttonListener(action, id, event, quantity, available) {
     event.preventDefault();
-    console.log(action + " " + id);
+    console.log(action + " " + id + ', quantity: ' + quantity + ', available: ' + available);
 
-    const formData = new FormData();
-    formData.append('action', action);
-    formData.append('id', id);
-    generateMainContent(await utils.makePostRequest(url, formData));
+    if (action === 'remove' || quantity <= available) {
+        const formData = new FormData();
+        formData.append('action', action);
+        formData.append('id', id);
+        generateMainContent(await utils.makePostRequest(url, formData));
+    } else {
+        utils.alertQuantity(quantity, available);
+    }
 }

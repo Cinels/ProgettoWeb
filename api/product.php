@@ -35,6 +35,7 @@ $results["hasBuyed"] = $dbh->hasBuyedIt($_GET["search"]);
 $results["hasReviewed"] = $dbh->hasReviewedIt($_GET["search"]);
 $results['isFavourite'] = $dbh->isProductFavourite($_GET['search']);
 $results['userReview'] = $dbh->getUserReview($_GET['search']);
+$results['cartQuantity'] = $dbh->getCartQuantity($_GET['search'])[0]['quantita'] ?? 0;
 
 if(isset($_GET['more_rev']) && $_GET['more_rev'] === 'true') {
     $results["n_rev"] = count($results["reviews"]);

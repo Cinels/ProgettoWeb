@@ -389,6 +389,15 @@ class DatabaseHelper {
         }
     }
 
+    public function getAvailableProducts($idProdotto) {
+        $query = "SELECT quantitaDisponibile FROM PRODOTTO WHERE idProdotto = ? ";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('i', $idProdotto);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
     public function getFavourites() {
         if ($this->isLogged() && $this->getUserType()=="client") {
             $query = "SELECT P.idProdotto, P.nome, prezzo, offerta, ROUND(prezzo - prezzo*(offerta/100), 2) AS prezzoScontato, idVenditore, I.link, "
@@ -483,11 +492,11 @@ class DatabaseHelper {
         }
     }
 
-    public function updateProduct($id, $nome, $prezzo, $quantita, $descrizione, $proprieta, $offerta, $piattaforma) {
+    public function updateProduct($id, $nome, $prezzo, $quantita, $descrizione, $proprieta, $offerta, $tipo, $piattaforma) {
         if ($this->isLogged() && $this->getUserType() == "vendor") {
-            $query = "UPDATE PRODOTTO SET nome = ?, prezzo = ?, quantitaDisponibile = ?, descrizione = ?, proprieta = ?, offerta = ? WHERE idProdotto = ?";
+            $query = "UPDATE PRODOTTO SET nome = ?, prezzo = ?, quantitaDisponibile = ?, descrizione = ?, proprieta = ?, offerta = ?, tipo = ? WHERE idProdotto = ?";
             $stmt = $this->db->prepare($query);
-            $stmt->bind_param('sdissii', $nome, $prezzo, $quantita, $descrizione, $proprieta, $offerta, $id);
+            $stmt->bind_param('sdissiii', $nome, $prezzo, $quantita, $descrizione, $proprieta, $offerta, $tipo, $id);
             $stmt->execute();
             $query = "UPDATE COMPATIBILITA SET idPiattaforma = ? WHERE idProdotto = ?";
             $stmt = $this->db->prepare($query);
@@ -514,8 +523,8 @@ class DatabaseHelper {
             $stmt = $this->db->prepare($query);
             $nomeimg1=$nome.'_1';
             $nomeimg2=$nome.'_2';
-            var_dump($immagine1);
-            var_dump($immagine2);
+            // var_dump($immagine1);
+            // var_dump($immagine2);
             $stmt->bind_param('siissiis', $nomeimg1, $id, $uno, $immagine1, $nomeimg2, $id, $due, $immagine2);
             $stmt->execute();
             return $id;

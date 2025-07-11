@@ -15,8 +15,17 @@ if(isset($_POST["favourite"]) && isset($_POST["id"])) {
     }
 }
 
-$result["results"] = $dbh->getProductsFromResearch($_GET["search"]);
+$search_results = $dbh->getProductsFromResearch($_GET["search"]);
+$available = null;
+$cartQuantity = null;
+foreach ($search_results as $product) {
+    $available[$product['idProdotto']] = $dbh->getAvailableProducts($product['idProdotto'])[0]['quantitaDisponibile'];
+    $cartQuantity[$product['idProdotto']] = $dbh->getCartQuantity($product['idProdotto'])[0]['quantita'] ?? 0;
+}
+$result["results"] = $search_results;
 $result['user_type'] = $dbh->isLogged() ? $dbh->getUserType() : null;
+$result['available'] = $available;
+$result['cartQuantity'] = $cartQuantity;
 
 $favourites = array();
 $dbfav = $dbh->getFavourites();

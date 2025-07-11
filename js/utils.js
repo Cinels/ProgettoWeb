@@ -86,3 +86,7 @@ export function generateReviewStars(vote, alt = 'Media e numero recensioni') {
 
     return image;
 }
+
+export function alertQuantity(richieste, disponibili) {
+    alert(`Quantità del prodotto non sufficiente!\nRichieste: ${richieste} Disponibili: ${disponibili}`);
+}

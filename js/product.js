@@ -22,7 +22,8 @@ function generateMainContent(result) {
     const section = document.createElement('section');
 
     section.appendChild(generateProductSection(product, result['images']));
-    section.appendChild(generateInteractionForm(product['idProdotto'], result['isFavourite'], result['logged']));
+    section.appendChild(generateInteractionForm(product['idProdotto'], result['isFavourite'], result['logged'], 
+        result['cartQuantity'], product['quantitaDisponibile']));
     
     const p1 = document.createElement('p');
     p1.textContent = product['descrizione'];
@@ -110,7 +111,7 @@ function generateProductSection(product, images) {
     return section;
 }
 
-function generateInteractionForm(idProduct, isFavourite, user_type) {
+function generateInteractionForm(idProduct, isFavourite, user_type, cartQuantity, available) {
     // <form action="">'
     //     if (user_type === 'client') {
     //         <label for="quantity">Quantità: </label>
@@ -144,12 +145,14 @@ function generateInteractionForm(idProduct, isFavourite, user_type) {
         form.appendChild(editButton);
     } else {
         const label = document.createElement('label');
-        label.setAttribute = 'quantity';
+        label.setAttribute('for', 'quantity');
         label.textContent = 'Quantità';
 
         const input = document.createElement('input');
         input.type = 'number';
+        input.id = 'quantity';
         input.min = 0;
+        input.max = available;
         input.value = 1;
 
         const cartImage = document.createElement('img');
@@ -159,7 +162,7 @@ function generateInteractionForm(idProduct, isFavourite, user_type) {
         const cartButton = document.createElement('button');
         cartButton.textContent = 'Aggiungi al Carrello';
         cartButton.addEventListener('click', (event) => {
-            cartButtonListener(input.value, event);
+            cartButtonListener(input.value, event, cartQuantity, available);
         });
         cartButton.appendChild(cartImage);
 
@@ -280,14 +283,19 @@ function generateReviewSection(product, hasBuyed, hasReviewed, userReview, revie
     return section;
 }
 
-async function cartButtonListener(quantity, event) {
+async function cartButtonListener(quantity, event, cartQuantity, available) {
     event.preventDefault();
     console.log('cart ' + quantity);
+    const totalQuantity = Number(cartQuantity) + Number(quantity);
     
-    const formData = new FormData();
-    formData.append('cart', quantity);
-    const result = await utils.makePostRequest(url, formData);
-    isClient(result);
+    if (totalQuantity <= available) {
+        const formData = new FormData();
+        formData.append('cart', quantity);
+        const result = await utils.makePostRequest(url, formData);
+        isClient(result);
+    } else {
+        utils.alertQuantity(totalQuantity, available);
+    }
 }
 
 async function favouriteButtonListener(action, event) {
