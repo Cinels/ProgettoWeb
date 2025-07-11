@@ -23,13 +23,13 @@ function generateMainContent(result) {
     document.querySelector('main').innerHTML = "";
     
     const section = document.createElement('section');
+    const form = document.createElement('form');
     const h2 = document.createElement('h2');
     h2.textContent ='Carrello';
-    section.appendChild(h2);
+    form.appendChild(h2);
     
     if (result['result'].length > 0) {
 
-        const form = document.createElement('form');
         
         const h3 = document.createElement('h3');
         h3.textContent = 'Totale: ' + result['total'] + " €";
@@ -56,8 +56,9 @@ function generateMainContent(result) {
         for (let i = 0; i < result['result'].length; i++) {
             const product = result['result'][i];
             const li = document.createElement('li');        
-            li.appendChild(utils.generateProductSection(product));
-            li.appendChild(generateInteractionForm(product, result['available'][product['idProdotto']]));
+            const a = utils.generateProductSection(product);
+            a.appendChild(generateInteractionForm(product, result['available'][product['idProdotto']]));
+            li.appendChild(a);
             ul.appendChild(li);
         }
         
