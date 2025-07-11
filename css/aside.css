@@ -4,13 +4,16 @@ h2, p {
 }
 
 aside > section {
-    background-color: lightcyan;
-    border-width: 1.5px;
+    /* background-color: rgba(200, 200, 200, 0.3); */
+    background-color: rgb(161, 255, 255);
+    /* border-color: lightgray; */
     border-color: #a0bfbf;
+    border-width: 1.5px;
     border-style: outset;
     border-radius: 30px;
     margin: 2%;
     padding: 2%;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
 }
 
 aside > section > h2 {
