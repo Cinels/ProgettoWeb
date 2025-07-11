@@ -41,7 +41,7 @@ function generateMainContent(result) {
         for (let j = 0; j < details.length; j++) {
             const detail = details[j];
             content += `<li>
-                            <a href="${utils.PAGES_DIR}product.php?${detail["idProdotto"]}">
+                            <a href="${utils.PAGES_DIR}product.php?search=${detail["idProdotto"]}">
                                 <img src="${utils.DB_RESOURCES_DIR}${detail['link']}" alt="Immagine Prodotto"/><br/>
                                 <p>${detail["nome"]}</p><br/>`;
             if (detail['offerta'] > 0) {

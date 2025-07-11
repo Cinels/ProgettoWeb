@@ -33,7 +33,7 @@ function generateMainContent(result) {
     p2.textContent = product['proprieta'];
     section.appendChild(p2);
     
-    section.appendChild(generateReviewSection(product, result['hasBuyed'], result['hasReviewed'], result['userReview'], result['reviews'], result['n_rev']));
+    section.appendChild(generateReviewSection(product, result['hasBuyed'], result['hasReviewed'], result['userReview'][0], result['reviews'], result['n_rev']));
 
     document.querySelector('main').appendChild(section);
 }
@@ -254,7 +254,7 @@ function generateReviewSection(product, hasBuyed, hasReviewed, userReview, revie
         section.appendChild(textButton);
     }
 
-    for (let i = 0; i < reviews.lenght && i < n; i++) {
+    for (let i = 0; i < reviews.length && i < n; i++) {
         const article = document.createElement('article');
         article.appendChild(utils.generateReviewStars(reviews[i]['voto'], `Voto: ${reviews[i]['voto']} su 5`));
 
