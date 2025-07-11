@@ -69,6 +69,7 @@ create table NOTIFICA (
      tipo varchar(20) not null,
      testo varchar(500) not null,
      letta char not null,
+     data datetime not null default CURRENT_TIMESTAMP,
      idUtente varchar(40) not null,
      idOrdine int DEFAULT NULL,
      idProdotto int DEFAULT NULL,
@@ -260,7 +261,7 @@ JOIN(
 SET P.quantitaDisponibile = P.quantitaDisponibile - D.quantita;
 
 INSERT INTO notifica (tipo, testo, letta, idUtente, idOrdine)
-VALUES ('ORD_REC', CONCAT('Hai ricevuto un ordine con id ', vOrd, ' da ', vCliente,' da spedire per il giorno ', DATE_ADD(CURDATE(), INTERVAL 1 DAY)), false, vVenditore, vOrd);
+VALUES ('Ordine ricevuto', CONCAT('Hai ricevuto un ordine con id ', vOrd, ' da ', vCliente,' da spedire per il giorno ', DATE_ADD(CURDATE(), INTERVAL 1 DAY)), false, vVenditore, vOrd);
 
 DELETE FROM CARRELLO WHERE idCliente = vCliente;
 end$$

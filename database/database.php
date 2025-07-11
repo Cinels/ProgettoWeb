@@ -97,7 +97,7 @@ class DatabaseHelper {
         $_SESSION["user"] = null;
     }
 
-    public function getNotifications() { //manca la data e l'ora
+    public function getNotifications() {
         if ($this->isLogged()) {
             $query = "SELECT idNotifica, tipo, testo, letta, data FROM NOTIFICA WHERE idUtente = ? ORDER BY idNotifica DESC";
             $stmt = $this->db->prepare($query);
@@ -562,6 +562,14 @@ class DatabaseHelper {
             $query = "INSERT INTO RECENSIONE (descrizione, voto, idProdotto, idCliente) VALUES(?, ?, ?, ?)";
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('siis', $desc, $vote, $product, $_SESSION["user"]['email']);
+            $stmt->execute();
+            $query = "INSERT INTO NOTIFICA (tipo, testo, letta, idUtente, idProdotto) VALUES (?, ?, ?, ?, ?)";
+            $type = 'Nuova recensione';
+            $zero = 0;
+            $vendor = "venditore@negozio.it";
+            $message = "Qualcuno ha lasciato una recensione a ".$this->getProductName($product);
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('ssisi', $type, $message, $zero, $vendor, $product);
             $stmt->execute();
         }
     }
