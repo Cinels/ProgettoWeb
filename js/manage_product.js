@@ -72,12 +72,6 @@ function generateMainContent(result) {
     const form = document.createElement('form');
     form.enctype = "multipart/form-data";
 
-    // <label for="image1">Immagine 1:<img src="<?php echo (isset($templateParams['id'])) ? DB_RESOURCES_DIR.$templateParams['images'][0]['link'] : ""?>" /></label><br>
-    // <input type="file" name="image1" id="image1" accept="image/*" <?php echo (!isset($templateParams['id']) ? "required" : "") ?>/><br><br>
-
-    // <label for="image2">Immagine 2:<img src="<?php echo (isset($templateParams['id'])) ? DB_RESOURCES_DIR.$templateParams['images'][1]['link'] : ""?>" /></label><br>
-    // <input type="file" name="image2" id="image2" accept="image/*"/><br><br>
-
     const image1label = document.createElement('label');
     image1label.setAttribute('for', 'image1');
     image1label.textContent = 'Immagine 1:';
@@ -281,7 +275,7 @@ function generateMainContent(result) {
             formData.append('platform', new FormData(event.target).getAll('platform'));
             const result = await utils.makePostRequest(url, formData);
             if (result['success'] != null) {
-                location.href = utils.PAGES_DIR + 'product.php?search' + result['success'];
+                location.href = utils.PAGES_DIR + 'product.php?search=' + result['success'];
             } else {
                 generateMainContent(result);
             }
