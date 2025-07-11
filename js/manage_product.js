@@ -202,35 +202,33 @@ function generateMainContent(result) {
     select7.appendChild(option7_2);
     select7.appendChild(option7_3);
 
-    const p8 = document.createElement('p');
-    p8.textContent = "Piattaforma:";
-    const input8_1 = document.createElement('input');
-    input8_1.type = 'checkbox';
-    input8_1.id = 'nintendo';
-    input8_1.name = 'platform';
-    input8_1.value = 1;
-    input8_1.selected = getParams.length > 0 && result['result']['idPiattaforma'] == 1;
-    const label8_1 = document.createElement('label');
-    label8_1.setAttribute('for', 'nintendo')
-    label8_1.textContent = 'Nintendo';
-    const input8_2 = document.createElement('input');
-    input8_2.type = 'checkbox';
-    input8_2.id = 'sony';
-    input8_2.name = 'platform';
-    input8_2.value = 2;
-    input8_2.selected = getParams.length > 0 && result['result']['idPiattaforma'] == 2;
-    const label8_2 = document.createElement('label');
-    label8_2.setAttribute('for', 'sony')
-    label8_2.textContent = 'Sony';
-    const input8_3 = document.createElement('input');
-    input8_3.type = 'checkbox';
-    input8_3.id = 'microsoft';
-    input8_3.name = 'platform';
-    input8_3.value = 3;
-    input8_3.selected = getParams.length > 0 && result['result']['idPiattaforma'] == 3;
-    const label8_3 = document.createElement('label');
-    label8_3.setAttribute('for', 'microsoft')
-    label8_3.textContent = 'Microsoft';
+    const label8 = document.createElement('label');
+    label8.setAttribute('for', 'platform');
+    label8.textContent = "Piattaforma:";
+    const select8 = document.createElement('select');
+    select8.id = 'platform';
+    select8.name = 'platform';
+    const option8_0 = document.createElement('option');
+    option8_0.value = '';
+    option8_0.text = '>-- Seleziona una piattaforma --<';
+    option8_0.disabled = true;
+    option8_0.selected = getParams.length == 0;
+    const option8_1 = document.createElement('option');
+    option8_1.value = '1';
+    option8_1.selected = getParams.length > 0 && result['result']['idPiattaforma'] == 1;
+    option8_1.text = 'Nintendo';
+    const option8_2 = document.createElement('option');
+    option8_2.value = '2';
+    option8_2.selected = getParams.length > 0 && result['result']['idPiattaforma'] == 2;
+    option8_2.text = 'Sony';
+    const option8_3 = document.createElement('option');
+    option8_3.value = '3';
+    option8_3.selected = getParams.length > 0 && result['result']['idPiattaforma'] == 3;
+    option8_3.text = 'Microsoft';
+    select8.appendChild(option8_0);
+    select8.appendChild(option8_1);
+    select8.appendChild(option8_2);
+    select8.appendChild(option8_3);
 
     const cancelImg = document.createElement('img');
     cancelImg.src = utils.RESOURCES_DIR + 'x.png';
@@ -255,12 +253,12 @@ function generateMainContent(result) {
     form.addEventListener('submit', async (event) => {
         event.preventDefault();
         
-        if (select7.value !== '' && new FormData(event.target).getAll('platform').length > 0) {
+        if (select7.value !== '' && select8.value !== '') {
             const image1 = document.querySelector('#image1').files[0] ?? null;
             const image2 = document.querySelector('#image2').files[0] ?? null;
             console.log('image1: ' + image1 + ', image2: '+ image2 + ', nome: ' + input1.value + ", prezzo: " + input2.value
                 + ", quantità: " + input3.value + ", descrizione: " + textarea4.value + ", proprietà: " + textarea5.value + ", offerta: "
-                + input6.value + ", tipo: " + select7.value + ", piattaforma: " + new FormData(event.target).getAll('platform'));
+                + input6.value + ", tipo: " + select7.value + ", piattaforma: " + select8.value);
         
             const formData = new FormData();  
             formData.append('image1', image1);
@@ -272,7 +270,7 @@ function generateMainContent(result) {
             formData.append('property', textarea5.value);
             formData.append('sale', input6.value);
             formData.append('type', select7.value);
-            formData.append('platform', new FormData(event.target).getAll('platform'));
+            formData.append('platform', select8.value);
             const result = await utils.makePostRequest(url, formData);
             if (result['success'] != null) {
                 location.href = utils.PAGES_DIR + 'product.php?search=' + result['success'];
@@ -309,13 +307,8 @@ function generateMainContent(result) {
     form.appendChild(label7);
     form.appendChild(select7);
     form.appendChild(document.createElement('br'));
-    form.appendChild(p8);
-    form.appendChild(input8_1);
-    form.appendChild(label8_1);
-    form.appendChild(input8_2);
-    form.appendChild(label8_2);
-    form.appendChild(input8_3);
-    form.appendChild(label8_3);
+    form.appendChild(label8);
+    form.appendChild(select8);
     form.appendChild(document.createElement('br'));
     form.appendChild(cancelButton);
     form.appendChild(saveButton);

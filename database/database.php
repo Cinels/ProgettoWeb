@@ -487,11 +487,11 @@ class DatabaseHelper {
         }
     }
 
-    public function updateProduct($id, $nome, $prezzo, $quantita, $descrizione, $proprieta, $offerta, $piattaforma) {
+    public function updateProduct($id, $nome, $prezzo, $quantita, $descrizione, $proprieta, $offerta, $tipo, $piattaforma) {
         if ($this->isLogged() && $this->getUserType() == "vendor") {
-            $query = "UPDATE PRODOTTO SET nome = ?, prezzo = ?, quantitaDisponibile = ?, descrizione = ?, proprieta = ?, offerta = ? WHERE idProdotto = ?";
+            $query = "UPDATE PRODOTTO SET nome = ?, prezzo = ?, quantitaDisponibile = ?, descrizione = ?, proprieta = ?, offerta = ?, tipo = ? WHERE idProdotto = ?";
             $stmt = $this->db->prepare($query);
-            $stmt->bind_param('sdissii', $nome, $prezzo, $quantita, $descrizione, $proprieta, $offerta, $id);
+            $stmt->bind_param('sdissiii', $nome, $prezzo, $quantita, $descrizione, $proprieta, $offerta, $tipo, $id);
             $stmt->execute();
             $query = "UPDATE COMPATIBILITA SET idPiattaforma = ? WHERE idProdotto = ?";
             $stmt = $this->db->prepare($query);

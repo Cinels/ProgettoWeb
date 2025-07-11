@@ -5,10 +5,11 @@ $result['success'] = null;
 
 if (isset($_POST['name'], $_POST['price'], $_POST['quantity'], $_POST['description'], $_POST['property'], $_POST['sale'], 
     $_POST['platform'], $_POST['type'])) {
+    // var_dump($_POST);
     $res = 0;
     if(isset($_GET['id'])) {
         $dbh->updateProduct($_GET['id'], $_POST['name'], $_POST['price'], $_POST['quantity'],
-        $_POST['description'], $_POST['property'], $_POST['sale'], $_POST['type'], $_POST['platform'][0]);
+        $_POST['description'], $_POST['property'], $_POST['sale'], $_POST['type'], $_POST['platform']);
         if(isset($_FILES["image1"]) && $_FILES["image1"]["error"] == 0) {
             list($res, $img) = uploadImage(getProductImagePath($_POST['type']), $_FILES["image1"]);
             $dbh->updateImage($_GET['id'], 1, ($res != 0 && isset($_FILES["image1"])) ? $img : null);
@@ -28,7 +29,7 @@ if (isset($_POST['name'], $_POST['price'], $_POST['quantity'], $_POST['descripti
             list($res2, $img2) = uploadImage(getProductImagePath($_POST['type']), $_FILES["image2"]);
         }
         $result['success'] = $dbh->insertProduct($_POST['name'], $_POST['price'], $_POST['quantity'],
-            $_POST['description'], $_POST['property'], $_POST['sale'], $_POST['type'], $_POST['platform'][0], 
+            $_POST['description'], $_POST['property'], $_POST['sale'], $_POST['type'], $_POST['platform'], 
             ($res1 != 0 && isset($_FILES["image1"])) ? $img1 : null, ($res2 != 0 && isset($_FILES["image2"])) ? $img2 : null);
     }
 }
