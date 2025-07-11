@@ -1,3 +1,8 @@
+h2, h3, ul {
+    margin: 0;
+    padding: 0;
+}
+
 main > section {
     text-align: center;
     margin: 2%;
@@ -11,6 +16,150 @@ main > section > a > img {
     width: 50%;
 }
 
-label > img, span > a > img {
-    max-width: 20px;
+
+main > section > form, main > section > ul > li {
+    /* background-color: rgba(200, 200, 200, 0.3); */
+    background-color: lightcyan;
+    /* border-color: lightgray; */
+    border-color: #a0bfbf;
+    border-width: 1.5px;
+    border-style: outset;
+    border-radius: 30px;
+    margin: 2% 0;
+    list-style: none;
+    padding: 3%;
+    text-align: start;
+    overflow: hidden;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+}
+
+main > section > form {
+    text-align: center;
+}
+
+main > section > form > h2 {
+    margin-bottom: 2%;
+}
+
+main > section > form > h3 {
+    display: inline-block;
+    width: 50%;
+    vertical-align: middle;
+}
+
+main > section > form > button {
+    width: 50%;
+    vertical-align: middle;
+    display: inline-flex;
+    background-color: gold;
+    font-size: large;
+    font-weight: bold;
+    align-items: center;
+    justify-content: center;
+}
+
+main > section > ul > li > a {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr; 
+    grid-template-rows: auto auto auto auto auto;
+    text-decoration: none;
+    color: black;
+    width: 100%;
+}
+
+main > section > ul > li > a > img {
+    max-width: 90%;
+    grid-column: 1;
+    grid-row: 1 / 7;
+    align-self: center;
+}
+
+main > section > ul > li > a > span {
+    display: inline-block;
+    font-weight: bold;
+    margin-bottom: 4%;
+    grid-column: 2;
+    grid-row: 1;
+}
+
+main > section > ul > li > a > p:first-of-type {
+    display: inline-block;
+    font-weight: bold;
+    margin-bottom: 4%;
+    grid-column: 3;
+    grid-row: 1;
+}
+
+main > section > ul > li > a > p {
+    display: inline-block;
+    margin-bottom: 2%;
+    grid-column: 2 / 4;
+}
+
+main > section > ul > li > a > p > ins {
+    color: red;
+    text-decoration: none;
+}
+
+main > section > ul > li > a > p > del {
+    color: #444;
+    font-weight: normal;
+}
+
+main > section > ul > li > a > p > img {
+    height: 18px;
+    vertical-align: middle;
+}
+
+main > section > ul > li > a > form {
+    width: 100%;
+    grid-column: 2 / 4;
+}
+
+/* input[type="number"] {
+  -webkit-appearance: textfield;
+     -moz-appearance: textfield;
+          appearance: textfield;
+}
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none;
+} */
+
+main > section > ul > li > a > form > input {
+    width: 35%;
+    box-sizing: border-box;
+    border-radius: 100px;
+}
+
+main > section > ul > li > a > form > button:nth-last-of-type(2) {
+    width: 60%;
+    vertical-align: middle;
+    display: inline-flex;
+    background-color: red;
+    font-size: large;
+    align-items: center;
+    justify-content: center;
+    margin: 0 0 5% 5%;
+}
+
+main > section > ul > li > a > form > button:last-of-type {
+    width: 100%;
+    vertical-align: middle;
+    display: inline-flex;
+    background-color: white;
+    font-size: large;
+    align-items: center;
+    justify-content: center;
+}
+
+
+main button {
+    border-radius: 100px;
+    border: 0;
+}
+
+main button > img {
+    max-height: 30px;
+    padding-left: 2%;
 }
