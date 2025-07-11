@@ -1,7 +1,0 @@
-img {
-    max-width: 500px;
-}
-
-label > img, span > a > img {
-    max-width: 20px;
-}
