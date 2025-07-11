@@ -7,13 +7,15 @@ if(isset($_POST["logout"]) && $_POST['logout'] === 'true') {
     $result['logout'] = true;
 }
 
-if(isset($_POST["notification"]) && isset($_POST["id"])) {
-    if($_POST["notification"] === "read") {
+if(isset($_REQUEST["action"]) && isset($_REQUEST["id"])) {
+    error_log($_REQUEST["action"]);
+    error_log($_REQUEST["id"]);
+    if($_REQUEST["action"] === "read") {
         $dbh->readNotification($_POST["id"]);
-    } elseif($_POST["notification"] === "unread") {
-        $dbh->unreadNotification($_POST["id"]);
-    } elseif($_POST["notification"] === "delete") {
-        $dbh->deleteNotification($_POST["id"]);
+    } elseif($_REQUEST["action"] === "unread") {
+        $dbh->unreadNotification($_REQUEST["id"]);
+    } elseif($_REQUEST["action"] === "delete") {
+        $dbh->deleteNotification($_REQUEST["id"]);
     }
 }
 

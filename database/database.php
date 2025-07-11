@@ -1,7 +1,4 @@
 <?php
-//ini_set('display_errors', 1);
-//ini_set('display_startup_errors', 1);
-//error_reporting(E_ALL);
 class DatabaseHelper {
     private $db;
     
@@ -102,7 +99,7 @@ class DatabaseHelper {
 
     public function getNotifications() { //manca la data e l'ora
         if ($this->isLogged()) {
-            $query = "SELECT idNotifica, tipo, testo, letta FROM NOTIFICA WHERE idUtente = ? ORDER BY idNotifica DESC";
+            $query = "SELECT idNotifica, tipo, testo, letta, data FROM NOTIFICA WHERE idUtente = ? ORDER BY idNotifica DESC";
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('s', $_SESSION["user"]['email']);
             $stmt->execute();
@@ -112,24 +109,23 @@ class DatabaseHelper {
     }
 
     public function readNotification($idNotification) {
+        error_log('ehi');
         if ($this->isLogged()) {
-            $query = "UPDATE NOTIFICA SET letta = true WHERE idNotifica = ?";
+            $query = "UPDATE NOTIFICA SET letta = ? WHERE idNotifica = ?";
+            $true = 1;
             $stmt = $this->db->prepare($query);
-            $stmt->bind_param('i', $idNotification);
+            $stmt->bind_param('ii', $true, $idNotification);
             $stmt->execute();
-            $result = $stmt->get_result();
-            return $result->fetch_all(MYSQLI_ASSOC);
         }
     }
 
     public function unreadNotification($idNotification) {
         if ($this->isLogged()) {
-            $query = "UPDATE NOTIFICA SET letta = false WHERE idNotifica = ?";
+            $query = "UPDATE NOTIFICA SET letta = ? WHERE idNotifica = ?";
+            $false = 0;
             $stmt = $this->db->prepare($query);
-            $stmt->bind_param('i', $idNotification);
+            $stmt->bind_param('ii', $false, $idNotification);
             $stmt->execute();
-            $result = $stmt->get_result();
-            return $result->fetch_all(MYSQLI_ASSOC);
         }
     }
 
@@ -467,7 +463,7 @@ class DatabaseHelper {
             $query = "INSERT INTO NOTIFICA (tipo, testo, letta, idUtente, idOrdine) "
                 ."VALUES (?, ?, ?, ?, ?)";
             $stmt = $this->db->prepare($query);
-            $type = 'ORD_UPD';
+            $type = 'Aggiornamento ordine';
             $zero = 0;
             $client = $this->getClientByOrder($id);
             $message = "Il tuo ordine N°".$id." è stato aggiornato, controlla nella pagina dei tuoi ordini";
@@ -614,7 +610,7 @@ class DatabaseHelper {
             $query = "INSERT INTO NOTIFICA (tipo, testo, letta, idUtente, idProdotto) "
                 ."VALUES (?, ?, ?, ?, ?)";
             $stmt = $this->db->prepare($query);
-            $type = 'PROD_OUT';
+            $type = 'Prodotto esaurito';
             $zero = 0;
             $message = "Il prodotto ".$this->getProductName($product)." è esaurito";
             $stmt->bind_param('ssisi', $type, $message, $zero, $vendor, $product);
@@ -638,7 +634,7 @@ class DatabaseHelper {
             $query = "INSERT INTO NOTIFICA (tipo, testo, letta, idUtente, idProdotto) "
                 ."VALUES (?, ?, ?, ?, ?)";
             $stmt = $this->db->prepare($query);
-            $type = 'CART_MOD';
+            $type = 'Modifica in carrello';
             $zero = 0;
             $message = $quantity == 0 ? "Il prodotto ".$this->getProductName($product)." è attualmente non disponibile ed è stato aggiunto ai tuoi preferiti" : "La quantità disponibile del prodotto ".$this->getProductName($product)." non soddisfa le richieste del tuo carrello, la quantità nel carrello è stata diminuita";
             $stmt->bind_param('ssisi', $type, $message, $zero, $cliente['idCliente'], $product);

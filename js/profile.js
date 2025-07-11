@@ -128,25 +128,25 @@ function generateNotificationSection(notifications) {
     for (let i = 0; i < notifications.length; i++) {
         const notification = notifications[i];
         const li = document.createElement('li');
-        const h3 = document.createElement('h3');
-        h3.textContent = notification['tipo'] + ' ' + notification['data'];
+        const title = notification['letta'] == 1 ? document.createElement('p') : document.createElement('h3');
+        title.textContent = notification['tipo'] + ' ' + notification['data'];
 
         const p = document.createElement('p');
         p.textContent = notification['testo'];
 
         const readImg = document.createElement('img');
-        readImg.src = notification['letta'] ? utils.RESOURCES_DIR + 'chat_B.png' : utils.RESOURCES_DIR + 'chat_B.png' ;
-        readImg.alt = notification['letta'] ? 'Segna come da leggere' : 'Segna come già letta' ;
+        readImg.src = notification['letta'] == 1 ? utils.RESOURCES_DIR + 'chat_B.png' : utils.RESOURCES_DIR + 'chat_B_dot.png' ;
+        readImg.alt = notification['letta'] == 1 ? 'Segna come da leggere' : 'Segna come già letta' ;
         
         const readButton = document.createElement('button');
         readButton.name = 'read';
         readButton.appendChild(readImg);
         readButton.addEventListener('click', (event) => {
-            notificationListener(notification['letta'] ? 'unread' : 'read', notification['idNotifica'], event);
+            notificationListener(notification['letta'] == 1 ? 'unread' : 'read', notification['idNotifica'], event);
         });
 
         const deleteImg = document.createElement('img');
-        deleteImg.src = utils.RESOURCES_DIR + 'cestino_B';
+        deleteImg.src = utils.RESOURCES_DIR + 'cestino_B.png';
         deleteImg.alt = 'Elimina';
 
         const deleteButton = document.createElement('button');
@@ -156,7 +156,7 @@ function generateNotificationSection(notifications) {
             notificationListener('delete', notification['idNotifica'], event);
         });
         
-        li.appendChild(h3);
+        li.appendChild(title);
         li.appendChild(p);
         li.appendChild(readButton);
         li.appendChild(deleteButton);
