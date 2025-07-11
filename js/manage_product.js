@@ -262,8 +262,8 @@ function generateMainContent(result) {
         event.preventDefault();
         
         if (select7.value !== '' && new FormData(event.target).getAll('platform').length > 0) {
-            const image1 = document.querySelector('main form input').files[0] ?? null;
-            const image2 = document.querySelector('main form input').files[0] ?? null;
+            const image1 = document.querySelector('#image1').files[0] ?? null;
+            const image2 = document.querySelector('#image2').files[0] ?? null;
             console.log('image1: ' + image1 + ', image2: '+ image2 + ', nome: ' + input1.value + ", prezzo: " + input2.value
                 + ", quantità: " + input3.value + ", descrizione: " + textarea4.value + ", proprietà: " + textarea5.value + ", offerta: "
                 + input6.value + ", tipo: " + select7.value + ", piattaforma: " + new FormData(event.target).getAll('platform'));
