@@ -518,8 +518,8 @@ class DatabaseHelper {
             $stmt = $this->db->prepare($query);
             $nomeimg1=$nome.'_1';
             $nomeimg2=$nome.'_2';
-            var_dump($immagine1);
-            var_dump($immagine2);
+            // var_dump($immagine1);
+            // var_dump($immagine2);
             $stmt->bind_param('siissiis', $nomeimg1, $id, $uno, $immagine1, $nomeimg2, $id, $due, $immagine2);
             $stmt->execute();
             return $id;
