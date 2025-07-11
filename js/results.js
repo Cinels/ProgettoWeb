@@ -96,7 +96,8 @@ function generateMainContent(result) {
             const cartButton = document.createElement('button');
             cartButton.appendChild(cartImg);
             cartButton.addEventListener('click', (event) => {
-                cartButtonListener('add', product['idProdotto'], event);
+                cartButtonListener('add', product['idProdotto'], event, 
+                    Number(result['cartQuantity'][product['idProdotto']]) + 1, result['available'][product['idProdotto']]);
             });
 
             li.appendChild(cartButton);
@@ -119,12 +120,16 @@ async function favouriteButtonListener(action, id, event) {
     generateMainContent(await utils.makePostRequest(url, formData));
 }
 
-async function cartButtonListener(action, id, event) {
+async function cartButtonListener(action, id, event, quantity, available) {
     event.preventDefault();
     console.log('cart ' + action + " " + id);
-
-    const formData = new FormData();
-    formData.append('cart', action);
-    formData.append('id', id);
-    generateMainContent(await utils.makePostRequest(url, formData));
+    
+    if (quantity <= available) {
+        const formData = new FormData();
+        formData.append('cart', action);
+        formData.append('id', id);
+        generateMainContent(await utils.makePostRequest(url, formData));
+    } else {
+        utils.alertQuantity(quantity, available);
+    }
 }

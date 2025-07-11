@@ -6,7 +6,7 @@ async function displayMainContent() {
     generateMainContent(await utils.makePostRequest(url, new FormData()));
 }
 
-function generateMainContent(products) {
+function generateMainContent(result) {
     // <section>
     //     <h2>Carrello</h2>
     //     <form action="">
@@ -27,12 +27,12 @@ function generateMainContent(products) {
     h2.textContent ='Carrello';
     section.appendChild(h2);
     
-    if (products['result'].length > 0) {
+    if (result['result'].length > 0) {
 
         const form = document.createElement('form');
         
         const h3 = document.createElement('h3');
-        h3.textContent = 'Totale: ' + products['total'] + " €";
+        h3.textContent = 'Totale: ' + result['total'] + " €";
         
         const buyImage = document.createElement('img');
         buyImage.src = utils.RESOURCES_DIR + 'pay.png';
@@ -42,7 +42,7 @@ function generateMainContent(products) {
         buyButton.textContent = 'Acquista';
         buyButton.addEventListener('click', (event) => {
             event.preventDefault();
-            if (products['result'].length > 0) {
+            if (result['result'].length > 0) {
                 document.location = utils.PAGES_DIR + 'payment.php';
             }
         });
@@ -53,11 +53,11 @@ function generateMainContent(products) {
         
         const ul = document.createElement('ul');
         
-        for (let i = 0; i < products['result'].length; i++) {
-            const product = products['result'][i];
+        for (let i = 0; i < result['result'].length; i++) {
+            const product = result['result'][i];
             const li = document.createElement('li');        
             li.appendChild(utils.generateProductSection(product));
-            li.appendChild(generateInteractionForm(product));
+            li.appendChild(generateInteractionForm(product, result['available'][product['idProdotto']]));
             ul.appendChild(li);
         }
         
@@ -67,7 +67,7 @@ function generateMainContent(products) {
     document.querySelector('main').appendChild(section);
 }
 
-function generateInteractionForm(product) {
+function generateInteractionForm(product, available) {
     // <form action="">
     //     <input type="number" id="quantity" name="quantity" min="0" value="${product["quantita"]}">;
     //     <button type='submit' name='remove'>Rimuovi<img src="${paths.RESOURCES_DIR}cestino_B.png" alt="" name='remove'></button>
@@ -79,9 +79,13 @@ function generateInteractionForm(product) {
     const input = document.createElement('input');
     input.type = 'number';
     input.min = 0;
+    input.max = available;
     input.value = product['quantita'];
     input.addEventListener('change', (event) => {
-        quantityListener(input.value, product['idProdotto'], event);
+        quantityListener(input.value, available, product['idProdotto'], event);
+    });
+    input.addEventListener('submit', (event) => {
+        quantityListener(input.value, available,  product['idProdotto'], event);
     });
     
     const removeImage = document.createElement('img');
@@ -89,6 +93,7 @@ function generateInteractionForm(product) {
     removeImage.alt = '';
     
     const removeButton = document.createElement('button');
+    removeButton.type = 'button';
     removeButton.textContent = 'Rimuovi';
     removeButton.addEventListener('click', (event) => {
         buttonListener('remove', product['idProdotto'], event);
@@ -100,6 +105,7 @@ function generateInteractionForm(product) {
     favouriteImage.alt = '';
 
     const favouriteButton = document.createElement('button');
+    favouriteButton.type = 'button';
     favouriteButton.textContent = 'Sposta nei Preferiti';
     favouriteButton.addEventListener('click', (event) => {
         buttonListener('favourite', product['idProdotto'], event);
@@ -124,12 +130,18 @@ async function buttonListener(action, id, event) {
     generateMainContent(await utils.makePostRequest(url, formData));
 }
 
-async function quantityListener(quantity, id, event) {
+async function quantityListener(quantity, available, id, event) {
     event.preventDefault();
-    console.log("quantità: " + quantity + " id: " + id);
+    
+    if (quantity <= available) {
+        console.log("quantità: " + quantity + " id: " + id);
 
-    const formData = new FormData();
-    formData.append('quantity', quantity);
-    formData.append('id', id);
-    generateMainContent(await utils.makePostRequest(url, formData));
+        const formData = new FormData();
+        formData.append('quantity', quantity);
+        formData.append('id', id);
+        generateMainContent(await utils.makePostRequest(url, formData));
+    } else {
+        utils.alertQuantity(quantity, available);
+    }
+    
 }

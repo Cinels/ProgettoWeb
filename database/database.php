@@ -393,6 +393,15 @@ class DatabaseHelper {
         }
     }
 
+    public function getAvailableProducts($idProdotto) {
+        $query = "SELECT quantitaDisponibile FROM PRODOTTO WHERE idProdotto = ? ";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('i', $idProdotto);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
     public function getFavourites() {
         if ($this->isLogged() && $this->getUserType()=="client") {
             $query = "SELECT P.idProdotto, P.nome, prezzo, offerta, ROUND(prezzo - prezzo*(offerta/100), 2) AS prezzoScontato, idVenditore, I.link, "
