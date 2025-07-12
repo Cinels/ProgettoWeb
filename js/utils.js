@@ -20,9 +20,25 @@ export async function makePostRequest(url, formData) {
     }
 }
 
-export function generateProductSection(product) {
+export function generateProductImage(product) {
     // <a href="${paths.PAGES_DIR}product.php?search=${product["idProdotto"]}">
     //     <img src="${paths.DB_RESOURCES_DIR}${product['link']}" alt="Immagine Prodotto"/><br/>
+    // </a>
+    
+    const a = document.createElement('a');
+    a.href = PAGES_DIR + 'product.php?search=' + product['idProdotto'];
+    
+    const img_product = document.createElement('img');
+    img_product.src = DB_RESOURCES_DIR + product['link'];
+    img_product.alt = '';
+
+    a.appendChild(img_product);
+
+    return a;
+}
+
+export function generateProductSection(product) {
+    // <a href="${paths.PAGES_DIR}product.php?search=${product["idProdotto"]}">
     //     ${product['nome']}<br/>`;
 
     //     if (product["offerta"] > 0) {
@@ -40,9 +56,9 @@ export function generateProductSection(product) {
     const a = document.createElement('a');
     a.href = PAGES_DIR + 'product.php?search=' + product['idProdotto'];
     
-    const img_product = document.createElement('img');
-    img_product.src = DB_RESOURCES_DIR + product['link'];
-    img_product.alt = '';
+    // const img_product = document.createElement('img');
+    // img_product.src = DB_RESOURCES_DIR + product['link'];
+    // img_product.alt = '';
 
     const span = document.createElement('span');
     span.textContent = product['nome'];
@@ -66,7 +82,7 @@ export function generateProductSection(product) {
     const p3 = document.createElement('p');
     p3.innerText = "Consegna prevista per: " + date;
 
-    a.appendChild(img_product);
+    // a.appendChild(img_product);
     a.appendChild(span);
     a.appendChild(price);
     a.appendChild(p1);

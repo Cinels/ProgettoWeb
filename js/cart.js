@@ -23,46 +23,46 @@ function generateMainContent(result) {
     document.querySelector('main').innerHTML = "";
     
     const section = document.createElement('section');
+
     const form = document.createElement('form');
     const h2 = document.createElement('h2');
     h2.textContent ='Carrello';
+    
+    const h3 = document.createElement('h3');
+    h3.textContent = 'Totale: ' + result['total'] + " €";
+    
+    const buyImage = document.createElement('img');
+    buyImage.src = utils.RESOURCES_DIR + 'pay.png';
+    buyImage.alt = '';
+    
+    const buyButton = document.createElement('button');
+    buyButton.textContent = 'Acquista';
+    buyButton.addEventListener('click', (event) => {
+        event.preventDefault();
+        if (result['result'].length > 0) {
+            document.location = utils.PAGES_DIR + 'payment.php';
+        }
+    });
+    buyButton.appendChild(buyImage);
+    
     form.appendChild(h2);
+    form.appendChild(h3);
+    form.appendChild(buyButton);
+    section.appendChild(form);
     
     if (result['result'].length > 0) {
-
-        
-        const h3 = document.createElement('h3');
-        h3.textContent = 'Totale: ' + result['total'] + " €";
-        
-        const buyImage = document.createElement('img');
-        buyImage.src = utils.RESOURCES_DIR + 'pay.png';
-        buyImage.alt = '';
-        
-        const buyButton = document.createElement('button');
-        buyButton.textContent = 'Acquista';
-        buyButton.addEventListener('click', (event) => {
-            event.preventDefault();
-            if (result['result'].length > 0) {
-                document.location = utils.PAGES_DIR + 'payment.php';
-            }
-        });
-        buyButton.appendChild(buyImage);
-        
-        form.appendChild(h3);
-        form.appendChild(buyButton);
-        
         const ul = document.createElement('ul');
         
         for (let i = 0; i < result['result'].length; i++) {
             const product = result['result'][i];
-            const li = document.createElement('li');        
-            const a = utils.generateProductSection(product);
-            a.appendChild(generateInteractionForm(product, result['available'][product['idProdotto']]));
-            li.appendChild(a);
+            const li = document.createElement('li');
+            
+            li.appendChild(utils.generateProductImage(product));
+            li.appendChild(utils.generateProductSection(product));
+            li.appendChild(generateInteractionForm(product, result['available'][product['idProdotto']]));
             ul.appendChild(li);
         }
         
-        section.appendChild(form);
         section.appendChild(ul);
     }
     document.querySelector('main').appendChild(section);
@@ -70,12 +70,18 @@ function generateMainContent(result) {
 
 function generateInteractionForm(product, available) {
     // <form action="">
-    //     <input type="number" id="quantity" name="quantity" min="0" value="${product["quantita"]}">;
+    //     <form action=''>
+    //         <button type='button'>-</button>
+    //         <input type="number" id="quantity" name="quantity" min="0" value="${product["quantita"]}">;
+    //         <button type='button'>+</button>
+    //     </form>
     //     <button type='submit' name='remove'>Rimuovi<img src="${paths.RESOURCES_DIR}cestino_B.png" alt="" name='remove'></button>
     //     <button type='submit' name='favourite'>Sposta nei Preferiti<img src="${paths.RESOURCES_DIR}cuore_B.png" alt="" name='favourite'></button>
     // </form>
     
     const form = document.createElement('form');
+
+    const innerForm = document.createElement('form');
 
     const input = document.createElement('input');
     input.type = 'number';
@@ -88,6 +94,29 @@ function generateInteractionForm(product, available) {
     input.addEventListener('submit', (event) => {
         quantityListener(input.value, available,  product['idProdotto'], event);
     });
+
+    const minusButton = document.createElement('button');
+    minusButton.type = 'button';
+    minusButton.name = 'minus';
+    minusButton.textContent = '-';
+    minusButton.addEventListener('click', (event) => {
+        quantityListener(Number(input.value) - 1, available,  product['idProdotto'], event);
+    });
+
+    const plusButton = document.createElement('button');
+    plusButton.type = 'button';
+    plusButton.name = 'minus';
+    plusButton.textContent = '+';
+    plusButton.addEventListener('click', (event) => {
+        quantityListener(Number(input.value) + 1, available,  product['idProdotto'], event);
+    });
+
+    innerForm.addEventListener('submit', (event) => {
+        quantityListener(input.value, available,  product['idProdotto'], event);
+    });
+    innerForm.appendChild(minusButton);
+    innerForm.appendChild(input);
+    innerForm.appendChild(plusButton);
     
     const removeImage = document.createElement('img');
     removeImage.src = utils.RESOURCES_DIR + 'cestino_B.png';
@@ -95,6 +124,7 @@ function generateInteractionForm(product, available) {
     
     const removeButton = document.createElement('button');
     removeButton.type = 'button';
+    removeButton.name = 'cartRemove';
     removeButton.textContent = 'Rimuovi';
     removeButton.addEventListener('click', (event) => {
         buttonListener('remove', product['idProdotto'], event);
@@ -107,6 +137,7 @@ function generateInteractionForm(product, available) {
 
     const favouriteButton = document.createElement('button');
     favouriteButton.type = 'button';
+    favouriteButton.name = 'favourite';
     favouriteButton.textContent = 'Sposta nei Preferiti';
     favouriteButton.addEventListener('click', (event) => {
         buttonListener('favourite', product['idProdotto'], event);
@@ -114,7 +145,7 @@ function generateInteractionForm(product, available) {
     favouriteButton.appendChild(favouriteImage);
     
     // form.appendChild(label);
-    form.appendChild(input);
+    form.appendChild(innerForm);
     form.appendChild(removeButton);
     form.appendChild(favouriteButton);
 

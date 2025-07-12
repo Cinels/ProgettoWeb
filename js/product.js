@@ -144,6 +144,8 @@ function generateInteractionForm(idProduct, isFavourite, user_type, cartQuantity
 
         form.appendChild(editButton);
     } else {
+        const innerForm = document.createElement('form');
+
         const label = document.createElement('label');
         label.setAttribute('for', 'quantity');
         label.textContent = 'Quantità';
@@ -155,11 +157,39 @@ function generateInteractionForm(idProduct, isFavourite, user_type, cartQuantity
         input.max = available;
         input.value = 1;
 
+        const minusButton = document.createElement('button');
+        minusButton.type = 'button';
+        minusButton.name = 'minus';
+        minusButton.textContent = '-';
+        minusButton.addEventListener('click', (event) => {
+            event.preventDefault();
+            input.value--;
+        });
+
+        const plusButton = document.createElement('button');
+        plusButton.type = 'button';
+        plusButton.name = 'minus';
+        plusButton.textContent = '+';
+        plusButton.addEventListener('click', (event) => {
+            event.preventDefault();
+            input.value--;
+        });
+
+        innerForm.addEventListener('submit', (event) => {
+            event.preventDefault()
+        });
+        innerForm.appendChild(label);
+        innerForm.appendChild(minusButton);
+        innerForm.appendChild(input);
+        innerForm.appendChild(plusButton);
+
         const cartImage = document.createElement('img');
         cartImage.src = utils.RESOURCES_DIR + "carrello_B.png";
         cartImage.alt = "";
         
         const cartButton = document.createElement('button');
+        cartButton.type = 'button';
+        cartButton.name = 'cart';
         cartButton.textContent = 'Aggiungi al Carrello';
         cartButton.addEventListener('click', (event) => {
             cartButtonListener(input.value, event, cartQuantity, available);
@@ -169,6 +199,8 @@ function generateInteractionForm(idProduct, isFavourite, user_type, cartQuantity
         const favouriteImage = document.createElement('img');
         favouriteImage.alt = '';
         const favouriteButton = document.createElement('button');
+        favouriteButton.type = 'button';
+        favouriteButton.name = 'favourite';
         if(isFavourite) {
             favouriteImage.src = utils.RESOURCES_DIR + 'cuore_R.png';
             favouriteButton.textContent = 'Rimuovi dai Preferiti';
@@ -184,8 +216,7 @@ function generateInteractionForm(idProduct, isFavourite, user_type, cartQuantity
         }
         favouriteButton.appendChild(favouriteImage);
 
-        form.appendChild(label);
-        form.appendChild(input);
+        form.appendChild(innerForm);
         form.appendChild(cartButton);
         form.appendChild(favouriteButton);
     }

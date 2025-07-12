@@ -24,10 +24,11 @@ function generateMainContent(result) {
     
     for (let i = 0; i < result['result'].length; i++) {
         const product = result['result'][i];
-        const li = document.createElement('li');        
-        const a = utils.generateProductSection(product);
-        a.appendChild(generateInteractionForm(product, result['cartQuantity'][product['idProdotto']], result['available'][product['idProdotto']]));
-        li.appendChild(a);
+        const li = document.createElement('li');
+        
+        li.appendChild(utils.generateProductImage(product));
+        li.appendChild(utils.generateProductSection(product));
+        li.appendChild(generateInteractionForm(product, result['cartQuantity'][product['idProdotto']], result['available'][product['idProdotto']]));
         ul.appendChild(li);
     }
     
@@ -50,7 +51,9 @@ function generateInteractionForm(product, cartQuantity, available) {
     removeImage.alt = '';
     
     const removeButton = document.createElement('button');
+    removeButton.type = 'button';
     removeButton.textContent = 'Rimuovi';
+    removeButton.name = 'favouriteRemove';
     removeButton.addEventListener('click', (event) => {
         buttonListener('remove', product['idProdotto'], event, 0, 0);
     });
@@ -60,15 +63,17 @@ function generateInteractionForm(product, cartQuantity, available) {
     favouriteImage.src = utils.RESOURCES_DIR + 'carrello_B.png';
     favouriteImage.alt = '';
 
-    const favouriteButton = document.createElement('button');
-    favouriteButton.textContent = 'Sposta nel Carrello';
-    favouriteButton.addEventListener('click', (event) => {
+    const cartButton = document.createElement('button');
+    cartButton.type = 'button';
+    cartButton.name = 'cart';
+    cartButton.textContent = 'Sposta nel Carrello';
+    cartButton.addEventListener('click', (event) => {
         buttonListener('cart', product['idProdotto'], event, Number(cartQuantity) + 1, available);
     });
-    favouriteButton.appendChild(favouriteImage);
+    cartButton.appendChild(favouriteImage);
     
     form.appendChild(removeButton);
-    form.appendChild(favouriteButton);
+    form.appendChild(cartButton);
 
     return form;
 }
