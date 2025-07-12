@@ -1,4 +1,4 @@
-h2, h3, h4, ul {
+h2, h3, h4, ul, p {
     margin: 0;
     padding: 0;
 }
@@ -65,7 +65,7 @@ main > section > form > button {
     width: 50%;
     vertical-align: middle;
     display: inline-flex;
-    background-color: gold;
+    /* background-color: gold; */
     font-size: large;
     font-weight: bold;
     align-items: center;
@@ -112,7 +112,7 @@ main > section > ul > li > a {
 
 main > section > ul > li > a:first-of-type {
     grid-column: 1;
-    grid-row: 1 / 3;
+    grid-row: 1 / 4;
 }
 
 main > section > ul > li > a > img {
@@ -244,7 +244,7 @@ main > section > ul > li > form > button[name='cartRemove'] {
     width: 60%;
 }
 
-main > section form > button[name='favourite'], main > section form > button[name='cart'] {
+main > section form > button[name='favourite'], main > section form > button[name='cart'], main > section button[name='edit'] {
     width: 100%;
     vertical-align: middle;
     display: inline-flex;
