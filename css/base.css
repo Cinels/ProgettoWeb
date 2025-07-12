@@ -4,7 +4,7 @@ body, header, footer, h1 {
 }
 
 body {
-    background-image: linear-gradient(to right, #004aad, #cb6ce6);
+    background-image: linear-gradient(to right, #004aad, rgb(192, 1, 192));
 }
 
 header{
@@ -34,6 +34,11 @@ header > div {
 header > div > a > img {
     max-height: 50px;
 }
+
+header > div > a:last-of-type > img {
+    border-radius: 100px;
+}
+
 
 header > form {
     position: relative;
