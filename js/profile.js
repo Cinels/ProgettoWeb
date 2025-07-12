@@ -17,7 +17,7 @@ function generateMainContent(result) {
 
     document.querySelector('main').innerHTML = "";
 
-    const section = document.createElement('section');
+    const div = document.createElement('div');
 
     const img = document.createElement('img');
     img.src = utils.RESOURCES_DIR + 'exit.png';
@@ -41,11 +41,11 @@ function generateMainContent(result) {
     });
     button.appendChild(img);
 
-    section.appendChild(generateProfileSection(result['user'], result['user_type']));
-    section.appendChild(button);
-    section.appendChild(generateNotificationSection(result['notifications']));
+    div.appendChild(generateProfileSection(result['user'], result['user_type']));
+    div.appendChild(button);
+    div.appendChild(generateNotificationSection(result['notifications']));
     
-    document.querySelector('main').appendChild(section);
+    document.querySelector('main').appendChild(div);
 }
 
 function generateProfileSection(profile, user_type) {
@@ -63,8 +63,8 @@ function generateProfileSection(profile, user_type) {
     img.src = profile['fotoProfilo'] != null ? utils.DB_RESOURCES_DIR + profile['fotoProfilo'] : utils.RESOURCES_DIR + "header/utente.png";
     img.alt = 'Foto Profilo';
 
-    const p1 = document.createElement('p');
-    p1.textContent = 'Nome: ' + profile['nome'] + ' ' + profile['cognome'];
+    const h2 = document.createElement('h2');
+    h2.textContent = 'Nome: ' + profile['nome'] + ' ' + profile['cognome'];
 
     const p2 = document.createElement('p');
     p2.textContent = 'Email: ' + profile['email'];
@@ -86,7 +86,7 @@ function generateProfileSection(profile, user_type) {
     button.appendChild(editImage);
 
     section.appendChild(img);
-    section.appendChild(p1);
+    section.appendChild(h2);
     section.appendChild(p2);
     section.appendChild(p3);
     section.appendChild(button);

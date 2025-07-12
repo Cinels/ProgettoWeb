@@ -5,6 +5,12 @@ function displayMainContent() {
     const main = document.querySelector("main");
     main.innerHTML = generateMainContent();
 
+    const button = document.querySelector('main > section > form > ul > li > button[type="button"]');
+    button.addEventListener('click', (event) => {
+        event.preventDefault();
+        location.href = utils.PAGES_DIR + 'sign_in.php?action=create';
+    });
+
     document.querySelector("main form").addEventListener("submit", function (event) {
         event.preventDefault();
         const email = document.querySelector("#email").value;
@@ -29,7 +35,7 @@ function generateMainContent() {
                     </li><li>
                         <p>o</p>
                     </li><li>
-                        <a type='button' href="${utils.PAGES_DIR}sign_in.php?action=create"><button type="button">Registrati</button></a>
+                        <button type="button">Registrati</button>
                     </li>
                 </ul>
             </form>

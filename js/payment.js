@@ -77,7 +77,6 @@ function generateInteractionForm() {
     input1.type = 'text';
     input1.id = 'n_card';
     input1.name = 'n_card';
-    input1.inputMode = 'numeric';
     input1.pattern = '\\d{16}';
     input1.minLength = 16;
     input1.maxLength = 16;
@@ -103,7 +102,6 @@ function generateInteractionForm() {
     input3.type = 'text';
     input3.id = 'ccv';
     input3.name = 'ccv';
-    input3.inputMode = 'numeric';
     input3.pattern = '\\d{3}';
     input3.maxLength = 3;
     input3.required = true;

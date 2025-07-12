@@ -37,13 +37,20 @@ function generateSignInContent(result) {
                 </li><li>
                     <p>o</p>
                 </li><li>
-                    <a href="${utils.PAGES_DIR}login.php"><button type="button">Accedi</button></a>
+                    <button type="button">Accedi</button>
                 </li>
             </ul>
         </form>
     </section>`;
 
     document.querySelector('main').innerHTML = content;
+
+    const button = document.querySelector('main > section > form > ul > li > button[type="button"]');
+    button.addEventListener('click', (event) => {
+        event.preventDefault();
+        location.href = utils.PAGES_DIR + 'login.php';
+    });
+
 
     const form = document.querySelector('main form');
     form.addEventListener('submit', async (event) => {
@@ -91,13 +98,20 @@ function generateProfileEditContent(result) {
                 </li><li>
                     <label for="check_password">Conferma Password:</label><input type="password" id="check_password" name="check_password"/>
                 </li><li>
-                    <a href="${utils.PAGES_DIR}profile.php"><button type="button">Annulla</button></a><button type="submit" name="submit">Conferma</button>
+                    <button type="button">Annulla</button><button type="submit" name="submit">Conferma</button>
                 </li>
             </ul>
         </form>
     </section>`;
 
     document.querySelector('main').innerHTML = content;
+    
+    const button = document.querySelector('main > section > form > ul > li > button[type="button"]');
+    button.addEventListener('click', (event) => {
+        event.preventDefault();
+        location.href = utils.PAGES_DIR + 'profile.php';
+    });
+
 
     const form = document.querySelector('main form');
     form.addEventListener('submit', async (event) => {
