@@ -50,39 +50,17 @@ function generateMainContent(result) {
     for (let i = 0; i < products.length; i++) {
         const product = products[i];
         const li = document.createElement('li');
-                
-        const a = document.createElement('a');
-        a.href = utils.PAGES_DIR + 'product.php?search=' + product['idProdotto'];
-        
-        const img = document.createElement('img');
-        img.src = utils.DB_RESOURCES_DIR + product['link'];
-        img.alt = "Immagine Prodotto";
 
-        const p = document.createElement('p');
-        p.textContent = product['nome'];
-
-        const price = document.createElement('p');
-        if (product["offerta"] > 0) {
-            price.innerHTML = `<ins>${product["offerta"]}% ${product['prezzoScontato']}</ins> <del>${product["prezzo"]}</del> €"`;;
-        } else {
-            price.innerText = product['prezzo'] + '€';            
-        }
-        
-        const p1 = document.createElement('p');
-        p1.innerText = product['media_recensioni'].substring(0, 3) + " (" + product['num_recensioni'] + ")";
-        p1.appendChild(utils.generateReviewStars(product['media_recensioni']));
-
-        const p2 = document.createElement('p');
-        p2.innerText = 'Disponibilità: ' + product['quantitaDisponibile'];
-
-        const p3 = document.createElement('p');
-        p3.innerText = product['descrizione'];
+        li.appendChild(utils.generateProductImage(product));
+        li.appendChild(utils.generateProductSection(product, true));
 
         const editImg = document.createElement('img');
         editImg.src = utils.RESOURCES_DIR + 'matita.png';
         editImg.alt = '';
 
         const editButton = document.createElement('button');
+        editButton.type = 'button';
+        editButton.name = 'edit';
         editButton.textContent = 'Modifica';
         editButton.appendChild(editImg);
         editButton.addEventListener('click', (event) => {
@@ -90,16 +68,7 @@ function generateMainContent(result) {
             location.href = utils.PAGES_DIR + 'manage_product.php' + '?id=' + product['idProdotto'];
         });
 
-        
-        a.appendChild(img);
-        a.appendChild(p);
-        a.appendChild(price);
-        a.appendChild(p1);
-        a.appendChild(p2);
-        a.appendChild(p3);
-        a.appendChild(editButton);
-
-        li.appendChild(a);
+        li.appendChild(editButton);
         ul.appendChild(li);
     }
     

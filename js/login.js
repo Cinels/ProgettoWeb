@@ -16,8 +16,8 @@ function displayMainContent() {
 function generateMainContent() {
     let content = `
         <section>
-            <h2>Accedi</h2>
             <form action="#" method="POST">
+                <h2>Accedi</h2>
                 <p></p>
                 <ul>
                     <li>
@@ -25,11 +25,11 @@ function generateMainContent() {
                     </li><li>
                         <label for="password">Password:</label><input type="password" id="password" name="password" required/>
                     </li><li>
-                        <input type="submit" name="submit" value="Accedi" />
+                        <button type="submit" name="submit">Accedi</button>
                     </li><li>
                         <p>o</p>
                     </li><li>
-                        <a href="${utils.PAGES_DIR}sign_in.php?action=create"><input type="button" value="Registrati" /></a>
+                        <a type='button' href="${utils.PAGES_DIR}sign_in.php?action=create"><button type="button">Registrati</button></a>
                     </li>
                 </ul>
             </form>

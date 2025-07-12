@@ -151,6 +151,8 @@ function generateInteractionForm(idProduct, isFavourite, user_type, cartQuantity
         editImg.alt = '';
 
         const editButton = document.createElement('button');
+        editButton.type = 'button';
+        editButton.name = 'edit';
         editButton.textContent = 'Modifica';
         editButton.appendChild(editImg);
         editButton.addEventListener('click', (event) => {

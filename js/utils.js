@@ -37,7 +37,7 @@ export function generateProductImage(product) {
     return a;
 }
 
-export function generateProductSection(product) {
+export function generateProductSection(product, isVendor = false) {
     // <a href="${paths.PAGES_DIR}product.php?search=${product["idProdotto"]}">
     //     ${product['nome']}<br/>`;
 
@@ -56,10 +56,6 @@ export function generateProductSection(product) {
     const a = document.createElement('a');
     a.href = PAGES_DIR + 'product.php?search=' + product['idProdotto'];
     
-    // const img_product = document.createElement('img');
-    // img_product.src = DB_RESOURCES_DIR + product['link'];
-    // img_product.alt = '';
-
     const span = document.createElement('span');
     span.textContent = product['nome'];
 
@@ -69,26 +65,28 @@ export function generateProductSection(product) {
     } else {
         price.innerText = product['prezzo'] + '€';            
     }
-    
+
     const p1 = document.createElement('p');
     p1.innerText = product['media_recensioni'].substring(0, 3) + " (" + product['num_recensioni'] + ")";
     p1.appendChild(generateReviewStars(product['media_recensioni']));
-
     const p2 = document.createElement('p');
-    p2.innerText = product['idVenditore'];
-
-    const options = {'weekday': 'long', 'month': 'long', 'day': '2-digit'};
-    const date = new Date(new Date().setDate(new Date().getDate() + 1)).toLocaleString('it-IT', options);
-    const p3 = document.createElement('p');
-    p3.innerText = "Consegna prevista per: " + date;
-
-    // a.appendChild(img_product);
+    
     a.appendChild(span);
     a.appendChild(price);
     a.appendChild(p1);
     a.appendChild(p2);
-    a.appendChild(p3);
-    
+
+    if (isVendor) {
+        p2.innerText = 'Disponibilità: ' + product['quantitaDisponibile'];
+    } else {
+        p2.innerText = product['idVenditore'];
+        const p3 = document.createElement('p');
+        const options = {'weekday': 'long', 'month': 'long', 'day': '2-digit'};
+        const date = new Date(new Date().setDate(new Date().getDate() + 1)).toLocaleString('it-IT', options);
+        p3.innerText = "Consegna prevista per: " + date;
+        a.appendChild(p3);
+    }
+
     return a;
 }
 
