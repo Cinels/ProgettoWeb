@@ -33,11 +33,11 @@ function generateSignInContent(result) {
                 </li><li>
                     <label for="check_password">Conferma Password:</label><input type="password" id="check_password" name="check_password" required/>
                 </li><li>
-                    <input type="submit" name="submit" value="Registrati" />
+                    <Button type="submit" name="submit">Registrati</button>
                 </li><li>
                     <p>o</p>
                 </li><li>
-                    <a href="${utils.PAGES_DIR}login.php"><input type="button" value="Accedi" /></a>
+                    <a href="${utils.PAGES_DIR}login.php"><button type="button">Accedi</button></a>
                 </li>
             </ul>
         </form>
@@ -91,7 +91,7 @@ function generateProfileEditContent(result) {
                 </li><li>
                     <label for="check_password">Conferma Password:</label><input type="password" id="check_password" name="check_password"/>
                 </li><li>
-                    <a href="${utils.PAGES_DIR}profile.php"><input type="button" value="Annulla" /></a><input type="submit" name="submit" value="Conferma" />
+                    <a href="${utils.PAGES_DIR}profile.php"><button type="button">Annulla</button></a><button type="submit" name="submit">Conferma</button>
                 </li>
             </ul>
         </form>

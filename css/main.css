@@ -30,17 +30,15 @@ main > section > a > img {
     width: 50%;
 }
 
-
 main > section > h2, main > section > form, main > section > section, main > section > ul > li {
     /* background-color: rgba(200, 200, 200, 0.5); /*/
-    background-color: lightcyan;/*/
+    background-color: #b9d3dc;/*/
     border-color: lightgray; /*/
     border-color: #a0bfbf; /**/
     border-width: 1.5px;
     border-style: outset;
     border-radius: 30px;
     margin: 2% 0;
-    list-style: none;
     padding: 3%;
     text-align: start;
     overflow: hidden;
@@ -101,6 +99,7 @@ main > section > ul > li {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto auto;
+    list-style: none;
 }
 
 main > section > ul > li > a {
@@ -338,4 +337,51 @@ main section footer {
 
 main section footer a {
     text-decoration: none;
+}
+
+main > section > form > p {
+    font-weight: bold;
+    color: red;
+    margin-bottom: 1%;
+}
+
+main > section > form > ul > li {
+    list-style: none;
+}
+
+main > section > form > ul > li:not(:last-of-type) {
+    margin-bottom: 0.5%;
+}
+
+main > section > form > ul > li:nth-last-of-type(4) {
+    margin-bottom: 1%;
+}
+
+main > section > form > ul > li > label {
+    display: inline-block;
+    width: 25%;
+    margin-left: 25%;
+    text-align: start;
+}
+
+main > section > form > ul > li > input {
+    box-sizing: border-box;
+    width: 25%;
+    padding: 0 1%;
+    margin-right: 25%;
+    border-radius: 100px;
+    border: #444 solid 1px;
+}
+
+main > section > form > ul > li button {
+    padding: 1% 2% 1%;
+    margin: 0 1%;
+}
+
+main > section > form > ul > li > input[type='file'] {
+    width: 50%;
+    margin: 0 25%;
+    border: 0;
+    padding: 0;
+    border-radius: 0;
 }
