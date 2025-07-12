@@ -21,18 +21,13 @@ header > h1 {
     text-align: start;
 }
 
-header > h1 > a > img {
+header > h1 > a > img, header > div > a > img {
     max-height: 50px;
 }
 
 header > div {
     align-items: center;
     text-align: end;
-}
-
-
-header > div > a > img {
-    max-height: 50px;
 }
 
 header > div > a:last-of-type > img {
@@ -65,8 +60,6 @@ header > form > input, header > form > input:focus {
     width: 100%;
     padding-right: 2%;
 }
-
-
 
 body > footer {
     background-image: linear-gradient(to right, black, darkblue);
