@@ -26,6 +26,7 @@ aside > section > form {
 }
 
 aside > section > form > button {
+    text-align: center;
     background-color: white;
     border-width: 1px;
     border-color: #ddd;
@@ -38,12 +39,15 @@ aside > section > form > button {
 }
 
 aside img {
+    display: block;
+    align-content: center;
     border-radius: 10px;
     max-height: 60%;
     max-width: 90%;
+    margin: 0 auto 3%;
 }
 
-aside > section > form > button > p, aside > section > form > button > span {
+aside > section > form > button, aside > section > form > button > span {
     font-weight: bold;
 }
 
