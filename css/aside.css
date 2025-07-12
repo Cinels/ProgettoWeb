@@ -4,10 +4,10 @@ h2, p {
 }
 
 aside > section {
-    /* background-color: rgba(200, 200, 200, 0.3); */
-    background-color: rgb(161, 255, 255);
-    /* border-color: lightgray; */
-    border-color: #a0bfbf;
+    /* background-color: rgba(200, 200, 200, 0.5); /*/
+    background-color: rgb(161, 255, 255);/*/
+    border-color: lightgray; /*/
+    border-color: #a0bfbf; /**/
     border-width: 1.5px;
     border-style: outset;
     border-radius: 30px;
