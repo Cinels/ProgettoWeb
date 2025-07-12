@@ -44,7 +44,7 @@ function generateMainContent(result) {
     p2.textContent = product['proprieta'];
     section.appendChild(p2);
     
-    section.appendChild(generateReviewSection(product, result['hasBuyed'], result['hasReviewed'], result['userReview'][0], result['reviews'], result['n_rev']));
+    section.appendChild(generateReviewSection(product, result['hasBuyed'], result['hasReviewed'], result['userReview'], result['reviews'], result['n_rev']));
     outerSection.appendChild(section);
     document.querySelector('main').appendChild(outerSection);
 }
@@ -288,7 +288,7 @@ function generateReviewSection(product, hasBuyed, hasReviewed, userReview, revie
 
     if(hasBuyed) {
         let vote;
-        if(hasReviewed) {
+        if(hasReviewed && userReview != null) {
             vote = userReview['voto'];
             stars.setAttribute('vote', vote);
             text.value = userReview['descrizione'];
