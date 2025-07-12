@@ -8,11 +8,11 @@ function displayMainContent() {
 
 function generateMainContent() {
     let content = `
-        <section>
+        <div>
             <a href="${utils.PAGES_DIR}results.php?search=switch"><img src="${utils.RESOURCES_DIR}switch.png" alt="NintendoSwitch"/></a><a
             href="${utils.PAGES_DIR}results.php?search=xbox"><img src="${utils.RESOURCES_DIR}xbox.png" alt="Xbox"/></a><a
             href="${utils.PAGES_DIR}results.php?search=ps"><img src="${utils.RESOURCES_DIR}playstation.png" alt="Playstation"/></a>
-        </section>
+        </div>
     `;
     return content;
 }

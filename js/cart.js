@@ -24,12 +24,15 @@ function generateMainContent(result) {
     
     const section = document.createElement('section');
 
-    const form = document.createElement('form');
+    const header = document.createElement('header');
+
     const h2 = document.createElement('h2');
     h2.textContent ='Carrello';
     
-    const h3 = document.createElement('h3');
-    h3.textContent = 'Totale: ' + result['total'] + " €";
+    const form = document.createElement('form');
+    
+    const strong = document.createElement('strong');
+    strong.textContent = 'Totale: ' + result['total'] + " €";
     
     const buyImage = document.createElement('img');
     buyImage.src = utils.RESOURCES_DIR + 'pay.png';
@@ -45,10 +48,11 @@ function generateMainContent(result) {
     });
     buyButton.appendChild(buyImage);
     
-    form.appendChild(h2);
-    form.appendChild(h3);
+    form.appendChild(strong);
     form.appendChild(buyButton);
-    section.appendChild(form);
+    header.appendChild(h2);
+    header.appendChild(form);
+    section.appendChild(header);
     
     if (result['result'].length > 0) {
         const ul = document.createElement('ul');
@@ -81,7 +85,7 @@ function generateInteractionForm(product, available) {
     
     const form = document.createElement('form');
 
-    const innerForm = document.createElement('form');
+    const span = document.createElement('span');
 
     const input = document.createElement('input');
     input.type = 'number';
@@ -111,12 +115,12 @@ function generateInteractionForm(product, available) {
         quantityListener(Number(input.value) + 1, available,  product['idProdotto'], event);
     });
 
-    innerForm.addEventListener('submit', (event) => {
+    span.addEventListener('submit', (event) => {
         quantityListener(input.value, available,  product['idProdotto'], event);
     });
-    innerForm.appendChild(minusButton);
-    innerForm.appendChild(input);
-    innerForm.appendChild(plusButton);
+    span.appendChild(minusButton);
+    span.appendChild(input);
+    span.appendChild(plusButton);
     
     const removeImage = document.createElement('img');
     removeImage.src = utils.RESOURCES_DIR + 'cestino_B.png';
@@ -145,7 +149,7 @@ function generateInteractionForm(product, available) {
     favouriteButton.appendChild(favouriteImage);
     
     // form.appendChild(label);
-    form.appendChild(innerForm);
+    form.appendChild(span);
     form.appendChild(removeButton);
     form.appendChild(favouriteButton);
 

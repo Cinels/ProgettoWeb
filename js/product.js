@@ -9,19 +9,17 @@ async function displayMainContent() {
 
 function generateMainContent(result) {
     // <section>
-    //     <section>
-    //         <section>Prodotto</section>
-    //         <form>Interazioni</form>
-    //         <p><?php echo $result["descrizione"] ?></p>
-    //         <p><?php echo $result["proprieta"] ?></p>
-    //         <section>Recensioni</section>
-    //     </section>
+    //     <section>Prodotto</section>
+    //     <form>Interazioni</form>
+    //     <p><?php echo $result["descrizione"] ?></p>
+    //     <p><?php echo $result["proprieta"] ?></p>
+    //     <section>Recensioni</section>
     // </section>
     
     const product = result['result'][0];    
     document.querySelector('main').innerHTML = "";
 
-    const outerSection = document.createElement('section');
+    const div = document.createElement('div');
     const section = document.createElement('section');
 
     section.appendChild(generateProductSection(product, result['images']));
@@ -45,8 +43,8 @@ function generateMainContent(result) {
     section.appendChild(p2);
     
     section.appendChild(generateReviewSection(product, result['hasBuyed'], result['hasReviewed'], result['userReview'], result['reviews'], result['n_rev']));
-    outerSection.appendChild(section);
-    document.querySelector('main').appendChild(outerSection);
+    div.appendChild(section);
+    document.querySelector('main').appendChild(div);
 }
 
 function generateProductSection(product, images) {
@@ -73,22 +71,39 @@ function generateProductSection(product, images) {
     mainImage.src = utils.DB_RESOURCES_DIR + images[0]['link'];
     mainImage.alt = "Immagine Prodotto";
     
-    const article = document.createElement('article');
+    const form = document.createElement('form');
     for(let i = 0; i < images.length; i++) {
+        const radio = document.createElement('input');
+        radio.type = 'radio';
+        radio.id = 'image' + i;
+        radio.name = 'images';
+        radio.value = i;
+        
+        const label = document.createElement('label');
+        label.setAttribute('for', 'image' + i);
+        
         const img = document.createElement('img');
         img.src = utils.DB_RESOURCES_DIR + images[i]['link'];
         img.alt = `Immagine ${i} del Prodotto`;
-        img.addEventListener('click', (event) => {
-            event.preventDefault();
-            clearImageSelection(article);
-            img.setAttribute('selected', true);
-            mainImage.src = img.src;
-        });
+        
+        const span = document.createElement('span');
+        span.innerHTML = `Immagine ${i} del Prodotto`;
+
+        label.appendChild(img);
+        label.appendChild(span);
+        
         if (i == 0) {
-            img.setAttribute('selected', true);
+            radio.checked = true;
         }
-        article.appendChild(img);
+        form.appendChild(radio);
+        form.appendChild(label);
     }
+    form.addEventListener('change', (event) => {
+        event.preventDefault();
+        const value = document.querySelector('main form > input[type="radio"]:checked').value;
+        mainImage.src = utils.DB_RESOURCES_DIR + images[value]['link'];
+    });
+
     const h2 = document.createElement('h2');
     h2.textContent = product['nome'];
     
@@ -116,7 +131,7 @@ function generateProductSection(product, images) {
     p4.innerText = "Disponibili: " + product['quantitaDisponibile'];
 
     section.appendChild(mainImage);
-    section.appendChild(article);
+    section.appendChild(form);
     section.appendChild(h2);
     section.appendChild(price);
     section.appendChild(a);
@@ -162,7 +177,7 @@ function generateInteractionForm(idProduct, isFavourite, user_type, cartQuantity
 
         form.appendChild(editButton);
     } else {
-        const innerForm = document.createElement('form');
+        const span = document.createElement('span');
 
         const label = document.createElement('label');
         label.setAttribute('for', 'quantity');
@@ -193,13 +208,13 @@ function generateInteractionForm(idProduct, isFavourite, user_type, cartQuantity
             if (Number(input.value) < Number(input.max)) input.value++;
         });
 
-        innerForm.addEventListener('submit', (event) => {
+        span.addEventListener('submit', (event) => {
             event.preventDefault()
         });
-        innerForm.appendChild(label);
-        innerForm.appendChild(minusButton);
-        innerForm.appendChild(input);
-        innerForm.appendChild(plusButton);
+        span.appendChild(label);
+        span.appendChild(minusButton);
+        span.appendChild(input);
+        span.appendChild(plusButton);
 
         const cartImage = document.createElement('img');
         cartImage.src = utils.RESOURCES_DIR + "carrello_B.png";
@@ -234,7 +249,7 @@ function generateInteractionForm(idProduct, isFavourite, user_type, cartQuantity
         }
         favouriteButton.appendChild(favouriteImage);
 
-        form.appendChild(innerForm);
+        form.appendChild(span);
         form.appendChild(cartButton);
         form.appendChild(favouriteButton);
     }
@@ -325,7 +340,8 @@ function generateReviewSection(product, hasBuyed, hasReviewed, userReview, revie
     }
 
     const footer = document.createElement('footer');
-    const morerev = document.createElement('a');
+    const morerev = document.createElement('button');
+    morerev.type = 'button';
     morerev.href = '';
     if (!Number.isInteger(n)) {
         morerev.textContent = 'Mostra altro';
@@ -396,11 +412,5 @@ function isClient(result) {
         generateMainContent(result);
     } else {
         location.href = utils.PAGES_DIR + (result['logged'] === 'vendor' ? 'profile.php' : 'login.php') ;
-    }
-}
-
-function clearImageSelection(article) {
-    for (let i = 0; i < article.children.length; i++) {
-        article.children[i].removeAttribute('selected');
     }
 }
