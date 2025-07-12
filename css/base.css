@@ -7,7 +7,7 @@ body {
     background-image: linear-gradient(to right, #004aad, rgb(192, 1, 192));
 }
 
-header{
+body > header{
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -68,7 +68,7 @@ header > form > input, header > form > input:focus {
 
 
 
-footer {
+body > footer {
     background-image: linear-gradient(to right, black, darkblue);
     color: lightcyan;
     padding: 2%;

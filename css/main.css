@@ -1,4 +1,4 @@
-h2, h3, ul {
+h2, h3, h4, ul {
     margin: 0;
     padding: 0;
 }
@@ -31,7 +31,7 @@ main > section > a > img {
 }
 
 
-main > section > h2, main > section > form, main > section > ul > li {
+main > section > h2, main > section > form, main > section > section, main > section > ul > li {
     /* background-color: rgba(200, 200, 200, 0.5); /*/
     background-color: lightcyan;/*/
     border-color: lightgray; /*/
@@ -47,11 +47,7 @@ main > section > h2, main > section > form, main > section > ul > li {
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
 }
 
-main > section > h2 {
-    text-align: center;
-}
-
-main > section > form {
+main > section > h2, main > section > form {
     text-align: center;
 }
 
@@ -74,6 +70,31 @@ main > section > form > button {
     font-weight: bold;
     align-items: center;
     justify-content: center;
+}
+
+main > section > section > section {
+    text-align: end;
+}
+
+main > section > section > section > img {
+    width: 100%;
+    border-radius: 20px;
+}
+
+main > section > section > section > article {
+    text-align: center;
+}
+
+main > section > section > section > article > img {
+    height: 50px;
+    padding: 0.5%;
+    border-radius: 5px;
+}
+
+main > section > section > section > article > img[selected='true'] {
+    border: 2px solid black;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    opacity: 1;
 }
 
 main > section > ul > li {
@@ -110,9 +131,7 @@ main > section > ul > li > a > span {
 }
 
 main > section > ul > li > a > p:first-of-type {
-    display: inline-block;
     font-weight: bold;
-    margin-bottom: 2%;
     width: 50%;
     vertical-align: top;
     font-size: large;
@@ -121,6 +140,37 @@ main > section > ul > li > a > p:first-of-type {
 main > section > ul > li > a > p {
     display: inline-block;
     margin-bottom: 2%;
+    width: 100%;
+}
+
+main > section > section > section > h2 {
+    display: inline-block;
+    width: 50%;
+    vertical-align: top;
+    text-align: start;
+}
+
+main > section > section > section > a {
+    display: inline-block;
+    width: 100%;
+    text-decoration: none;
+    color: black;
+    text-align: end;
+    vertical-align: top;
+    margin-bottom: 2%;
+}
+
+main > section > section > section > p:first-of-type {
+    font-weight: bold;
+    font-size: larger;
+    width: 50%;
+}
+
+main > section > section > section > p {
+    display: inline-block;
+    margin-bottom: 2%;
+    vertical-align: top;
+    text-align: end;
     width: 100%;
 }
 
@@ -134,7 +184,7 @@ main > section del {
     font-weight: normal;
 }
 
-main > section > ul > li > a > p > img {
+main > section > ul > li > a > p > img, main > section a[href='#Reviews'] > img, main > section > section > section[id='Reviews'] img {
     height: 18px;
     vertical-align: middle;
 }
@@ -154,10 +204,6 @@ input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button { 
   -webkit-appearance: none;
 }
-
-/* main > section > ul > li > form {
-    vertical-align: top;
-} */
 
 main > section > ul > li > form > form {
     display: inline-block;
@@ -180,7 +226,6 @@ main > section > ul > li > form > form > input {
 
 main > section > ul > li > form > form > button {
     width: 30%;
-    height: 100%;
     font-size: medium;
 }
 
@@ -192,14 +237,14 @@ main > section > ul > li > form > button[name='cartRemove'], main > section > ul
     font-size: large;
     align-items: center;
     justify-content: center;
-    margin-bottom: 5%;
+    margin-bottom: 3%;
 }
 
 main > section > ul > li > form > button[name='cartRemove'] {
     width: 60%;
 }
 
-main > section > ul > li > form > button[name='favourite'], main > section > ul > li > form > button[name='cart'] {
+main > section form > button[name='favourite'], main > section form > button[name='cart'] {
     width: 100%;
     vertical-align: middle;
     display: inline-flex;
@@ -207,8 +252,90 @@ main > section > ul > li > form > button[name='favourite'], main > section > ul 
     font-size: large;
     align-items: center;
     justify-content: center;
+    margin-top: 3%;
 }
 
-main > section > ul > li > form > button[name='cart'] {
+main > section form > button[name='cart'] {
     background-color: gold;
+}
+
+main > section > section > form {
+    text-align: center;
+}
+
+main > section > section > form > form {
+    display: inline-block;
+    width: 50%;
+    background-color: white;
+    box-sizing: border-box;
+    border-radius: 100px;
+    padding: 2%;
+    vertical-align: middle;
+}
+
+main > section > section > form > form > label {
+    display: inline-block;
+    width: 50%;
+    text-align: start;
+}
+
+main > section > section > form > form > input {
+    display: inline-block;
+    box-sizing: border-box;
+    width: 20%;
+    border: 0;
+    text-align: center;
+    font-size: medium;
+}
+
+main > section > section > form > form > button {
+    display: inline-block;
+    width: 15%;
+    font-size: medium;
+}
+
+main > section > section h3 {
+    margin: 3% 0 1%;
+}
+
+main > section > section > section[id='Reviews'] {
+    text-align: start;
+}
+
+main > section > section > section[id='Reviews'] > header > h3 {
+    display: inline-block;
+    width: 50%;
+    margin-bottom: 2%;
+}
+
+main > section > section > section[id='Reviews'] > header > p {
+    font-weight: normal;
+    font-size: medium;
+    margin-top: 3%;
+}
+
+/*non so come fare la parte della propria recensione*/
+main section[id='Reviews'] > img, main section[id='Reviews'] > textarea, main section[id='Reviews'] > button {
+    width: auto;
+    vertical-align: top;
+}
+
+main section[id='Reviews'] > article {
+    text-align: start;
+}
+
+main section[id='Reviews'] > article > h4, main section[id='Reviews'] > article > img {
+    display: inline-block;
+    margin-top: 2%;
+    padding: 0 2% 0 0;
+    vertical-align: middle;
+}
+
+main section footer {
+    text-align: center;
+    margin-top: 2%;
+}
+
+main section footer a {
+    text-decoration: none;
 }

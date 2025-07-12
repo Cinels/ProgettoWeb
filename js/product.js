@@ -9,33 +9,44 @@ async function displayMainContent() {
 
 function generateMainContent(result) {
     // <section>
-    //     <section>Prodotto</section>
-    //     <form>Interazioni</form>
-    //     <p><?php echo $result["descrizione"] ?></p>
-    //     <p><?php echo $result["proprieta"] ?></p>
-    //     <section>Recensioni</section>
+    //     <section>
+    //         <section>Prodotto</section>
+    //         <form>Interazioni</form>
+    //         <p><?php echo $result["descrizione"] ?></p>
+    //         <p><?php echo $result["proprieta"] ?></p>
+    //         <section>Recensioni</section>
+    //     </section>
     // </section>
     
     const product = result['result'][0];    
     document.querySelector('main').innerHTML = "";
 
+    const outerSection = document.createElement('section');
     const section = document.createElement('section');
 
     section.appendChild(generateProductSection(product, result['images']));
     section.appendChild(generateInteractionForm(product['idProdotto'], result['isFavourite'], result['logged'], 
         result['cartQuantity'], product['quantitaDisponibile']));
     
+    const h31 = document.createElement('h3');
+    h31.textContent = 'Descrizione:';
+    section.appendChild(h31);
+    
     const p1 = document.createElement('p');
     p1.textContent = product['descrizione'];
     section.appendChild(p1);
+
+    const h32 = document.createElement('h3');
+    h32.textContent = 'Proprietà:';
+    section.appendChild(h32);
 
     const p2 = document.createElement('p');
     p2.textContent = product['proprieta'];
     section.appendChild(p2);
     
     section.appendChild(generateReviewSection(product, result['hasBuyed'], result['hasReviewed'], result['userReview'][0], result['reviews'], result['n_rev']));
-
-    document.querySelector('main').appendChild(section);
+    outerSection.appendChild(section);
+    document.querySelector('main').appendChild(outerSection);
 }
 
 function generateProductSection(product, images) {
@@ -43,13 +54,13 @@ function generateProductSection(product, images) {
     // <!-- gestione delle immagini multiple -->
 
     // <h2>${product["nome"]}</h2>
-    // <a href="#Reviews">${product['media_recensioni']} + "/5 (" + product['num_recensioni'] + ")"<img src=utils.RESOURCES_DIR + "Marco_semplice_W.png" alt=""/></a>
     // if(product["offerta"] > 0) {
     //     const sale = product["prezzo"] - product["prezzo"]*(product["offerta"]/100);
     //     <ins>${product["offerta"]}% ${sale}</ins> <del>$product['prezzo']} €</del>";
     // } else {
     //     <p>${product['prezzo']} €</p>";
     // }?>
+    // <a href="#Reviews">${product['media_recensioni']} + "/5 (" + product['num_recensioni'] + ")"<img src=utils.RESOURCES_DIR + "Marco_semplice_W.png" alt=""/></a>
     // <p>Venditore: "${product['idVenditore']</p>
     // const options = {'weekday': 'long', 'month': 'long', 'day': '2-digit'};
     // const date = new Date(new Date().setDate(new Date().getDate() + 1)).toLocaleString('it-IT', options);
@@ -66,20 +77,20 @@ function generateProductSection(product, images) {
     for(let i = 0; i < images.length; i++) {
         const img = document.createElement('img');
         img.src = utils.DB_RESOURCES_DIR + images[i]['link'];
-        img.alt = '';
+        img.alt = `Immagine ${i} del Prodotto`;
         img.addEventListener('click', (event) => {
             event.preventDefault();
+            clearImageSelection(article);
+            img.setAttribute('selected', true);
             mainImage.src = img.src;
         });
+        if (i == 0) {
+            img.setAttribute('selected', true);
+        }
         article.appendChild(img);
     }
     const h2 = document.createElement('h2');
     h2.textContent = product['nome'];
-    
-    const a = document.createElement('a');
-    a.href = "#Reviews";
-    a.textContent = product['media_recensioni'].substring(0, 3) + " (" + product['num_recensioni'] + ")";
-    a.appendChild(utils.generateReviewStars(product['media_recensioni']));
     
     const price = document.createElement('p');
     if (product["offerta"] > 0) {
@@ -88,6 +99,11 @@ function generateProductSection(product, images) {
         price.innerText = product['prezzo'] + '€';            
     }
 
+    const a = document.createElement('a');
+    a.href = "#Reviews";
+    a.textContent = product['media_recensioni'].substring(0, 3) + " (" + product['num_recensioni'] + ")";
+    a.appendChild(utils.generateReviewStars(product['media_recensioni']));
+    
     const p2 = document.createElement('p');
     p2.innerText = "Venditore: " + product['idVenditore'];
 
@@ -102,8 +118,8 @@ function generateProductSection(product, images) {
     section.appendChild(mainImage);
     section.appendChild(article);
     section.appendChild(h2);
-    section.appendChild(a);
     section.appendChild(price);
+    section.appendChild(a);
     section.appendChild(p2);
     section.appendChild(p3);
     section.appendChild(p4);
@@ -148,7 +164,7 @@ function generateInteractionForm(idProduct, isFavourite, user_type, cartQuantity
 
         const label = document.createElement('label');
         label.setAttribute('for', 'quantity');
-        label.textContent = 'Quantità';
+        label.textContent = 'Quantità:';
 
         const input = document.createElement('input');
         input.type = 'number';
@@ -163,16 +179,16 @@ function generateInteractionForm(idProduct, isFavourite, user_type, cartQuantity
         minusButton.textContent = '-';
         minusButton.addEventListener('click', (event) => {
             event.preventDefault();
-            input.value--;
+            if (Number(input.value) > Number(input.min)) input.value--;
         });
 
         const plusButton = document.createElement('button');
         plusButton.type = 'button';
-        plusButton.name = 'minus';
+        plusButton.name = 'plus';
         plusButton.textContent = '+';
         plusButton.addEventListener('click', (event) => {
             event.preventDefault();
-            input.value--;
+            if (Number(input.value) < Number(input.max)) input.value++;
         });
 
         innerForm.addEventListener('submit', (event) => {
@@ -239,14 +255,18 @@ function generateReviewSection(product, hasBuyed, hasReviewed, userReview, revie
     const section = document.createElement('section');
     section.id = 'Reviews';
 
+    const header = document.createElement('header');
+    
     const h3 = document.createElement('h3');
-    h3.textContent = 'Recensioni';
-    section.appendChild(h3);
+    h3.textContent = 'Recensioni:';
+    header.appendChild(h3);
 
     const p = document.createElement('p');
     p.innerText = product['media_recensioni'].substring(0, 3) + " (" + product['num_recensioni'] + ")";
     p.appendChild(utils.generateReviewStars(product['media_recensioni']));
-    section.appendChild(p);
+    header.appendChild(p);
+
+    section.appendChild(header);
 
     const stars = document.createElement('img');
     stars.alt = "Inserisci Voto";
@@ -260,6 +280,7 @@ function generateReviewSection(product, hasBuyed, hasReviewed, userReview, revie
         stars.setAttribute('vote', vote);
     });
     const text = document.createElement('textarea');
+    text.name = 'reviewText';
     const textButton = document.createElement('button');
     textButton.addEventListener('click', (event) => {
         reviewButtonListener(textButton.name, stars.getAttribute('vote'), text.value, event);
@@ -287,6 +308,11 @@ function generateReviewSection(product, hasBuyed, hasReviewed, userReview, revie
 
     for (let i = 0; i < reviews.length && i < n; i++) {
         const article = document.createElement('article');
+        
+        const h4 = document.createElement('h4');
+        h4.textContent = reviews[i]['nome'] + " " + reviews[i]['cognome'];
+        article.appendChild(h4);
+
         article.appendChild(utils.generateReviewStars(reviews[i]['voto'], `Voto: ${reviews[i]['voto']} su 5`));
 
         const p = document.createElement('p');
@@ -296,6 +322,7 @@ function generateReviewSection(product, hasBuyed, hasReviewed, userReview, revie
         section.appendChild(article);
     }
 
+    const footer = document.createElement('footer');
     const morerev = document.createElement('a');
     morerev.href = '';
     if (!Number.isInteger(n)) {
@@ -309,7 +336,8 @@ function generateReviewSection(product, hasBuyed, hasReviewed, userReview, revie
             reviewNumberListener('false', event);
         });
     }
-    section.appendChild(morerev);
+    footer.appendChild(morerev);
+    section.appendChild(footer);
     
     return section;
 }
@@ -366,5 +394,11 @@ function isClient(result) {
         generateMainContent(result);
     } else {
         location.href = utils.PAGES_DIR + (result['logged'] === 'vendor' ? 'profile.php' : 'login.php') ;
+    }
+}
+
+function clearImageSelection(article) {
+    for (let i = 0; i < article.children.length; i++) {
+        article.children[i].removeAttribute('selected');
     }
 }
