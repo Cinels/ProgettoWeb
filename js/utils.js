@@ -30,7 +30,7 @@ export function generateProductImage(product) {
     
     const img_product = document.createElement('img');
     img_product.src = DB_RESOURCES_DIR + product['link'];
-    img_product.alt = '';
+    img_product.alt = product['nome'];
 
     a.appendChild(img_product);
 

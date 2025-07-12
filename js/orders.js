@@ -24,9 +24,11 @@ function generateMainContent(result) {
             content += `<p>Stato ordine: ${result['order_state'][order['statoOrdine']]}</p>`;
         } else {
             content += `<form action="#" method="POST">
-                            <label for='stato'>Stato ordine: </label> 
+                            <label for='stato${order['idOrdine']}'>Stato ordine: </label> 
                             <input type="hidden" name="id" value="${order["idOrdine"]}">
-                            <select id="stato" name="stato" required>
+                            <select id="stato${order['idOrdine']}" name="stato" required>
+                            
+                                <option value="" > --- Scegli uno stato --- </option>
                                 <option value="1" ${order['statoOrdine'] === 1 ? 'selected' : ''}>${result['order_state'][0]}</option>
                                 <option value="2" ${order['statoOrdine'] === 2 ? 'selected' : ''}>${result['order_state'][1]}</option>
                                 <option value="3" ${order['statoOrdine'] === 3 ? 'selected' : ''}>${result['order_state'][2]}</option>
