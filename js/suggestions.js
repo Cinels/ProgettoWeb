@@ -35,7 +35,7 @@ function generateSideContent(results, title) {
             content += `
                     <button type="submit" name="search" value="${product['idProdotto']}">
                         <img src="${utils.DB_RESOURCES_DIR}${product['link']}" alt="Immagine Prodotto"/>
-                        ${product['nome']}`;
+                        ${product['nome']}</br>`;
             if (product['offerta'] > 0) {
                 content += `
                         <ins>${product['offerta']}% ${product["prezzoScontato"]}</ins> <del>${product['prezzo']}</del><span> €</span>`;
