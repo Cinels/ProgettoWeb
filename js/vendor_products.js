@@ -42,6 +42,8 @@ function generateMainContent(result) {
 
     const section = document.createElement('section');
 
+    const header = document.createElement('header');
+
     const h2 = document.createElement('h2');
     h2.textContent = 'I tuoi Prodotti';
 
@@ -71,7 +73,9 @@ function generateMainContent(result) {
         li.appendChild(editButton);
         ul.appendChild(li);
     }
-    
+
+    header.appendChild(h2);
+    section.appendChild(header);
     section.appendChild(ul);
     document.querySelector('main').appendChild(section);
 }

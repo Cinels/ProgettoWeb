@@ -10,7 +10,9 @@ function generateMainContent(result) {
     const orders = result['result'];
     let content = `
         <section>
-            <h2>Ordini</h2>
+            <header>
+                <h2>Ordini</h2>
+            </header>
             <ul>`;
     for (let i = 0; i < orders.length; i++) {
         const order = orders[i];

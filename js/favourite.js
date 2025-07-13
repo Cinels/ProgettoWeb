@@ -18,8 +18,11 @@ function generateMainContent(result) {
     document.querySelector('main').innerHTML = "";
 
     const section = document.createElement('section');
+
+    const header = document.createElement('header');
     const h2 = document.createElement('h2');
     h2.textContent ='Preferiti';
+
     const ul = document.createElement('ul');
     
     for (let i = 0; i < result['result'].length; i++) {
@@ -32,7 +35,8 @@ function generateMainContent(result) {
         ul.appendChild(li);
     }
     
-    section.appendChild(h2);
+    header.appendChild(h2);
+    section.appendChild(header);
     section.appendChild(ul);
     
     document.querySelector('main').appendChild(section);
