@@ -506,14 +506,14 @@ main > section > form > ul > li:nth-last-of-type(4) {
     margin-bottom: 1%;
 }
 
-main > section > form > ul > li > label {
+main > section > form > ul > li > label, main > section > form > label {
     display: inline-block;
     width: 30%;
     margin-left: 15%;
     text-align: start;
 }
 
-main > section > form > ul > li > input {
+main > section > form > ul > li > input, main > section > form > input {
     box-sizing: border-box;
     width: 40%;
     padding: 0 1%;
@@ -522,10 +522,50 @@ main > section > form > ul > li > input {
     border: 1px solid #bbb;
 }
 
-main > section > form > ul > li > button {
+main > section > form > ul > li > button, main > section > form > button {
     padding: 1% 2% 1%;
     margin: 0 1%;
     border: 1px outset #ddd;
+}
+
+main > section > form {
+    text-align: center;
+}
+
+main > section > form > div > h2 {
+    margin-bottom: 1%;
+}
+main > section > form > div > h2 ~ * {
+    display: inline-block;
+    width: 70%;
+    margin: 0.5% 15% 0;
+    text-align: start;
+}
+
+main > section > form > div ~ * {
+    margin-top: 0.5%;
+}
+
+main > section > form > button {
+    margin-top: 1%;
+    display: inline-flex;
+    vertical-align: middle;
+    justify-content: center;
+    width: 30%;
+    align-items: center;
+}
+
+main > section > form > button > img {
+    display: inline;
+}
+
+main > section > form > button:last-of-type {
+    background-color: gold;
+    border: 1px outset rgb(210, 179, 0);
+}
+
+main > section > form > button:last-of-type:hover {
+    background-color: rgb(210, 179, 0);
 }
 
 main > section > form > ul > li > input[type='file'] {
