@@ -3,8 +3,13 @@ h2, h3, h4, ul, p {
     padding: 0;
 }
 
+button {
+    transition: background-color 0.3s ease;
+}
+
 button:hover {
     cursor: pointer;
+    /* background-color: #aaa; */
 }
 
 main button {
@@ -17,20 +22,25 @@ main button > img {
     padding: 1%;
 }
 
-main > section {
+main > section, main > div {
     text-align: center;
     margin: 2%;
 }
 
-main > section > a:first-of-type > img {
+main > div > a:first-of-type > img {
     width: 70%;
 }
 
-main > section > a > img {
+main > div > a > img {
     width: 50%;
+    transition: transform 0.5s ease;
 }
 
-main > section > h2, main > section > form, main > section > section, main > section > ul > li {
+main > div > a > img:hover {
+    transform: scale(1.05);
+}
+
+main > section > header, main > div > section, main > section > ul > li, main > section > form {
     /* background-color: rgba(200, 200, 200, 0.5); /*/
     background-color: #b9d3dc;/*/
     border-color: lightgray; /*/
@@ -45,32 +55,34 @@ main > section > h2, main > section > form, main > section > section, main > sec
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
 }
 
-main > section > h2, main > section > form {
+main > section h2 {
     text-align: center;
 }
 
-main > section > form > h2 {
-    margin-bottom: 2%;
+main > section > header > form {
+    margin-top: 2%;
 }
 
-main > section > form > h3 {
+main > section > header > form > strong {
     display: inline-block;
     width: 50%;
     vertical-align: middle;
+    font-size: larger;
+    text-align: center;
 }
 
-main > section > form > button {
+main > section > header > form > button {
     width: 50%;
     vertical-align: middle;
     display: inline-flex;
-    /* background-color: gold; */
+    background-color: gold;
     font-size: large;
     font-weight: bold;
     align-items: center;
     justify-content: center;
 }
 
-main > section > section > section {
+/* main > section > section > section {
     text-align: end;
 }
 
@@ -93,9 +105,9 @@ main > section > section > section > article > img[selected='true'] {
     border: 2px solid black;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     opacity: 1;
-}
+} */
 
-main > section > ul > li {
+main > section > header + ul > li {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto auto;
@@ -109,18 +121,19 @@ main > section > ul > li > a {
     display: inline-block;
 }
 
-main > section > ul > li > a:first-of-type {
+main > section > header + ul > li > a:first-of-type {
     grid-column: 1;
     grid-row: 1 / 4;
 }
 
-main > section > ul > li > a > img {
+main > section > header + ul > li > a > img {
     max-width: 90%;
     margin-right: 5%;
+    border-radius: 15px;
     align-self: center;
 }
 
-main > section > ul > li > a > span {
+main > section > header + ul > li > a > span {
     display: inline-block;
     font-weight: bold;
     margin-bottom: 4%;
@@ -129,20 +142,20 @@ main > section > ul > li > a > span {
     font-size: large;
 }
 
-main > section > ul > li > a > p:first-of-type {
+main > section > header + ul > li > a > p:first-of-type {
     font-weight: bold;
     width: 50%;
     vertical-align: top;
     font-size: large;
 }
 
-main > section > ul > li > a > p {
+main > section > header + ul > li > a > p {
     display: inline-block;
     margin-bottom: 2%;
     width: 100%;
 }
 
-main > section > section > section > h2 {
+/* main > section > section > section > h2 {
     display: inline-block;
     width: 50%;
     vertical-align: top;
@@ -171,24 +184,25 @@ main > section > section > section > p {
     vertical-align: top;
     text-align: end;
     width: 100%;
-}
+} */
 
-main > section ins {
+main ins {
     color: red;
     text-decoration: none;
+    font-weight: bold;
 }
 
-main > section del {
+main del {
     color: #444;
     font-weight: normal;
 }
 
-main > section > ul > li > a > p > img, main > section a[href='#Reviews'] > img, main > section > section > section[id='Reviews'] img {
+p > img, main a[href='#Reviews'] > img, main section[id='Reviews'] img {
     height: 18px;
     vertical-align: middle;
 }
 
-main > section > ul > li > form {
+main > section > header + ul > li > form {
     justify-content: flex-end;
     grid-column: 2;
     grid-row: 2;
@@ -204,7 +218,7 @@ input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
 }
 
-main > section > ul > li > form > form {
+main > section > ul > li > form > span {
     display: inline-block;
     width: 35%;
     background-color: white;
@@ -215,7 +229,7 @@ main > section > ul > li > form > form {
     vertical-align: middle;
 }
 
-main > section > ul > li > form > form > input {
+main > section > ul > li > form > span > input {
     width: 40%;
     border: 0;
     text-align: center;
@@ -223,12 +237,12 @@ main > section > ul > li > form > form > input {
     font-size: medium;
 }
 
-main > section > ul > li > form > form > button {
+main > section > ul > li > form > span > button {
     width: 30%;
     font-size: medium;
 }
 
-main > section > ul > li > form > button[name='cartRemove'], main > section > ul > li > form > button[name='favouriteRemove'] {
+main > section button[name='cartRemove'], main > section button[name='favouriteRemove'] {
     width: 100%;
     vertical-align: middle;
     display: inline-flex;
@@ -239,7 +253,7 @@ main > section > ul > li > form > button[name='cartRemove'], main > section > ul
     margin-bottom: 3%;
 }
 
-main > section > ul > li > form > button[name='cartRemove'] {
+main > section button[name='cartRemove'] {
     width: 60%;
 }
 
@@ -258,11 +272,11 @@ main > section form > button[name='cart'] {
     background-color: gold;
 }
 
-main > section > section > form {
+/* main > section > section > form {
     text-align: center;
 }
 
-main > section > section > form > form {
+main > section > section > form > span {
     display: inline-block;
     width: 50%;
     background-color: white;
@@ -272,13 +286,13 @@ main > section > section > form > form {
     vertical-align: middle;
 }
 
-main > section > section > form > form > label {
+main > section > section > form > span > label {
     display: inline-block;
     width: 50%;
     text-align: start;
 }
 
-main > section > section > form > form > input {
+main > section > section > form > span > input {
     display: inline-block;
     box-sizing: border-box;
     width: 20%;
@@ -287,7 +301,7 @@ main > section > section > form > form > input {
     font-size: medium;
 }
 
-main > section > section > form > form > button {
+main > section > section > form > span > button {
     display: inline-block;
     width: 15%;
     font-size: medium;
@@ -295,19 +309,19 @@ main > section > section > form > form > button {
 
 main > section > section h3 {
     margin: 3% 0 1%;
-}
+} */
 
-main > section > section > section[id='Reviews'] {
+main section[id='Reviews'] {
     text-align: start;
 }
 
-main > section > section > section[id='Reviews'] > header > h3 {
+main section[id='Reviews'] > header > h3 {
     display: inline-block;
     width: 50%;
     margin-bottom: 2%;
 }
 
-main > section > section > section[id='Reviews'] > header > p {
+main section[id='Reviews'] > header > p {
     font-weight: normal;
     font-size: medium;
     margin-top: 3%;
@@ -347,6 +361,7 @@ main > section > form > p {
 
 main > section > form > ul > li {
     list-style: none;
+    text-align: center;
 }
 
 main > section > form > ul > li:not(:last-of-type) {
@@ -359,21 +374,21 @@ main > section > form > ul > li:nth-last-of-type(4) {
 
 main > section > form > ul > li > label {
     display: inline-block;
-    width: 25%;
-    margin-left: 25%;
+    width: 30%;
+    margin-left: 15%;
     text-align: start;
 }
 
 main > section > form > ul > li > input {
     box-sizing: border-box;
-    width: 25%;
+    width: 40%;
     padding: 0 1%;
-    margin-right: 25%;
+    margin-right: 15%;
     border-radius: 100px;
     border: #444 solid 1px;
 }
 
-main > section > form > ul > li button {
+main > section > form > ul > li > button {
     padding: 1% 2% 1%;
     margin: 0 1%;
 }
