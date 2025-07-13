@@ -23,6 +23,11 @@ body > header > h1 {
 
 body > header > h1 > a > img, header > div > a > img {
     max-height: 50px;
+    transition: transform 0.5s ease;
+}
+
+body > header > h1 > a > img:hover, header > div > a > img:hover {
+    transform: scale(1.1);
 }
 
 body > header > div {
