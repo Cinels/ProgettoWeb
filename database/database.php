@@ -254,15 +254,19 @@ class DatabaseHelper {
     public function moveToCart($idProdotto) {
         if ($this->isLogged() && $this->getUserType()=="client") {
             $this->removeFromFavourites($idProdotto);
-            $this->addToCart($idProdotto, 1);
+            if($this->getCartQuantity($idProdotto)[0]['quantita'] < 0) {
+                $this->addToCart($idProdotto, 1);
+            }
         }
     }
 
     public function moveToFavourites($idProdotto, $idCliente) {
-            var_dump("p: ". $idProdotto);
-            var_dump("c: ". $idCliente);
+            error_log($idProdotto);
+            error_log($idCliente);
             $this->removeFromCart($idProdotto, $idCliente);
-            $this->addToFavourites($idProdotto, $idCliente);
+            if(!$this->isProductFavourite($idProdotto)) {
+                $this->addToFavourites($idProdotto, $idCliente);
+            }
     }
 
     public function getProductsOnSale($n) {
