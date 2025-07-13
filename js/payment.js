@@ -126,7 +126,8 @@ function generateInteractionForm(div) {
     buyImage.alt = '';
     
     const buyButton = document.createElement('button');
-    buyButton.textContent = 'Acquista ora';
+    buyButton.textContent = 'Acquista';
+    buyButton.name = 'buy';
     buyButton.appendChild(buyImage);
     buyButton.addEventListener('click', async (event) => {
         event.preventDefault();
