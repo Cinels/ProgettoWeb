@@ -28,6 +28,7 @@ foreach ($cart as $product) {
     $available[$product['idProdotto']] = $dbh->getAvailableProducts($product['idProdotto'])[0]['quantitaDisponibile'];
     $totalPrice += ($product['prezzoScontato']) * $product['quantita'];
 }
+$totalPrice = round($totalPrice, 2);
 $result = ['result' => $cart, 'total' => $totalPrice, 'available' => $available];
 
 header('Content-Type: application/json');
