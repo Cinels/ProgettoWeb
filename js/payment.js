@@ -22,6 +22,7 @@ function generateMainContent(result) {
     document.querySelector('main').innerHTML = "";
 
     const section = document.createElement('section');
+    const div = document.createElement('div');
 
     const h2 = document.createElement('h2');
     h2.textContent = 'Pagamento';
@@ -29,12 +30,11 @@ function generateMainContent(result) {
     const p1 = document.createElement('p');
     p1.textContent = "Totale articoli: " + result['total'] + ' €';
 
-    const deliveryCosts = 2*result['num_products'];
     const p2 = document.createElement('p');
-    p2.textContent = "Costi di spedizione: " + deliveryCosts + ' €';
+    p2.textContent = "Costi di spedizione: 5 €";
 
     const strong = document.createElement('strong');
-    strong.textContent = 'Totale da pagare: ' + (result['total'] + deliveryCosts) + ' €';
+    strong.textContent = 'Totale da pagare: ' + (Number(result['total']) + 5) + ' €';
     
     const options = {'weekday': 'long', 'month': 'long', 'day': '2-digit'};
     const date = new Date(new Date().setDate(new Date().getDate() + 1)).toLocaleString('it-IT', options);
@@ -44,17 +44,19 @@ function generateMainContent(result) {
     const p4 = document.createElement('p');
     p4.innerText = 'Via Cesare Pavese, 50, 47521 Cesena FC';
 
-    section.appendChild(h2);
-    section.appendChild(p1);
-    section.appendChild(p2);
-    section.appendChild(p3);
-    section.appendChild(p4);
-    section.appendChild(generateInteractionForm());
+    div.appendChild(h2);
+    div.appendChild(p1);
+    div.appendChild(p2);
+    div.appendChild(strong);
+    div.appendChild(p3);
+    div.appendChild(p4);
+
+    section.appendChild(generateInteractionForm(div));
     
     document.querySelector('main').appendChild(section);
 }
 
-function generateInteractionForm() {
+function generateInteractionForm(div) {
     // <form action="" method="POST">
     //     <p>errori</p>
     //     <label for="n_card">Numero carta:</label>
@@ -130,20 +132,25 @@ function generateInteractionForm() {
         event.preventDefault();
         console.log('n_card: ' + input1.value + ', exp_date: ' + input2.value + ', ccv: ' + input3.value);
 
-        const formData = new FormData();
-        formData.append('card_number', input1.value);
-        formData.append('expire_date', input2.value);
-        formData.append('ccv', input3.value);
-        const json = await utils.makePostRequest(url, formData);
-        if (json['hasOrdered']) {
-            alert('Ordine effettuato');
-            location.href = utils.PAGES_DIR + 'orders.php';
+        if (input1.value.length == 16 && input2.value.length > 0 && input3.value.length == 3) {
+            const formData = new FormData();
+            formData.append('card_number', input1.value);
+            formData.append('expire_date', input2.value);
+            formData.append('ccv', input3.value);
+            const json = await utils.makePostRequest(url, formData);
+            if (json['hasOrdered']) {
+                alert('Ordine effettuato');
+                location.href = utils.PAGES_DIR + 'orders.php';
+            } else {
+                document.querySelector('main form > p').innerText = 'Errore durante il pagamento!';
+                generateMainContent(json);
+            }
         } else {
-            document.querySelector('main form p').innerText = 'Errore durante il pagamento!';
-            generateMainContent(json);
+            document.querySelector('main form > p').innerText = 'Inserisci correttamente i dati!';
         }
     });
 
+    form.appendChild(div);
     form.appendChild(p);
     form.appendChild(label1);
     form.appendChild(input1);

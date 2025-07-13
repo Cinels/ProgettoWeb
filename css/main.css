@@ -4,6 +4,10 @@ h2, h3, h4, ul, p, fieldset {
     border: 0;
 }
 
+li {
+    list-style: none;
+}
+
 button {
     transition: background-color 0.3s ease;
 }
@@ -41,7 +45,7 @@ main > div > a > img:hover {
     transform: scale(1.05);
 }
 
-main > section > header, main > article,  main > section > ul > li, main > section > form {
+main > section > header, main > article,  main > section > ul > li, main > section > form, main > div > section {
     /* background-color: rgba(200, 200, 200, 0.5); /*/
     background-color: #b9d3dc;/*/
     border-color: lightgray; /*/
@@ -126,7 +130,6 @@ main > section > header + ul > li {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto auto;
-    list-style: none;
 }
 
 main > section > ul > li > a {
@@ -194,10 +197,6 @@ main > section > ul > li > ul {
     border: 1px solid #a0bfbf;
     border-radius: 20px;
     padding: 3%;
-}
-
-main > section > ul > li > ul > li {
-    list-style: none;
 }
 
 main > section > ul > li > ul > li:not(:last-of-type) {
@@ -319,6 +318,7 @@ main > section > ul > li > form > span > input {
 main > section > ul > li > form > span > button {
     width: 30%;
     font-size: medium;
+    aspect-ratio: 1 / 1;
 }
 
 main > section button[name='cartRemove'], main > section button[name='favouriteRemove'] {
@@ -341,7 +341,7 @@ main > section button[name='cartRemove'] {
     width: 60%;
 }
 
-main form > button[name='favourite'], main form > button[name='cart'], main > section button[name='edit'] {
+main form > button[name='favourite'], main form > button[name='cart'], main > article button[name='edit'] {
     width: 100%;
     vertical-align: middle;
     display: inline-flex;
@@ -353,7 +353,7 @@ main form > button[name='favourite'], main form > button[name='cart'], main > se
     border: 1px outset #ddd;
 }
 
-main form > button[name='favourite']:hover, main > section button[name='edit']:hover {
+main form > button[name='favourite']:hover, main > article button[name='edit']:hover {
     background-color: #ddd;
 }
 
@@ -399,6 +399,7 @@ main > article > form > span > button {
     display: inline-block;
     width: 15%;
     font-size: medium;
+    aspect-ratio: 1 / 1;
 }
 
 main > article h3 {
@@ -494,7 +495,6 @@ main > section > form > p {
 }
 
 main > section > form > ul > li {
-    list-style: none;
     text-align: center;
 }
 
@@ -506,7 +506,7 @@ main > section > form > ul > li:nth-last-of-type(4) {
     margin-bottom: 1%;
 }
 
-main > section > form > ul > li > label {
+main > section > form > ul > li > label, main > section > form > label {
     display: inline-block;
     width: 30%;
     margin-left: 15%;
@@ -522,19 +522,59 @@ main > section > form > ul > li > label > img{
     max-width: 100%;
 }
 
-main > section > form > ul > li > input {
+main > section > form > ul > li > input, main > section > form > input {
     box-sizing: border-box;
     width: 40%;
     padding: 0 1%;
     margin-right: 15%;
     border-radius: 100px;
-    border: #444 solid 1px;
+    border: 1px solid #bbb;
 }
 
-main > section > form > ul > li > button {
+main > section > form > ul > li > button, main > section > form > button {
     padding: 1% 2% 1%;
     margin: 0 1%;
     border: 1px outset #ddd;
+}
+
+main > section > form {
+    text-align: center;
+}
+
+main > section > form > div > h2 {
+    margin-bottom: 1%;
+}
+main > section > form > div > h2 ~ * {
+    display: inline-block;
+    width: 70%;
+    margin: 0.5% 15% 0;
+    text-align: start;
+}
+
+main > section > form > div ~ * {
+    margin-top: 0.5%;
+}
+
+main > section > form > button {
+    margin-top: 1%;
+    display: inline-flex;
+    vertical-align: middle;
+    justify-content: center;
+    width: 30%;
+    align-items: center;
+}
+
+main > section > form > button > img {
+    display: inline;
+}
+
+main > section > form > button:last-of-type {
+    background-color: gold;
+    border: 1px outset rgb(210, 179, 0);
+}
+
+main > section > form > button:last-of-type:hover {
+    background-color: rgb(210, 179, 0);
 }
 
 main > section > form > ul > li > input[type='file'] {
@@ -543,4 +583,94 @@ main > section > form > ul > li > input[type='file'] {
     border: 0;
     padding: 0;
     border-radius: 0;
+}
+
+main > div > section:first-of-type {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: auto auto auto auto;
+}
+
+main > div > section:first-of-type > img {
+    width: 100%;
+    grid-row: 1 / 6;
+    border-radius: 20px;
+}
+
+main > div > section:first-of-type > h2 {
+    font-size: larger;
+}
+
+main > div > section:first-of-type > img ~ * {
+    margin-top: 2%;
+    margin-left: 5%;
+}
+
+main > div > section:first-of-type > button {
+    margin: 5% 15% 0;
+    width: 70%;
+    font-size: medium;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px outset #ddd;
+}
+
+main > div > button {
+    background-color: red;
+    font-size: large;
+    border: 1px outset rgb(210, 0, 0);
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1% 2%;
+}
+
+main > div > button > img {
+    margin-left: 5%;
+}
+
+main > div > button:hover {
+    background-color: rgb(210, 0, 0);
+}
+
+main > div > section > header > img {
+    max-height: 32px;
+    padding-right: 2%;
+    vertical-align: middle;
+}
+
+main > div > section > header > h2 {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+main > div > section > ul > li {
+    display: grid;
+    grid-template-columns: auto auto 1fr;
+    grid-template-rows: auto 1fr;
+}
+
+main > div > section > ul > li > h3 {
+    margin-top: 3%;
+    margin-bottom: 0.5%;
+    grid-column: 1 / 5;
+}
+
+main > div > section > ul > li > span, main > div > section > ul > li > strong {
+    grid-column: 1;
+    grid-row: 2 / 4;
+}
+
+main > div > section > ul > li > button {
+    background-color: transparent;
+    grid-row: 2;
+}
+
+main > div > section > ul > li > button:hover {
+    background-color: #a0bfbf;
+}
+
+main > div > section > ul > li > button > img {
+    height: 32px;
 }
