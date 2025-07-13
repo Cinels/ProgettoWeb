@@ -1,6 +1,7 @@
-h2, h3, h4, ul, p {
+h2, h3, h4, ul, p, fieldset {
     margin: 0;
     padding: 0;
+    border: 0;
 }
 
 button {
@@ -40,7 +41,7 @@ main > div > a > img:hover {
     transform: scale(1.05);
 }
 
-main > section > header, main > div > section, main > section > ul > li, main > section > form {
+main > section > header, main > article,  main > section > ul > li, main > section > form {
     /* background-color: rgba(200, 200, 200, 0.5); /*/
     background-color: #b9d3dc;/*/
     border-color: lightgray; /*/
@@ -53,6 +54,10 @@ main > section > header, main > div > section, main > section > ul > li, main > 
     text-align: start;
     overflow: hidden;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+}
+
+main > article {
+    margin: 2%;
 }
 
 main > section h2 {
@@ -82,30 +87,35 @@ main > section > header > form > button {
     justify-content: center;
 }
 
-/* main > section > section > section {
+main > article > section {
     text-align: end;
 }
 
-main > section > section > section > img {
+main > article > section > img {
     width: 100%;
     border-radius: 20px;
 }
 
-main > section > section > section > article {
+main > article > section > form {
     text-align: center;
+    margin: 1% 0;
 }
 
-main > section > section > section > article > img {
+main > article > section > form img {
     height: 50px;
     padding: 0.5%;
     border-radius: 5px;
 }
 
-main > section > section > section > article > img[selected='true'] {
+main > article > section > form input[type="radio"], main > article > section > form input[type="radio"] + label > span {
+    display: none;
+}
+
+main > article > section > form input[type="radio"]:checked + label > img {
     border: 2px solid black;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     opacity: 1;
-} */
+}
 
 main > section > header + ul > li {
     display: grid;
@@ -155,14 +165,14 @@ main > section > header + ul > li > a > p {
     width: 100%;
 }
 
-/* main > section > section > section > h2 {
+main > article > section > h2 {
     display: inline-block;
     width: 50%;
     vertical-align: top;
     text-align: start;
 }
 
-main > section > section > section > a {
+main > article > section > a {
     display: inline-block;
     width: 100%;
     text-decoration: none;
@@ -172,19 +182,19 @@ main > section > section > section > a {
     margin-bottom: 2%;
 }
 
-main > section > section > section > p:first-of-type {
+main > article > section > p:first-of-type {
     font-weight: bold;
     font-size: larger;
     width: 50%;
 }
 
-main > section > section > section > p {
+main > article > section > p {
     display: inline-block;
     margin-bottom: 2%;
     vertical-align: top;
     text-align: end;
     width: 100%;
-} */
+}
 
 main ins {
     color: red;
@@ -257,7 +267,7 @@ main > section button[name='cartRemove'] {
     width: 60%;
 }
 
-main > section form > button[name='favourite'], main > section form > button[name='cart'], main > section button[name='edit'] {
+main form > button[name='favourite'], main form > button[name='cart'], main > section button[name='edit'] {
     width: 100%;
     vertical-align: middle;
     display: inline-flex;
@@ -268,15 +278,15 @@ main > section form > button[name='favourite'], main > section form > button[nam
     margin-top: 3%;
 }
 
-main > section form > button[name='cart'] {
+main form > button[name='cart'] {
     background-color: gold;
 }
 
-/* main > section > section > form {
+main > article > form {
     text-align: center;
 }
 
-main > section > section > form > span {
+main > article > form > span {
     display: inline-block;
     width: 50%;
     background-color: white;
@@ -286,13 +296,13 @@ main > section > section > form > span {
     vertical-align: middle;
 }
 
-main > section > section > form > span > label {
+main > article > form > span > label {
     display: inline-block;
     width: 50%;
     text-align: start;
 }
 
-main > section > section > form > span > input {
+main > article > form > span > input {
     display: inline-block;
     box-sizing: border-box;
     width: 20%;
@@ -301,15 +311,15 @@ main > section > section > form > span > input {
     font-size: medium;
 }
 
-main > section > section > form > span > button {
+main > article > form > span > button {
     display: inline-block;
     width: 15%;
     font-size: medium;
 }
 
-main > section > section h3 {
+main > article h3 {
     margin: 3% 0 1%;
-} */
+}
 
 main section[id='Reviews'] {
     text-align: start;

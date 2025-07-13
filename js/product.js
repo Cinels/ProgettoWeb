@@ -19,32 +19,30 @@ function generateMainContent(result) {
     const product = result['result'][0];    
     document.querySelector('main').innerHTML = "";
 
-    const div = document.createElement('div');
-    const section = document.createElement('section');
+    const article = document.createElement('article');
 
-    section.appendChild(generateProductSection(product, result['images']));
-    section.appendChild(generateInteractionForm(product['idProdotto'], result['isFavourite'], result['logged'], 
+    article.appendChild(generateProductSection(product, result['images']));
+    article.appendChild(generateInteractionForm(product['idProdotto'], result['isFavourite'], result['logged'], 
         result['cartQuantity'], product['quantitaDisponibile']));
     
     const h31 = document.createElement('h3');
     h31.textContent = 'Descrizione:';
-    section.appendChild(h31);
+    article.appendChild(h31);
     
     const p1 = document.createElement('p');
     p1.textContent = product['descrizione'];
-    section.appendChild(p1);
+    article.appendChild(p1);
 
     const h32 = document.createElement('h3');
     h32.textContent = 'Proprietà:';
-    section.appendChild(h32);
+    article.appendChild(h32);
 
     const p2 = document.createElement('p');
     p2.textContent = product['proprieta'];
-    section.appendChild(p2);
+    article.appendChild(p2);
     
-    section.appendChild(generateReviewSection(product, result['hasBuyed'], result['hasReviewed'], result['userReview'], result['reviews'], result['n_rev']));
-    div.appendChild(section);
-    document.querySelector('main').appendChild(div);
+    article.appendChild(generateReviewSection(product, result['hasBuyed'], result['hasReviewed'], result['userReview'], result['reviews'], result['n_rev']));
+    document.querySelector('main').appendChild(article);
 }
 
 function generateProductSection(product, images) {
@@ -104,7 +102,7 @@ function generateProductSection(product, images) {
     }
     form.addEventListener('change', (event) => {
         event.preventDefault();
-        const value = document.querySelector('main form > input[type="radio"]:checked').value;
+        const value = document.querySelector('main > article > section > form input[type="radio"]:checked').value;
         mainImage.src = utils.DB_RESOURCES_DIR + images[value]['link'];
     });
 
@@ -291,19 +289,12 @@ function generateReviewSection(product, hasBuyed, hasReviewed, userReview, revie
 
     const stars = document.createElement('img');
     stars.alt = "Inserisci Voto";
-    /*
-    <img usemap="#starsmap"/>
-    <map name "starsmap">
-    <area shape="rect" coords="0,0,107,94" href= alt="1 star">
-     */
     stars.addEventListener('click', (event) => {
         event.preventDefault();
         const vote = (event.offsetX*5/stars.width + 0.5).toFixed(0);
 
         console.log('vote: ' + vote);
-
         stars.src = utils.RESOURCES_DIR + vote + '_star.png';
-        stars.setAttribute('vote', vote);
     });
     const text = document.createElement('textarea');
     text.name = 'reviewText';
@@ -313,14 +304,13 @@ function generateReviewSection(product, hasBuyed, hasReviewed, userReview, revie
     textLabel.innerHTML="Descrizione";
     const textButton = document.createElement('button');
     textButton.addEventListener('click', (event) => {
-        reviewButtonListener(textButton.name, stars.getAttribute('vote'), text.value, event);
+        reviewButtonListener(textButton.name, stars.src[stars.src.lastIndexOf('/') + 1], text.value, event);
     });
 
     if(hasBuyed) {
         let vote;
         if(hasReviewed && userReview != null) {
             vote = userReview['voto'];
-            stars.setAttribute('vote', vote);
             text.value = userReview['descrizione'];
             textButton.textContent = 'Modifica Recensione';
             textButton.name = 'edit';
