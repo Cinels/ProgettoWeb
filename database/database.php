@@ -324,13 +324,12 @@ class DatabaseHelper {
 
     public function getTrendProducts($n) {
         $query = "SELECT P.idProdotto, P.nome, prezzo, offerta, link, ROUND(prezzo - prezzo*(offerta/100), 2) AS prezzoScontato "
-                ."FROM PRODOTTO P, IMMAGINE I, ORDINE O, DETTAGLIO_ORDINE D "
+                ."FROM PRODOTTO P, IMMAGINE I, DETTAGLIO_ORDINE D "
                 ."WHERE P.idProdotto = I.idProdotto "
-                ."AND O.idOrdine = D.idOrdine "
                 ."AND D.idProdotto = P.idProdotto "
                 ."AND numeroProgressivo = 1 "
                 ."group by P.idProdotto, P.nome, prezzo, offerta, link "
-                ."order by sum(D.quantita) "
+                ."order by sum(D.quantita) desc, count(P.idProdotto) desc "
                 ."limit ?";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('i', $n);
