@@ -72,6 +72,10 @@ function generateProductSection(product, images) {
     mainImage.alt = "Immagine Prodotto";
     
     const form = document.createElement('form');
+    const fieldset = document.createElement('fieldset');
+    const legend = document.createElement('legend');
+    form.appendChild(fieldset);
+    fieldset.appendChild(legend);
     for(let i = 0; i < images.length; i++) {
         const radio = document.createElement('input');
         radio.type = 'radio';
@@ -95,8 +99,8 @@ function generateProductSection(product, images) {
         if (i == 0) {
             radio.checked = true;
         }
-        form.appendChild(radio);
-        form.appendChild(label);
+        fieldset.appendChild(radio);
+        fieldset.appendChild(label);
     }
     form.addEventListener('change', (event) => {
         event.preventDefault();
@@ -287,6 +291,11 @@ function generateReviewSection(product, hasBuyed, hasReviewed, userReview, revie
 
     const stars = document.createElement('img');
     stars.alt = "Inserisci Voto";
+    /*
+    <img usemap="#starsmap"/>
+    <map name "starsmap">
+    <area shape="rect" coords="0,0,107,94" href= alt="1 star">
+     */
     stars.addEventListener('click', (event) => {
         event.preventDefault();
         const vote = (event.offsetX*5/stars.width + 0.5).toFixed(0);
@@ -298,6 +307,10 @@ function generateReviewSection(product, hasBuyed, hasReviewed, userReview, revie
     });
     const text = document.createElement('textarea');
     text.name = 'reviewText';
+    text.id = 'reviewText';
+    const textLabel = document.createElement('label');
+    textLabel.setAttribute('for', "reviewText");
+    textLabel.innerHTML="Descrizione";
     const textButton = document.createElement('button');
     textButton.addEventListener('click', (event) => {
         reviewButtonListener(textButton.name, stars.getAttribute('vote'), text.value, event);
@@ -319,6 +332,7 @@ function generateReviewSection(product, hasBuyed, hasReviewed, userReview, revie
         stars.src = utils.RESOURCES_DIR + vote + '_star.png';
 
         section.appendChild(stars);
+        section.appendChild(textLabel);
         section.appendChild(text);
         section.appendChild(textButton);
     }
