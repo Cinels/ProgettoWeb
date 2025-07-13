@@ -10,7 +10,7 @@ button {
 
 button:hover {
     cursor: pointer;
-    /* background-color: #aaa; */
+    background-color: #bbb;
 }
 
 main button {
@@ -85,6 +85,11 @@ main > section > header > form > button {
     font-weight: bold;
     align-items: center;
     justify-content: center;
+    border: 1px outset rgb(210, 179, 0);
+}
+
+main > section > header > form > button:hover {
+    background-color: rgb(210, 179, 0);
 }
 
 main > article > section {
@@ -207,7 +212,7 @@ main del {
     font-weight: normal;
 }
 
-p > img, main a[href='#Reviews'] > img, main section[id='Reviews'] img/*, main section[id='Reviews'] > form > input[type='image'] */{
+p > img, main a[href='#Reviews'] > img, main section[id='Reviews'] img {
     height: 18px;
     vertical-align: middle;
 }
@@ -237,6 +242,7 @@ main > section > ul > li > form > span {
     margin: 0 5% 5% 0;
     padding: 2%;
     vertical-align: middle;
+    border: 1px outset white;
 }
 
 main > section > ul > li > form > span > input {
@@ -261,6 +267,11 @@ main > section button[name='cartRemove'], main > section button[name='favouriteR
     align-items: center;
     justify-content: center;
     margin-bottom: 3%;
+    border: 1px outset rgb(210, 0, 0);
+}
+
+main > section button[name='cartRemove']:hover, main > section button[name='favouriteRemove']:hover {
+    background-color: rgb(210, 0, 0);
 }
 
 main > section button[name='cartRemove'] {
@@ -276,10 +287,20 @@ main form > button[name='favourite'], main form > button[name='cart'], main > se
     align-items: center;
     justify-content: center;
     margin-top: 3%;
+    border: 1px outset #ddd;
+}
+
+main form > button[name='favourite']:hover, main > section button[name='edit']:hover {
+    background-color: #ddd;
 }
 
 main form > button[name='cart'] {
     background-color: gold;
+    border: 1px outset rgb(210, 179, 0);
+}
+
+main form > button[name='cart']:hover {
+    background-color: rgb(210, 179, 0);
 }
 
 main > article > form {
@@ -347,6 +368,7 @@ main section[id='Reviews'] > form {
 
 main section[id='Reviews'] button {
     padding: 1% 2%;
+    border: 1px outset #ddd;
 }
 
 main section[id='Reviews'] label {
@@ -437,6 +459,7 @@ main > section > form > ul > li > input {
 main > section > form > ul > li > button {
     padding: 1% 2% 1%;
     margin: 0 1%;
+    border: 1px outset #ddd;
 }
 
 main > section > form > ul > li > input[type='file'] {

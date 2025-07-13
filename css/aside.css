@@ -28,8 +28,7 @@ aside > section > form {
 aside > section > form > button {
     text-align: center;
     background-color: white;
-    border-width: 1px;
-    border-color: #ddd;
+    border: 1px outset #ddd;
     border-radius: 20px;
     padding: 1%;
     margin: 1%;
