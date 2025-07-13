@@ -23,7 +23,7 @@ function generateMainContent(result) {
                     <strong>Totale: ${order['costoTotale']} €</strong>
                     <p>Data ordine: ${order['dataOrdine']}</p>`;
         if (result['type'] == 'Venditore') {
-            content += `<p><span>Stato ordine: </span><strong>${result['order_state'][order['statoOrdine']]}</strong></p>`;
+            content += `<p><span>Stato ordine: </span><strong>${result['order_state'][order['statoOrdine']-1]}</strong></p>`;
         } else {
             content += `<form action="#" method="POST">
                             <label for='stato${order['idOrdine']}'>Stato ordine: </label> 
