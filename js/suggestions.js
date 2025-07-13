@@ -38,10 +38,10 @@ function generateSideContent(results, title) {
                         ${product['nome']}</br>`;
             if (product['offerta'] > 0) {
                 content += `
-                        <ins>${product['offerta']}% ${product["prezzoScontato"]}</ins> <del>${product['prezzo']}</del><span> €</span>`;
+                        <ins>${product['offerta']}% ${product["prezzoScontato"]}</ins> <del>${product['prezzo']}</del><span>€</span>`;
             } else {
                 content += `
-                        <span>${product['prezzo']} €</span>`;
+                        <span>${product['prezzo']}€</span>`;
             }
             content += `
                     </button>`;

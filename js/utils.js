@@ -56,8 +56,8 @@ export function generateProductSection(product, isVendor = false) {
     const a = document.createElement('a');
     a.href = PAGES_DIR + 'product.php?search=' + product['idProdotto'];
     
-    const span = document.createElement('span');
-    span.textContent = product['nome'];
+    const p = document.createElement('p');
+    p.textContent = product['nome'];
 
     const price = document.createElement('p');
     if (product["offerta"] > 0) {
@@ -71,7 +71,7 @@ export function generateProductSection(product, isVendor = false) {
     p1.appendChild(generateReviewStars(product['media_recensioni']));
     const p2 = document.createElement('p');
     
-    a.appendChild(span);
+    a.appendChild(p);
     a.appendChild(price);
     a.appendChild(p1);
     a.appendChild(p2);

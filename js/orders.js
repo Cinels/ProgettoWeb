@@ -19,11 +19,11 @@ function generateMainContent(result) {
         const details = result['details'][order['idOrdine']];
         content += `
                 <li>
-                    <p>N° Ordine: ${order['idOrdine']}</p>
-                    <p>Totale: ${order['costoTotale']} €</p>
+                    <strong>N° Ordine: ${order['idOrdine']}</strong>
+                    <strong>Totale: ${order['costoTotale']} €</strong>
                     <p>Data ordine: ${order['dataOrdine']}</p>`;
         if (result['type'] == 'Venditore') {
-            content += `<p>Stato ordine: ${result['order_state'][order['statoOrdine']]}</p>`;
+            content += `<span><p>Stato ordine: </p><strong>${result['order_state'][order['statoOrdine']]}</strong></span>`;
         } else {
             content += `<form action="#" method="POST">
                             <label for='stato${order['idOrdine']}'>Stato ordine: </label> 
@@ -46,12 +46,12 @@ function generateMainContent(result) {
             const detail = details[j];
             content += `<li>
                             <a href="${utils.PAGES_DIR}product.php?search=${detail["idProdotto"]}">
-                                <img src="${utils.DB_RESOURCES_DIR}${detail['link']}" alt="Immagine Prodotto"/><br/>
-                                <p>${detail["nome"]}</p><br/>`;
+                                <img src="${utils.DB_RESOURCES_DIR}${detail['link']}" alt="Immagine Prodotto"/>
+                                <p>${detail["nome"]}</p>`;
             if (detail['offerta'] > 0) {
-                content += `    <ins>${detail["offerta"]}% ${detail['prezzoScontato']}</ins> <del>${detail["prezzo"]}</del> €"`;
+                content += `    <p><ins>${detail["offerta"]}% ${detail['prezzoScontato']}</ins> <del>${detail["prezzo"]}</del>€</p>`;
             } else {
-                content += `    <p>${detail["prezzo"]} €</p>`;
+                content += `    <p>${detail["prezzo"]}€</p>`;
             }
             const number = parseFloat(detail['media_recensioni']);
             let k;
@@ -59,7 +59,7 @@ function generateMainContent(result) {
             content += `        <p>${detail['media_recensioni'].substring(0, 3)} (${detail['num_recensioni']})
                                     <img src='${utils.RESOURCES_DIR + k}_star.png' alt='Media e numero recensioni'/>
                                 </p>
-                                <p>Descrizione: ${detail['descrizione']}</p>
+                                <!-- <p>Descrizione: ${detail['descrizione']}</p> -->
                                 <p>Quantità: ${detail['quantita']}</p>
                             </a>
                         </li>`;
