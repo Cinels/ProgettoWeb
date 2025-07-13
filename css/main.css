@@ -513,6 +513,15 @@ main > section > form > ul > li > label {
     text-align: start;
 }
 
+main > section > form > ul > li > label:first-of-type {
+    text-align: center;
+    margin-left: 0
+}
+
+main > section > form > ul > li > label > img{
+    max-width: 100%;
+}
+
 main > section > form > ul > li > input {
     box-sizing: border-box;
     width: 40%;
