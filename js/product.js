@@ -311,7 +311,8 @@ function generateReviewSection(product, hasBuyed, hasReviewed, userReview, revie
 
     const textLabel = document.createElement('label');
     textLabel.setAttribute('for', "reviewText");
-    textLabel.innerHTML="Descrizione:";    
+    textLabel.innerHTML="Descrizione:";
+
     const text = document.createElement('textarea');
     text.name = 'reviewText';
     text.id = 'reviewText';
