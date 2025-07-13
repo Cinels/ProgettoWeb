@@ -287,7 +287,19 @@ function generateReviewSection(product, hasBuyed, hasReviewed, userReview, revie
 
     section.appendChild(header);
 
-    const stars = document.createElement('img');
+    const form = document.createElement('form');
+
+    const h4 = document.createElement('h4');
+    h4.textContent = 'La tua Recensione';
+    form.appendChild(h4);
+
+    const starLabel = document.createElement('label');
+    starLabel.setAttribute('for', 'vote');
+    starLabel.textContent = 'Voto:';
+    const stars = document.createElement('input');
+    stars.type = 'image';
+    stars.id = 'vote';
+    stars.name = 'vote';
     stars.alt = "Inserisci Voto";
     stars.addEventListener('click', (event) => {
         event.preventDefault();
@@ -296,16 +308,29 @@ function generateReviewSection(product, hasBuyed, hasReviewed, userReview, revie
         console.log('vote: ' + vote);
         stars.src = utils.RESOURCES_DIR + vote + '_star.png';
     });
+
+    const textLabel = document.createElement('label');
+    textLabel.setAttribute('for', "reviewText");
+    textLabel.innerHTML="Descrizione:";    
     const text = document.createElement('textarea');
     text.name = 'reviewText';
     text.id = 'reviewText';
-    const textLabel = document.createElement('label');
-    textLabel.setAttribute('for', "reviewText");
-    textLabel.innerHTML="Descrizione";
+    text.addEventListener('input', (event) => {
+        event.preventDefault();
+        text.style.height = 'auto';
+        text.style.height = (text.scrollHeight + 2) + 'px';
+    });
+
     const textButton = document.createElement('button');
     textButton.addEventListener('click', (event) => {
         reviewButtonListener(textButton.name, stars.src[stars.src.lastIndexOf('/') + 1], text.value, event);
     });
+    
+    form.appendChild(starLabel);
+    form.appendChild(stars);
+    form.appendChild(textLabel);
+    form.appendChild(text);
+    form.appendChild(textButton);
 
     if(hasBuyed) {
         let vote;
@@ -321,10 +346,7 @@ function generateReviewSection(product, hasBuyed, hasReviewed, userReview, revie
         }
         stars.src = utils.RESOURCES_DIR + vote + '_star.png';
 
-        section.appendChild(stars);
-        section.appendChild(textLabel);
-        section.appendChild(text);
-        section.appendChild(textButton);
+        section.appendChild(form);
     }
 
     for (let i = 0; i < reviews.length && i < n; i++) {
