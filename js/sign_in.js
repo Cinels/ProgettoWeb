@@ -21,7 +21,7 @@ function generateSignInContent(result) {
             <p></p>
             <ul>
                 <li>
-                    <input type="file" name="image" accept="image/*"/>
+                    <label for="image">Foto profilo:</label><input type="file" name="image" accept="image/*"/>
                 </li><li>
                     <label for="name">Nome:</label><input type="text" id="name" name="name" required/>
                 </li><li>
@@ -87,8 +87,8 @@ function generateProfileEditContent(result) {
             <ul>
                 <li>
                     <label for="image">Foto profilo:<img 
-                    src='${(user['fotoProfilo'] != null ? (utils.DB_RESOURCES_DIR + user['fotoProfilo']) : (utils.RESOURCES_DIR + 'utente_B.png'))}' 
-                    alt="Foto profilo"/></label><input type="file" id="image" name="image" accept="image/*" />
+                        src='${(user['fotoProfilo'] != null ? (utils.DB_RESOURCES_DIR + user['fotoProfilo']) : (utils.RESOURCES_DIR + 'utente_B.png'))}' 
+                        alt="Foto profilo"/></label><input type="file" id="image" name="image" accept="image/*" />
                 </li><li>
                     <label for="name">Nome:</label><input type="text" id="name" name="name" value='${user['nome']}' required/>
                 </li><li>
@@ -100,7 +100,9 @@ function generateProfileEditContent(result) {
                 </li><li>
                     <label for="check_password">Conferma Password:</label><input type="password" id="check_password" name="check_password"/>
                 </li><li>
-                    <button type="button">Annulla</button><button type="submit" name="submit">Conferma</button>
+                    <button type="button">Annulla<img 
+                        src="${utils.RESOURCES_DIR}x.png" alt="" /></button><button type="submit" name="submit">Conferma<img 
+                        src="${utils.RESOURCES_DIR}Marco_semplice_W.png" alt="" /></button>
                 </li>
             </ul>
         </form>

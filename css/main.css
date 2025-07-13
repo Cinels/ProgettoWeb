@@ -508,30 +508,25 @@ main > section > form > ul > li:nth-last-of-type(4) {
     margin-bottom: 1%;
 }
 
-main > section > form > ul > li > label {
+/* main > section > form > ul > li > label {
     display: inline-block;
     width: 30%;
     margin-left: 15%;
     text-align: start;
-}
+} */
 
-main > section > form > label {
+main > section > form > label, main > section > form > ul > li > label {
     display: inline-block;
     width: 50%;
     margin-top: 1%;
     text-align: start;
 }
 
-/* main > section > form > ul > li > label[for='image'] {
-    text-align: center;
-    margin-left: 0
-} */
-
 main > section > form > ul > li > label > img{
     max-width: 100%;
 }
 
-main > section > form > ul > li > input {
+/* main > section > form > ul > li > input {
     box-sizing: border-box;
     width: 40%;
     padding: 0 1%;
@@ -539,9 +534,9 @@ main > section > form > ul > li > input {
     border-radius: 100px;
     border: 1px solid #bbb;
     vertical-align: top;
-}
+} */
 
-main > section > form > input, main > section > form > select {
+main > section > form > input, main > section > form > ul > li > input, main > section > form > select {
     box-sizing: border-box;
     width: 50%;
     padding: 0 1%;
@@ -565,8 +560,8 @@ main > section > form > div > h2 {
 }
 main > section > form > div > h2 ~ * {
     display: inline-block;
-    width: 70%;
-    margin: 0.5% 15% 0;
+    width: 100%;
+    margin-top: 1%;
     text-align: start;
 }
 
