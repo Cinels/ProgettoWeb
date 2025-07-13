@@ -411,11 +411,13 @@ main section[id='Reviews'] {
     border: 1px solid #a0bfbf;
     border-radius: 20px;
     padding: 3%;
+    margin-top: 2%;
 }
 
 main section[id='Reviews'] > header > h3 {
     display: inline-block;
     width: 50%;
+    margin-top: 0;
     margin-bottom: 2%;
 }
 
@@ -424,7 +426,7 @@ main section[id='Reviews'] > header > p {
     width: 50%;
     font-weight: normal;
     font-size: medium;
-    margin-top: 3%;
+    /* margin-top: 3%; */
     margin-bottom: 2%;
     text-align: end;
 }
@@ -506,27 +508,44 @@ main > section > form > ul > li:nth-last-of-type(4) {
     margin-bottom: 1%;
 }
 
-main > section > form > ul > li > label, main > section > form > label {
+main > section > form > ul > li > label {
     display: inline-block;
     width: 30%;
     margin-left: 15%;
     text-align: start;
 }
 
-main > section > form > ul > li > label:first-of-type {
+main > section > form > label {
+    display: inline-block;
+    width: 50%;
+    margin-top: 1%;
+    text-align: start;
+}
+
+/* main > section > form > ul > li > label[for='image'] {
     text-align: center;
     margin-left: 0
-}
+} */
 
 main > section > form > ul > li > label > img{
     max-width: 100%;
 }
 
-main > section > form > ul > li > input, main > section > form > input, main > section > form > select {
+main > section > form > ul > li > input {
     box-sizing: border-box;
     width: 40%;
     padding: 0 1%;
     margin-right: 15%;
+    border-radius: 100px;
+    border: 1px solid #bbb;
+    vertical-align: top;
+}
+
+main > section > form > input, main > section > form > select {
+    box-sizing: border-box;
+    width: 50%;
+    padding: 0 1%;
+    margin-top: 1%;
     border-radius: 100px;
     border: 1px solid #bbb;
 }
@@ -556,7 +575,7 @@ main > section > form > div ~ * {
 }
 
 main > section > form button {
-    margin-top: 1%;
+    margin-top: 2%;
     display: inline-flex;
     vertical-align: middle;
     justify-content: center;
@@ -579,8 +598,6 @@ main > section > form > button[name='buy']:hover {
 }
 
 main > section > form > ul > li > input[type='file'] {
-    width: 50%;
-    margin: 0 25%;
     border: 0;
     padding: 0;
     border-radius: 0;
@@ -592,6 +609,7 @@ main > section > form > h2 {
 
 main > section > form > label > img {
     width: 100%;
+    border-radius: 10px;
 }
 
 main > section > form > input[type='file'] {
@@ -613,10 +631,9 @@ main > section > form > input[type='file'] {
 
 main > section > form > textarea {
     box-sizing: border-box;
-    width: 40%;
+    width: 50%;
     padding: 0 1%;
-    margin-top: 0.25%;
-    margin-right: 15%;
+    margin-top: 1%;
     border-radius: 10px;
     vertical-align: top;
     border: 1px solid #bbb;

@@ -86,8 +86,9 @@ function generateProfileEditContent(result) {
             <p></p>
             <ul>
                 <li>
-                <label for="image"><img src='${user['fotoProfilo'] != null ? utils.DB_RESOURCES_DIR+user['fotoProfilo'] : ""}' alt="Foto profilo"/><br>Foto profilo:</label><br>
-                    <input type="file" id="image" name="image" accept="image/*" />
+                    <label for="image">Foto profilo:<img 
+                    src='${(user['fotoProfilo'] != null ? (utils.DB_RESOURCES_DIR + user['fotoProfilo']) : (utils.RESOURCES_DIR + 'utente_B.png'))}' 
+                    alt="Foto profilo"/></label><input type="file" id="image" name="image" accept="image/*" />
                 </li><li>
                     <label for="name">Nome:</label><input type="text" id="name" name="name" value='${user['nome']}' required/>
                 </li><li>
