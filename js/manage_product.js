@@ -91,7 +91,7 @@ function generateMainContent(result) {
     const image2label = document.createElement('label');
     image2label.setAttribute('for', 'image2');
     image2label.textContent = 'Immagine 2:';
-    if (getParams.length > 0) {
+    if (getParams.length > 0 && result['images'].length > 1) {
         const image2 = document.createElement('img');
         image2.src = utils.DB_RESOURCES_DIR + result['images'][1]['link'];
         image2.alt = 'Immagine 2 Prodotto';
