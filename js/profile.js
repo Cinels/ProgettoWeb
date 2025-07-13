@@ -60,7 +60,7 @@ function generateProfileSection(profile, user_type) {
     const section = document.createElement('section');
     
     const img = document.createElement('img');
-    img.src = profile['fotoProfilo'] != null ? utils.DB_RESOURCES_DIR + profile['fotoProfilo'] : utils.RESOURCES_DIR + "header/utente.png";
+    img.src = profile['fotoProfilo'] != null ? utils.DB_RESOURCES_DIR + profile['fotoProfilo'] : utils.RESOURCES_DIR + "utente_B.png";
     img.alt = 'Foto Profilo';
 
     const h2 = document.createElement('h2');
