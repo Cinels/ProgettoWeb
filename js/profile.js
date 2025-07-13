@@ -116,6 +116,8 @@ function generateNotificationSection(notifications) {
 
     const section = document.createElement('section');
 
+    const header = document.createElement('header');
+    
     const img = document.createElement('img');
     img.src = utils.RESOURCES_DIR + 'campanella.png';
     img.alt = '';
@@ -128,11 +130,11 @@ function generateNotificationSection(notifications) {
     for (let i = 0; i < notifications.length; i++) {
         const notification = notifications[i];
         const li = document.createElement('li');
-        const title = notification['letta'] == 1 ? document.createElement('p') : document.createElement('h3');
+        const title =  document.createElement('h3');
         title.textContent = notification['tipo'] + ' ' + notification['data'];
 
-        const p = document.createElement('p');
-        p.textContent = notification['testo'];
+        const text = notification['letta'] == 1 ? document.createElement('span') : document.createElement('strong');
+        text.textContent = notification['testo'];
 
         const readImg = document.createElement('img');
         readImg.src = notification['letta'] == 1 ? utils.RESOURCES_DIR + 'chat_B.png' : utils.RESOURCES_DIR + 'chat_B_dot.png' ;
@@ -157,14 +159,15 @@ function generateNotificationSection(notifications) {
         });
         
         li.appendChild(title);
-        li.appendChild(p);
+        li.appendChild(text);
         li.appendChild(readButton);
         li.appendChild(deleteButton);
         ul.appendChild(li);
     }
 
-    section.appendChild(img);
-    section.appendChild(h2);
+    header.appendChild(img);
+    header.appendChild(h2);
+    section.appendChild(header);
     section.appendChild(ul);
 
     return section;
