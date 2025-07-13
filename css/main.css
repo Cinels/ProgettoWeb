@@ -17,6 +17,16 @@ button:hover {
     background-color: #bbb;
 }
 
+::file-selector-button {
+    border-radius: 100px;
+    border: 1px outset #bbb;
+}
+
+::file-selector-button:hover {
+    cursor: pointer;
+    background-color: #bbb;
+}
+
 main button {
     border-radius: 100px;
     border: 0;
@@ -45,7 +55,7 @@ main > div > a > img:hover {
     transform: scale(1.05);
 }
 
-main > section > header, main > article,  main > section > ul > li, main > section > form, main > div > section {
+main > section > header, main > article, main > section > ul > li, main > section > form, main > div > section {
     /* background-color: rgba(200, 200, 200, 0.5); /*/
     background-color: #b9d3dc;/*/
     border-color: lightgray; /*/
@@ -58,6 +68,44 @@ main > section > header, main > article,  main > section > ul > li, main > secti
     text-align: start;
     overflow: hidden;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+    box-sizing: border-box;
+}
+
+main > section > ul {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+main > section > ul > li {
+    width: 49%;
+    margin-top: 0;
+    text-align: center;
+}
+
+main > section > ul > li:last-of-type, main > section > ul > li:nth-last-of-type(2) {
+    margin-bottom: 0;
+}
+
+main > section > ul > li:nth-child(odd) {
+    margin-right: 2%;
+}
+
+main > section > header + ul {
+    display: block;
+}
+
+main > section > header + ul > li {
+    width: 100%;
+    margin-top: 2%;
+    text-align: start;
+}
+
+main > section > header + ul > li:nth-child(odd) {
+    margin-right: 0;
+}
+
+main > section > header + ul > li:last-of-type, main > section > header + ul > li:nth-last-of-type(2) {
+    margin-bottom: 0;
 }
 
 main > article {
@@ -146,8 +194,8 @@ main > section > header + ul > li > a:first-of-type {
 
 main > section > header + ul > li > a > img {
     max-width: 90%;
-    margin-right: 5%;
-    border-radius: 15px;
+    margin-right: 10%;
+    border-radius: 20px;
     align-self: center;
 }
 
@@ -170,6 +218,53 @@ main > section > header + ul > li > a > p {
     width: 100%;
 }
 
+main > section > ul > li > a > img {
+    width: 100%;
+    border-radius: 20px;
+}
+
+main > section > ul > li > a > h2 {
+    font-size: larger;
+}
+
+main > section > ul > li > p {
+    display: inline-block;
+    font-size: large;
+    width: 60%;
+    vertical-align: middle;
+}
+
+main > section > header + ul > li > p {
+    width: 100%;
+    font-size: medium;
+}
+
+main > section > ul > li > button {
+    background-color: transparent;
+    width: 15%;
+    vertical-align: middle;
+}
+
+main > section > ul > li > button:nth-child(odd) {
+    margin-left: 5%;
+}
+
+main > section > ul > li > button:nth-child(even) {
+    margin-right: 5%;
+}
+
+main > section > ul > li > a + button:nth-child(odd) {
+    margin-left: 0;
+}
+
+main > section > ul > li > a + button:nth-child(even) {
+    margin-right: 0;
+}
+
+main > section > ul > li > button:hover {
+    background-color: #a0bfbf;
+}
+
 main > section > ul > li > strong {
     font-size: larger;
     margin-bottom: 2%;
@@ -182,7 +277,7 @@ main > section > ul > li > p, main > section > ul > li > span, main > section > 
 }
 
 main > section > ul > li > p, main > section > ul > li > form > select {
-    border-radius: 10px;
+    border-radius: 100px;
     text-align: center;
 }
 
@@ -301,7 +396,7 @@ main > section > ul > li > form > span {
     background-color: white;
     box-sizing: border-box;
     border-radius: 100px;
-    margin: 0 5% 5% 0;
+    margin-right: 5%;
     padding: 2%;
     vertical-align: middle;
     border: 1px outset white;
@@ -329,7 +424,7 @@ main > section button[name='cartRemove'], main > section button[name='favouriteR
     font-size: large;
     align-items: center;
     justify-content: center;
-    margin-bottom: 3%;
+    /* margin-bottom: 3%; */
     border: 1px outset rgb(210, 0, 0);
 }
 
@@ -376,7 +471,7 @@ main > article > form > span {
     background-color: white;
     box-sizing: border-box;
     border-radius: 100px;
-    padding: 2%;
+    /* padding: 2%; */
     vertical-align: middle;
 }
 
@@ -384,6 +479,7 @@ main > article > form > span > label {
     display: inline-block;
     width: 50%;
     text-align: start;
+    padding-left: 2%;
 }
 
 main > article > form > span > input {
@@ -397,7 +493,8 @@ main > article > form > span > input {
 
 main > article > form > span > button {
     display: inline-block;
-    width: 15%;
+    width: 10%;
+    margin: 2%;
     font-size: medium;
     aspect-ratio: 1 / 1;
 }
@@ -426,7 +523,6 @@ main section[id='Reviews'] > header > p {
     width: 50%;
     font-weight: normal;
     font-size: medium;
-    /* margin-top: 3%; */
     margin-bottom: 2%;
     text-align: end;
 }
@@ -442,32 +538,26 @@ main section[id='Reviews'] button {
 
 main section[id='Reviews'] label {
     display: inline-block;
-    width: 30%;
+    width: 40%;
     margin-top: 1%;
-    margin-left: 10%;
     vertical-align: top;
     text-align: start;
 }
 
 main section[id='Reviews'] input {
-    width: 50%;
-    margin: 1% 10% 1% 0;
+    width: 60%;
+    margin: 1% 0;
     vertical-align: top;
 }
 
 main section[id='Reviews'] textarea {
     box-sizing: border-box;
-    width: 50%;
-    margin: 1% 10% 1% 0;
+    width: 60%;
+    margin: 1% 0;
     resize: none;
     vertical-align: top;
     border-radius: 10px;
     padding: 1%;
-}
-
-main section[id='Reviews'] form button {
-    padding: 2% 3%;
-    margin-top: 1%;
 }
 
 main section[id='Reviews'] > article {
@@ -508,13 +598,6 @@ main > section > form > ul > li:nth-last-of-type(4) {
     margin-bottom: 1%;
 }
 
-/* main > section > form > ul > li > label {
-    display: inline-block;
-    width: 30%;
-    margin-left: 15%;
-    text-align: start;
-} */
-
 main > section > form > label, main > section > form > ul > li > label {
     display: inline-block;
     width: 50%;
@@ -525,16 +608,6 @@ main > section > form > label, main > section > form > ul > li > label {
 main > section > form > ul > li > label > img{
     max-width: 100%;
 }
-
-/* main > section > form > ul > li > input {
-    box-sizing: border-box;
-    width: 40%;
-    padding: 0 1%;
-    margin-right: 15%;
-    border-radius: 100px;
-    border: 1px solid #bbb;
-    vertical-align: top;
-} */
 
 main > section > form > input, main > section > form > ul > li > input, main > section > form > select {
     box-sizing: border-box;
@@ -612,16 +685,6 @@ main > section > form > input[type='file'] {
     padding: 0;
     border-radius: 0;
     vertical-align: top;
-}
-
-::file-selector-button {
-    border-radius: 10px;
-    border: 1px outset #bbb;
-}
-
-::file-selector-button:hover {
-    cursor: pointer;
-    background-color: #bbb;
 }
 
 main > section > form > textarea {

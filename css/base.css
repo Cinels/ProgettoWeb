@@ -49,11 +49,11 @@ body > header > form {
     background-color: white;
     text-align: center;
     align-items: center;
-    margin-top: 0.5%;
+    margin-top: 2%;
 }
 
 body > header > form > img {
-    max-height: 20px;
+    max-height: 32px;
     padding: 1% 3%;
 }
 
