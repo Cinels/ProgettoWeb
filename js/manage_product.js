@@ -145,11 +145,13 @@ function generateMainContent(result) {
     textarea4.id = 'description';
     textarea4.name = 'description';
     textarea4.maxLength = 500;
-    textarea4.rows = 10;
-    textarea4.cols = 50;
     textarea4.value = getParams.length > 0 ? result['result']['descrizione'] : '';
     textarea4.required = true;
-
+    textarea4.addEventListener('input', (event) => {
+        event.preventDefault();
+        textarea4.style.height = 'auto';
+        textarea4.style.height = (textarea4.scrollHeight + 2) + 'px';
+    });
     const label5 = document.createElement('label');
     label5.setAttribute('for', 'property');
     label5.textContent = 'Proprietà:';
@@ -157,10 +159,13 @@ function generateMainContent(result) {
     textarea5.id = 'property';
     textarea5.name = 'property';
     textarea5.maxLength = 300;
-    textarea5.rows = 6;
-    textarea5.cols = 50;
     textarea5.value = getParams.length > 0 ? result['result']['proprieta'] : '';
     textarea5.required = true;
+    textarea5.addEventListener('input', (event) => {
+        event.preventDefault();
+        textarea5.style.height = 'auto';
+        textarea5.style.height = (textarea5.scrollHeight + 2) + 'px';
+    });    
 
     const label6 = document.createElement('label');
     label6.setAttribute('for', 'sale');
@@ -230,6 +235,8 @@ function generateMainContent(result) {
     select8.appendChild(option8_2);
     select8.appendChild(option8_3);
 
+    const p = document.createElement('p');
+
     const cancelImg = document.createElement('img');
     cancelImg.src = utils.RESOURCES_DIR + 'x.png';
     cancelImg.alt = '';
@@ -280,41 +287,36 @@ function generateMainContent(result) {
         }
     });
 
+    p.appendChild(cancelButton);
+    p.appendChild(saveButton);
+
+    form.appendChild(h2);
     form.appendChild(image1label);
     form.appendChild(image1input);
-    form.appendChild(document.createElement('br'));
     form.appendChild(image2label);
     form.appendChild(image2input);
-    form.appendChild(document.createElement('br'));
     form.appendChild(label1);
     form.appendChild(input1);
-    form.appendChild(document.createElement('br'));
     form.appendChild(label2);
     form.appendChild(input2);
-    form.appendChild(document.createElement('br'));
     form.appendChild(label3);
     form.appendChild(input3);
-    form.appendChild(document.createElement('br'));
     form.appendChild(label4);
     form.appendChild(textarea4);
-    form.appendChild(document.createElement('br'));
     form.appendChild(label5);
     form.appendChild(textarea5);
-    form.appendChild(document.createElement('br'));
     form.appendChild(label6);
     form.appendChild(input6);
-    form.appendChild(document.createElement('br'));
     form.appendChild(label7);
     form.appendChild(select7);
-    form.appendChild(document.createElement('br'));
     form.appendChild(label8);
     form.appendChild(select8);
-    form.appendChild(document.createElement('br'));
-    form.appendChild(cancelButton);
-    form.appendChild(saveButton);
+    form.appendChild(p);
 
-    section.appendChild(h2);
     section.appendChild(form);
 
     document.querySelector('main').appendChild(section);
+
+    textarea4.dispatchEvent(new Event('input'));
+    textarea5.dispatchEvent(new Event('input'));
 }

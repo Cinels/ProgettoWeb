@@ -341,7 +341,7 @@ main > section button[name='cartRemove'] {
     width: 60%;
 }
 
-main form > button[name='favourite'], main form > button[name='cart'], main > article button[name='edit'] {
+main form > button[name='favourite'], main form > button[name='cart'], main button[name='edit'] {
     width: 100%;
     vertical-align: middle;
     display: inline-flex;
@@ -513,7 +513,7 @@ main > section > form > ul > li > label, main > section > form > label {
     text-align: start;
 }
 
-main > section > form > ul > li > input, main > section > form > input {
+main > section > form > ul > li > input, main > section > form > input, main > section > form > select {
     box-sizing: border-box;
     width: 40%;
     padding: 0 1%;
@@ -522,9 +522,9 @@ main > section > form > ul > li > input, main > section > form > input {
     border: 1px solid #bbb;
 }
 
-main > section > form > ul > li > button, main > section > form > button {
-    padding: 1% 2% 1%;
-    margin: 0 1%;
+main > section > form > ul > li > button, main > section > form button {
+    padding: 1% 2%;
+    margin: 1% 1% 0 ;
     border: 1px outset #ddd;
 }
 
@@ -546,7 +546,7 @@ main > section > form > div ~ * {
     margin-top: 0.5%;
 }
 
-main > section > form > button {
+main > section > form button {
     margin-top: 1%;
     display: inline-flex;
     vertical-align: middle;
@@ -560,12 +560,12 @@ main > section > form > button > img {
     display: inline;
 }
 
-main > section > form > button:last-of-type {
+main > section > form > button[name='buy'] {
     background-color: gold;
     border: 1px outset rgb(210, 179, 0);
 }
 
-main > section > form > button:last-of-type:hover {
+main > section > form > button[name='buy']:hover {
     background-color: rgb(210, 179, 0);
 }
 
@@ -575,6 +575,52 @@ main > section > form > ul > li > input[type='file'] {
     border: 0;
     padding: 0;
     border-radius: 0;
+}
+
+main > section > form > h2 {
+    margin-bottom: 1%;
+}
+
+main > section > form > label > img {
+    width: 100%;
+}
+
+main > section > form > input[type='file'] {
+    border: 0;
+    padding: 0;
+    border-radius: 0;
+    vertical-align: top;
+}
+
+::file-selector-button {
+    border-radius: 10px;
+    border: 1px outset #bbb;
+}
+
+::file-selector-button:hover {
+    cursor: pointer;
+    background-color: #bbb;
+}
+
+main > section > form > textarea {
+    box-sizing: border-box;
+    width: 40%;
+    padding: 0 1%;
+    margin-top: 0.25%;
+    margin-right: 15%;
+    border-radius: 10px;
+    vertical-align: top;
+    border: 1px solid #bbb;
+    resize: none;
+}
+
+main > section > form > select {
+    text-align: center;
+}
+
+main > section > form button {
+    padding: 0.5% 1%;
+    font-size: medium;
 }
 
 main > div > section:first-of-type {
