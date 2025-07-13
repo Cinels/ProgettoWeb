@@ -254,15 +254,19 @@ class DatabaseHelper {
     public function moveToCart($idProdotto) {
         if ($this->isLogged() && $this->getUserType()=="client") {
             $this->removeFromFavourites($idProdotto);
-            $this->addToCart($idProdotto, 1);
+            if($this->getCartQuantity($idProdotto)[0]['quantita'] < 0) {
+                $this->addToCart($idProdotto, 1);
+            }
         }
     }
 
     public function moveToFavourites($idProdotto, $idCliente) {
-            var_dump("p: ". $idProdotto);
-            var_dump("c: ". $idCliente);
+            error_log($idProdotto);
+            error_log($idCliente);
             $this->removeFromCart($idProdotto, $idCliente);
-            $this->addToFavourites($idProdotto, $idCliente);
+            if(!$this->isProductFavourite($idProdotto)) {
+                $this->addToFavourites($idProdotto, $idCliente);
+            }
     }
 
     public function getProductsOnSale($n) {
@@ -324,13 +328,12 @@ class DatabaseHelper {
 
     public function getTrendProducts($n) {
         $query = "SELECT P.idProdotto, P.nome, prezzo, offerta, link, ROUND(prezzo - prezzo*(offerta/100), 2) AS prezzoScontato "
-                ."FROM PRODOTTO P, IMMAGINE I, ORDINE O, DETTAGLIO_ORDINE D "
+                ."FROM PRODOTTO P, IMMAGINE I, DETTAGLIO_ORDINE D "
                 ."WHERE P.idProdotto = I.idProdotto "
-                ."AND O.idOrdine = D.idOrdine "
                 ."AND D.idProdotto = P.idProdotto "
                 ."AND numeroProgressivo = 1 "
                 ."group by P.idProdotto, P.nome, prezzo, offerta, link "
-                ."order by sum(D.quantita) "
+                ."order by sum(D.quantita) desc, count(P.idProdotto) desc "
                 ."limit ?";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('i', $n);
