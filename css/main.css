@@ -39,7 +39,7 @@ main button > img {
 
 main > section, main > div {
     text-align: center;
-    margin: 2%;
+    margin: 3%;
 }
 
 main > div > a:first-of-type > img {
@@ -63,7 +63,7 @@ main > section > header, main > article, main > section > ul > li, main > sectio
     border-width: 1.5px;
     border-style: outset;
     border-radius: 30px;
-    margin: 2% 0;
+    margin: 3% 0;
     padding: 3%;
     text-align: start;
     overflow: hidden;
@@ -96,7 +96,7 @@ main > section > header + ul {
 
 main > section > header + ul > li {
     width: 100%;
-    margin-top: 2%;
+    margin-top: 3%;
     text-align: start;
 }
 
@@ -109,11 +109,12 @@ main > section > header + ul > li:last-of-type, main > section > header + ul > l
 }
 
 main > article {
-    margin: 2%;
+    margin: 3%;
 }
 
 main > section h2 {
     text-align: center;
+    font-size: x-large;
 }
 
 main > section > header > form {
@@ -133,11 +134,18 @@ main > section > header > form > button {
     vertical-align: middle;
     display: inline-flex;
     background-color: gold;
-    font-size: large;
+    font-size: larger;
     font-weight: bold;
     align-items: center;
     justify-content: center;
+    padding-top: 2%;
+    padding-bottom: 2%;
     border: 1px outset rgb(210, 179, 0);
+}
+
+main > section > header > form > button > img {
+    max-height: 100%;
+    max-width: 20%;
 }
 
 main > section > header > form > button:hover {
@@ -159,9 +167,9 @@ main > article > section > form {
 }
 
 main > article > section > form img {
-    height: 50px;
-    padding: 0.5%;
-    border-radius: 5px;
+    height: 80px;
+    padding: 5%;
+    border-radius: 15px;
 }
 
 main > article > section > form input[type="radio"], main > article > section > form input[type="radio"] + label > span {
@@ -176,7 +184,7 @@ main > article > section > form input[type="radio"]:checked + label > img {
 
 main > section > header + ul > li {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 2fr 3fr;
     grid-template-rows: auto auto;
 }
 
@@ -424,7 +432,8 @@ main > section button[name='cartRemove'], main > section button[name='favouriteR
     font-size: large;
     align-items: center;
     justify-content: center;
-    /* margin-bottom: 3%; */
+    padding-top: 1%;
+    padding-bottom: 1%;
     border: 1px outset rgb(210, 0, 0);
 }
 
@@ -437,7 +446,7 @@ main > section button[name='cartRemove'] {
 }
 
 main form > button[name='favourite'], main form > button[name='cart'], main button[name='edit'] {
-    width: 100%;
+    width: 80%;
     vertical-align: middle;
     display: inline-flex;
     background-color: white;
@@ -445,8 +454,15 @@ main form > button[name='favourite'], main form > button[name='cart'], main butt
     align-items: center;
     justify-content: center;
     margin-top: 3%;
+    padding-top: 1%;
+    padding-bottom: 1%;
     border: 1px outset #ddd;
 }
+
+main ul > li > form > button[name='favourite'], main ul > li > form > button[name='cart'], main ul > li > button[name='edit'] {
+    width: 100%;
+}
+
 
 main form > button[name='favourite']:hover, main > article button[name='edit']:hover {
     background-color: #ddd;
@@ -745,7 +761,7 @@ main > div > button {
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    padding: 1% 2%;
+    padding: 1% 4%;
 }
 
 main > div > button > img {
