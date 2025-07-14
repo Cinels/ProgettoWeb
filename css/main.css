@@ -191,7 +191,7 @@ main > section > header + ul > li > a > img {
     max-width: 90%;
     margin-right: 10%;
     border-radius: 20px;
-    align-self: center;
+    justify-self: center;
     grid-column: 1;
     grid-row: 1 / 7;
 }
@@ -327,9 +327,11 @@ main > section > ul > li > ul > li > a > img {
     height: auto;
     max-width: 90%;
     max-height: 300px;
+    margin-right: 10%;
     grid-column: 1;
     grid-row: 1 / 6;
     border-radius: 10px;
+    justify-self: center;
 }
 
 main > section > ul > li > ul > li > a > p:first-of-type, main > section > ul > li > ul > li > a > p:nth-of-type(2) {
@@ -929,7 +931,7 @@ main > div > section > ul > li > button > img {
 
     main > article > section > img {
         grid-row: 1 / 8;
-        width: 95%;
+        max-width: 95%;
         margin-right: 5%;
     }
 
