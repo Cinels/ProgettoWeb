@@ -93,3 +93,7 @@ export function generateReviewStars(vote, alt = 'Media e numero recensioni') {
 export function alertQuantity(richieste, disponibili) {
     alert(`Quantità del prodotto non sufficiente!\nRichieste: ${richieste} Disponibili: ${disponibili}`);
 }
+
+export function alertInsertInCart() {
+    alert(`Prodotto inserito nel carrello`);
+}

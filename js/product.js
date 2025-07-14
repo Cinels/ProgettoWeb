@@ -393,6 +393,7 @@ async function cartButtonListener(quantity, event, cartQuantity, available) {
     const totalQuantity = Number(cartQuantity) + Number(quantity);
     
     if (totalQuantity <= available) {
+        utils.alertInsertInCart();
         const formData = new FormData();
         formData.append('cart', quantity);
         const result = await utils.makePostRequest(url, formData);

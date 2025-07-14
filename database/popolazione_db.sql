@@ -6,7 +6,7 @@ use negozio_logico;
 
 insert into utente
 values
-('venditore@negozio.it', 'Franco', 'Ruccacucchi', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', "https://us-tuna-sounds-images.voicemod.net/7a1857fb-c4d1-4422-9652-fcb4ff3a9c48-1722539434495.jpg"), -- password: password
+('venditore@negozio.it', 'Franco', 'Ruccacucchi', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', "Utenti/TROTA1.jpg"), -- password: password
     ('cliente@negozio.it', 'Giovanna', 'Crisafulli', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', NULL); -- password: password
 
 -- Popolamento tabella UTENTE
