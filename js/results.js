@@ -125,6 +125,7 @@ async function cartButtonListener(action, id, event, quantity, available) {
     console.log('cart ' + action + " " + id);
     
     if (quantity <= available) {
+        utils.alertInsertInCart();
         const formData = new FormData();
         formData.append('cart', action);
         formData.append('id', id);
