@@ -29,7 +29,6 @@ function generateMainContent(result) {
         const product = result['result'][i];
         const li = document.createElement('li');
         
-        li.appendChild(utils.generateProductImage(product));
         li.appendChild(utils.generateProductSection(product));
         li.appendChild(generateInteractionForm(product, result['cartQuantity'][product['idProdotto']], result['available'][product['idProdotto']]));
         ul.appendChild(li);
