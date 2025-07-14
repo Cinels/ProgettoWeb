@@ -268,6 +268,15 @@ main > section > ul > li > strong {
     text-align: center;
 }
 
+main > section > header + ul > li > strong:first-of-type, main > section > header + ul > li > strong ~ p:nth-child(odd) {
+    grid-column: 1 / 3;
+}
+
+main > section > header + ul > li > strong ~ form {
+    grid-column: 3;
+    grid-row: 2;
+}
+
 main > section > ul > li > p, main > section > ul > li > span, main > section > ul > li > p, main > section > ul > li > form {
     margin-bottom: 2%;
     text-align: center;
@@ -288,7 +297,7 @@ main > section > ul > li > span > p, main > section > ul > li > span > strong {
 }
 
 main > section > ul > li > ul {
-    grid-column: 1 / 3;
+    grid-column: 1 / 4;
     grid-row: 4;
     border: 1px solid #a0bfbf;
     border-radius: 20px;
@@ -988,5 +997,13 @@ main > div > section > ul > li > button > img {
     main > section > form > textarea {
         width: 50%;
         margin-right: 10%;
+    }
+
+    main > section > ul > li > ul {
+        padding: 1%;
+    }
+
+    main > section > ul > li > ul > li:not(:last-of-type) {
+        margin-bottom: 2%;
     }
 }
