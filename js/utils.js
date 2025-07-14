@@ -20,25 +20,9 @@ export async function makePostRequest(url, formData) {
     }
 }
 
-export function generateProductImage(product) {
-    // <a href="${paths.PAGES_DIR}product.php?search=${product["idProdotto"]}">
-    //     <img src="${paths.DB_RESOURCES_DIR}${product['link']}" alt="Immagine Prodotto"/><br/>
-    // </a>
-    
-    const a = document.createElement('a');
-    a.href = PAGES_DIR + 'product.php?search=' + product['idProdotto'];
-    
-    const img_product = document.createElement('img');
-    img_product.src = DB_RESOURCES_DIR + product['link'];
-    img_product.alt = product['nome'];
-
-    a.appendChild(img_product);
-
-    return a;
-}
-
 export function generateProductSection(product, isVendor = false) {
     // <a href="${paths.PAGES_DIR}product.php?search=${product["idProdotto"]}">
+    //     <img src="${paths.DB_RESOURCES_DIR}${product['link']}" alt="Immagine Prodotto"/><br/>
     //     ${product['nome']}<br/>`;
 
     //     if (product["offerta"] > 0) {
@@ -56,6 +40,10 @@ export function generateProductSection(product, isVendor = false) {
     const a = document.createElement('a');
     a.href = PAGES_DIR + 'product.php?search=' + product['idProdotto'];
     
+    const img_product = document.createElement('img');
+    img_product.src = DB_RESOURCES_DIR + product['link'];
+    img_product.alt = product['nome'];
+
     const p = document.createElement('p');
     p.textContent = product['nome'];
 
@@ -70,7 +58,8 @@ export function generateProductSection(product, isVendor = false) {
     p1.innerText = product['media_recensioni'].substring(0, 3) + " (" + product['num_recensioni'] + ")";
     p1.appendChild(generateReviewStars(product['media_recensioni']));
     const p2 = document.createElement('p');
-    
+
+    a.appendChild(img_product);
     a.appendChild(p);
     a.appendChild(price);
     a.appendChild(p1);

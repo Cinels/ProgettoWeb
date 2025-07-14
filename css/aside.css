@@ -7,18 +7,19 @@ aside > section {
     /* background-color: rgba(200, 200, 200, 0.5); /*/
     background-color: #b9d3dc;/*/
     border-color: lightgray; /*/
-    border-color: #a0bfbf; /**//*colore principale #b9d3dc, altro colore rgb(161, 255, 255)*/
+    border-color: #a0bfbf; /**/
     border-width: 1.5px;
     border-style: outset;
     border-radius: 30px;
     margin: 3%;
-    padding: 2%;
+    padding: 3%;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
 }
 
 aside > section > h2 {
     text-align: center;
     font-size: x-large;
+    margin-bottom: 2%;
 }
 
 aside > section > form {
@@ -32,10 +33,17 @@ aside > section > form > button {
     border: 1px outset #737373;
     border-radius: 20px;
     padding: 1%;
-    margin: 1%;
-    width: 48%;
+    width: 49%;
     height: 250px;
     overflow: hidden;
+}
+
+aside > section > form > button:not(:last-of-type, :nth-last-of-type(2)) {
+    margin-bottom: 2%;
+}
+
+aside > section > form > button:nth-of-type(odd) {
+    margin-right: 2%;
 }
 
 aside img {
@@ -59,4 +67,27 @@ aside > section > form > button > ins {
 
 aside > section > form > button > del {
     color: #444;
+}
+
+@media screen and (min-width: 768px) {
+    aside > section {
+        margin: 1%;
+        padding: 1%;
+    }
+    
+    aside > section > h2 {
+        margin-bottom: 1%;
+    }
+
+    aside > section > form > button {
+        width: 24.25%;
+    }
+
+    aside > section > form > button:nth-last-of-type(-n + 4) {
+        margin-bottom: 0;
+    }
+
+    aside > section > form > button:not(:nth-of-type(4n)) {
+        margin-right: 1%;
+    }
 }

@@ -53,7 +53,6 @@ function generateMainContent(result) {
         const product = products[i];
         const li = document.createElement('li');
 
-        li.appendChild(utils.generateProductImage(product));
         li.appendChild(utils.generateProductSection(product, true));
 
         const editImg = document.createElement('img');

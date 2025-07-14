@@ -61,7 +61,6 @@ function generateMainContent(result) {
             const product = result['result'][i];
             const li = document.createElement('li');
             
-            li.appendChild(utils.generateProductImage(product));
             li.appendChild(utils.generateProductSection(product));
             li.appendChild(generateInteractionForm(product, result['available'][product['idProdotto']]));
             ul.appendChild(li);
@@ -74,11 +73,11 @@ function generateMainContent(result) {
 
 function generateInteractionForm(product, available) {
     // <form action="">
-    //     <form action=''>
+    //     <span>
     //         <button type='button'>-</button>
     //         <input type="number" id="quantity" name="quantity" min="0" value="${product["quantita"]}">;
     //         <button type='button'>+</button>
-    //     </form>
+    //     </span>
     //     <button type='submit' name='remove'>Rimuovi<img src="${paths.RESOURCES_DIR}cestino_B.png" alt="" name='remove'></button>
     //     <button type='submit' name='favourite'>Sposta nei Preferiti<img src="${paths.RESOURCES_DIR}cuore_B.png" alt="" name='favourite'></button>
     // </form>
@@ -87,8 +86,13 @@ function generateInteractionForm(product, available) {
 
     const span = document.createElement('span');
 
+    const label = document.createElement('label');
+    label.setAttribute('for', 'quantity' + product['idProdotto']);
+    label.textContent = 'Quantità:';
     const input = document.createElement('input');
     input.type = 'number';
+    input.id = 'quantity' + product['idProdotto'];
+    input.name = 'quantity';
     input.min = 0;
     input.max = available;
     input.value = product['quantita'];
@@ -119,6 +123,7 @@ function generateInteractionForm(product, available) {
         quantityListener(input.value, available,  product['idProdotto'], event);
     });
     span.appendChild(minusButton);
+    span.appendChild(label);
     span.appendChild(input);
     span.appendChild(plusButton);
     

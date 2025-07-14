@@ -254,9 +254,7 @@ class DatabaseHelper {
     public function moveToCart($idProdotto) {
         if ($this->isLogged() && $this->getUserType()=="client") {
             $this->removeFromFavourites($idProdotto);
-            if($this->getCartQuantity($idProdotto)[0]['quantita'] < 0) {
-                $this->addToCart($idProdotto, 1);
-            }
+            $this->addToCart($idProdotto, 1);
         }
     }
 

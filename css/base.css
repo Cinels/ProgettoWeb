@@ -1,6 +1,30 @@
-body, header, footer, h1 {
+body, header, footer, h1, h2, h3, h4, ul, p, fieldset, legend {
     margin: 0;
     padding: 0;
+    border: 0;
+}
+
+li {
+    list-style: none;
+}
+
+button {
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    cursor: pointer;
+    background-color: #bbb;
+}
+
+::file-selector-button {
+    border-radius: 100px;
+    border: 1px outset #737373;
+}
+
+::file-selector-button:hover {
+    cursor: pointer;
+    background-color: #bbb;
 }
 
 body {
@@ -70,4 +94,20 @@ body > footer {
     color: lightcyan;
     padding: 3%;
     text-align: center;
+}
+
+@media screen and (min-width: 768px) {
+    
+    body > header {
+        display: grid;
+        padding: 1%;
+        grid-template-columns: auto 1fr auto;
+    }
+    
+    body > header > form {
+        width: 50%;
+        margin: 1% 10% 1% 40%;
+        grid-column: 2;
+        grid-row: 1;
+    }
 }
