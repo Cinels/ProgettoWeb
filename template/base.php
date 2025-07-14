@@ -13,7 +13,7 @@
     </head>
     <body>
         <header>
-            <h1><a href="<?php echo PAGES_DIR ?>index.php"><img src="<?php echo RESOURCES_DIR ?>header/logo.png" alt="Il Puzzo"/></a></h1>
+            <h1><a href="<?php echo PAGES_DIR ?>index.php"><img src="<?php echo RESOURCES_DIR ?>header/logo.png" alt="Logo - Home Page"/></a></h1>
             <div>    
                 <?php if($dbh->isLogged() && $dbh->getUserType() === "vendor"): ?>
                     <a href="<?php echo PAGES_DIR ?>manage_product.php"><img src="<?php echo RESOURCES_DIR ?>header/add_T.png" alt="Aggiungi Prodotto"/></a>
