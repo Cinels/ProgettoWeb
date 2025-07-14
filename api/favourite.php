@@ -18,7 +18,6 @@ foreach ($favourites as $product) {
 }
 $result = ['result' => $favourites, 'available' => $available, 'cartQuantity' => $cartQuantity];
 
-
 header('Content-Type: application/json');
 echo json_encode($result);
 

@@ -24,7 +24,6 @@ if(isset($_POST["card_number"]) && isset($_POST["expire_date"]) && isset($_POST[
     foreach($orderDetails as $product) {
         $dbh->manageLowQuantity($product['idProdotto'], $dbh->getProduct($product['idProdotto'])[0]['quantitaDisponibile']);
     }
-    
 }
 
 header('Content-Type: application/json');
