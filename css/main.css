@@ -179,6 +179,11 @@ main > section > header + ul > li > form {
     grid-row: 5 / 8;
 }
 
+main ul > li > button[name='edit'] {
+    grid-column: 2 / 4;
+    grid-row: 5;
+}
+
 main > section > header + ul > li > a > img {
     max-width: 90%;
     margin-right: 10%;
@@ -346,7 +351,7 @@ main > article > section > p:first-of-type {
     width: 50%;
 }
 
-main > article > section > p {
+main > article > section > p:not(:last-of-type) {
     display: inline-block;
     margin-bottom: 2%;
     vertical-align: top;
@@ -369,12 +374,6 @@ p > img, main a[href='#Reviews'] > img, main section[id='Reviews'] img {
     height: 18px;
     vertical-align: middle;
 }
-
-/*main > section > header + ul > li > form {
-    justify-content: flex-end;
-    grid-column: 2;
-    grid-row: 2;
-}*/
 
 input[type="number"] {
   -webkit-appearance: textfield;
@@ -610,7 +609,7 @@ main > section > form > ul > li:nth-last-of-type(4) {
 
 main > section > form > label, main > section > form > ul > li > label {
     display: inline-block;
-    width: 50%;
+    width: 40%;
     margin-top: 1%;
     text-align: start;
 }
@@ -619,9 +618,10 @@ main > section > form > ul > li > label > img{
     max-width: 100%;
 }
 
-main > section > form > input, main > section > form > ul > li > input, main > section > form > select {
+main > section > form > input, main > section > form > ul > li > input, main > section > form > select,
+main > section > form > textarea {
     box-sizing: border-box;
-    width: 50%;
+    width: 60%;
     padding: 0 1%;
     margin-top: 1%;
     border-radius: 100px;
@@ -698,13 +698,7 @@ main > section > form > input[type='file'] {
 }
 
 main > section > form > textarea {
-    box-sizing: border-box;
-    width: 50%;
-    padding: 0 1%;
-    margin-top: 1%;
     border-radius: 10px;
-    vertical-align: top;
-    border: 1px solid #737373;
     resize: none;
 }
 
@@ -954,6 +948,10 @@ main > div > section > ul > li > button > img {
         grid-row: 10;
     }
 
+    main > section > header + ul > li {
+        margin-top: 1%;
+    }
+
     main > section > header + ul > li > a > p:nth-of-type(3) {
         grid-column: 2;
     }
@@ -967,7 +965,7 @@ main > div > section > ul > li > button > img {
     }
 
     main > section button[name='favouriteRemove'], main ul > li > form > button[name='cart'], 
-    main ul > li > form > button[name='favourite'], main > section button[name='edit'] {
+    main ul > li > form > button[name='favourite'], main ul > li > button[name='edit'] {
         width: 40%;
         margin: 2% 5%;
     }
@@ -979,5 +977,16 @@ main > div > section > ul > li > button > img {
 
     main > section > ul > li > form > span {
         padding: 1%;
+    }
+
+    main > section > form > label, main > section > form > ul > li > label {
+        width: 30%;
+        margin-left: 10%;
+    }
+
+    main > section > form > input, main > section > form > ul > li > input, main > section > form > select,
+    main > section > form > textarea {
+        width: 50%;
+        margin-right: 10%;
     }
 }
