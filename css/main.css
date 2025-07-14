@@ -570,6 +570,11 @@ main section[id='Reviews'] input {
     vertical-align: top;
 }
 
+main section[id='Reviews'] input[type='image'] {
+    width: 30%;
+    margin-right: 30%;
+}
+
 main section[id='Reviews'] textarea {
     box-sizing: border-box;
     width: 60%;
@@ -789,14 +794,13 @@ main > div > section > header > h2 {
 
 main > div > section > ul > li {
     display: grid;
-    grid-template-columns: auto auto 1fr;
-    grid-template-rows: auto 1fr;
+    grid-template-columns: auto 35px 35px;
 }
 
 main > div > section > ul > li > h3 {
     margin-top: 3%;
     margin-bottom: 0.5%;
-    grid-column: 1 / 5;
+    grid-column: 1 / 4;
 }
 
 main > div > section > ul > li > span, main > div > section > ul > li > strong {
@@ -814,7 +818,7 @@ main > div > section > ul > li > button:hover {
 }
 
 main > div > section > ul > li > button > img {
-    height: 32px;
+    max-height: 32px;
 }
 
 @media screen and (min-width: 768px) {
@@ -1028,5 +1032,11 @@ main > div > section > ul > li > button > img {
         grid-row: 2;
         width: 40%;
         justify-self: center;
+    }
+
+    main section[id='Reviews'] input[type='image'] {
+        width: 20%;
+        margin-right: 40%;
+        min-height: 18px;
     }
 }
