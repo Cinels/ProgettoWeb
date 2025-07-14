@@ -9,6 +9,21 @@ values
 ('venditore@negozio.it', 'Franco', 'Ruccacucchi', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', "https://us-tuna-sounds-images.voicemod.net/7a1857fb-c4d1-4422-9652-fcb4ff3a9c48-1722539434495.jpg"), -- password: password
     ('cliente@negozio.it', 'Giovanna', 'Crisafulli', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', NULL); -- password: password
 
+-- Popolamento tabella UTENTE
+INSERT INTO UTENTE (email, nome, cognome, password, fotoProfilo) VALUES
+  ('anna.rossi@example.com',   'Anna',   'Rossi',    '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', NULL),
+  ('luca.bianchi@example.com', 'Luca',   'Bianchi',  '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', NULL),
+  ('marco.verdi@example.com',  'Marco',  'Verdi',    '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', NULL),
+  ('giulia.neri@example.com',  'Giulia', 'Neri',     '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', NULL);
+
+-- Popolamento tabella CLIENTE
+INSERT INTO CLIENTE (email) VALUES
+  ('anna.rossi@example.com'),
+  ('luca.bianchi@example.com'),
+  ('marco.verdi@example.com'),
+  ('giulia.neri@example.com');
+
+
 insert into venditore
 values
 ('venditore@negozio.it');
@@ -67,6 +82,31 @@ VALUES
 (37, 'F1® 24', 29.99, 100, 'Il gioco ufficiale del Campionato Mondiale di Formula 1 2024.', 'PEGI 3', true, 3, 'venditore@negozio.it'),
 (38, 'Grand Theft Auto V: Premium Edition', 19.99, 100, 'Vivi la vita criminale a Los Santos in questa edizione completa.', 'PEGI 18', true, 3, 'venditore@negozio.it'),
 (39, 'Assassin’s Creed Mirage', 19.99, 100, 'Torna alle origini della serie con questa avventura ambientata a Baghdad.', 'PEGI 18', true, 3, 'venditore@negozio.it');
+
+/* Prodotti con scorte quasi esaurite */
+UPDATE PRODOTTO
+SET quantitaDisponibile = 3
+-- PS5 Slim, Nintendo Switch Pro Controller, Hogwarts Legacy
+WHERE idProdotto IN (4, 11, 23, 31);
+
+UPDATE PRODOTTO
+SET offerta = 0;
+
+/* Promozioni attive */
+UPDATE PRODOTTO
+SET offerta = CASE idProdotto
+  WHEN 2  THEN 10   -- 10 % di sconto
+  WHEN 5  THEN 15   -- 15 %
+  WHEN 8  THEN 20   -- 20 %
+  WHEN 12 THEN 25   -- 25 %
+  WHEN 16 THEN 30   -- 30 %
+  WHEN 18 THEN 12   -- 12 %
+  WHEN 22 THEN 18   -- 18 %
+  WHEN 26 THEN 40   -- 40 %
+  WHEN 33 THEN 35   -- 35 %
+  WHEN 37 THEN 50   -- 50 %
+END
+WHERE idProdotto IN (2,5,8,12,16,18,22,26,33,37);
 
 insert into PIATTAFORMA
 VALUES
@@ -162,3 +202,148 @@ INSERT INTO IMMAGINE (nome, idProdotto, numeroProgressivo, link) VALUES
 INSERT INTO ORDINE VALUES (1, '2025-06-29', 1, '2025-06-30', 1, 'cliente@negozio.it', 'venditore@negozio.it', 50);
 
 INSERT INTO DETTAGLIO_ORDINE VALUES (1,1,1), (11,1,1);
+
+/* ─── Anna Rossi ─────────────────────────────────────────────── */
+INSERT INTO CRONOLOGIA_PRODOTTI (idCliente, idProdotto, oraRicerca) VALUES
+  ('anna.rossi@example.com',  3,  '2025-07-13 10:15:00'),
+  ('anna.rossi@example.com',  7,  '2025-07-12 16:40:00'),
+  ('anna.rossi@example.com', 15, '2025-07-11 09:20:00'),
+  ('anna.rossi@example.com', 22, '2025-07-10 18:55:00'),
+  ('anna.rossi@example.com', 30, '2025-07-09 11:05:00');
+
+/* ─── Luca Bianchi ───────────────────────────────────────────── */
+INSERT INTO CRONOLOGIA_PRODOTTI (idCliente, idProdotto, oraRicerca) VALUES
+  ('luca.bianchi@example.com',  5, '2025-07-13 08:47:00'),
+  ('luca.bianchi@example.com', 12, '2025-07-12 14:30:00'),
+  ('luca.bianchi@example.com', 19, '2025-07-11 19:10:00'),
+  ('luca.bianchi@example.com', 33, '2025-07-10 12:45:00');
+
+/* ─── Marco Verdi ─────────────────────────────────────────────── */
+INSERT INTO CRONOLOGIA_PRODOTTI (idCliente, idProdotto, oraRicerca) VALUES
+  ('marco.verdi@example.com',  1, '2025-07-13 11:12:00'),
+  ('marco.verdi@example.com',  2, '2025-07-13 11:30:00'),
+  ('marco.verdi@example.com',  8, '2025-07-12 17:15:00'),
+  ('marco.verdi@example.com', 14, '2025-07-11 09:50:00'),
+  ('marco.verdi@example.com', 21, '2025-07-11 15:05:00'),
+  ('marco.verdi@example.com', 27, '2025-07-10 20:25:00'),
+  ('marco.verdi@example.com', 36, '2025-07-09 16:40:00');
+
+/* ─── Giulia Neri ─────────────────────────────────────────────── */
+INSERT INTO CRONOLOGIA_PRODOTTI (idCliente, idProdotto, oraRicerca) VALUES
+  ('giulia.neri@example.com',  4, '2025-07-12 13:22:00'),
+  ('giulia.neri@example.com', 18, '2025-07-11 18:02:00'),
+  ('giulia.neri@example.com', 26, '2025-07-10 10:00:00');
+
+
+
+/* ─── Preferiti di Anna Rossi ───────────────────────────── */
+INSERT INTO LISTA_PREFERITI (idCliente, idProdotto) VALUES
+  ('anna.rossi@example.com', 12),
+  ('anna.rossi@example.com', 25),
+  ('anna.rossi@example.com', 34);
+
+/* ─── Preferiti di Luca Bianchi ─────────────────────────── */
+INSERT INTO LISTA_PREFERITI (idCliente, idProdotto) VALUES
+  ('luca.bianchi@example.com',  9),
+  ('luca.bianchi@example.com', 17);
+
+/* ─── Preferiti di Marco Verdi ──────────────────────────── */
+INSERT INTO LISTA_PREFERITI (idCliente, idProdotto) VALUES
+  ('marco.verdi@example.com',  5),
+  ('marco.verdi@example.com', 22),
+  ('marco.verdi@example.com', 33);
+
+  /* ─── Carrello di Anna Rossi ───────────────────────────── */
+INSERT INTO CARRELLO (idProdotto, idCliente, quantita) VALUES
+  ( 6, 'anna.rossi@example.com', 1),   -- es. videogame
+  (14, 'anna.rossi@example.com', 2);   -- es. controller
+
+/* ─── Carrello di Luca Bianchi ─────────────────────────── */
+INSERT INTO CARRELLO (idProdotto, idCliente, quantita) VALUES
+  ( 5, 'luca.bianchi@example.com', 1),   -- es. console
+  (20, 'luca.bianchi@example.com', 3);   -- es. videogame
+
+/* ─── Carrello di Marco Verdi ──────────────────────────── */
+INSERT INTO CARRELLO (idProdotto, idCliente, quantita) VALUES
+  ( 9, 'marco.verdi@example.com', 2),   -- es. controller
+  (27, 'marco.verdi@example.com', 1),   -- es. videogame
+  (35, 'marco.verdi@example.com', 1);   -- es. accessorio
+
+/* ─── Carrello di Giulia Neri ──────────────────────────── */
+INSERT INTO CARRELLO (idProdotto, idCliente, quantita) VALUES
+  ( 8, 'giulia.neri@example.com', 1),   -- es. console
+  (18, 'giulia.neri@example.com', 2);   -- es. videogame
+
+/* ─── Carrello del cliente generico ────────────────────── */
+INSERT INTO CARRELLO (idProdotto, idCliente, quantita) VALUES
+  (12, 'cliente@negozio.it', 1),   -- es. controller
+  (16, 'cliente@negozio.it', 1),   -- es. videogame
+  (24, 'cliente@negozio.it', 2);   -- es. accessorio
+
+INSERT INTO CARRELLO (idProdotto, idCliente, quantita) VALUES
+  (32, 'anna.rossi@example.com',   1),
+  (32, 'luca.bianchi@example.com', 1),
+  (32, 'marco.verdi@example.com',  1),
+  (32, 'giulia.neri@example.com',  1),
+  (32, 'cliente@negozio.it',       1);
+
+  CALL createOrder('anna.rossi@example.com', 'venditore@negozio.it', @dummy);
+  CALL createOrder('luca.bianchi@example.com', 'venditore@negozio.it', @dummy);
+  CALL createOrder('marco.verdi@example.com', 'venditore@negozio.it', @dummy);
+  CALL createOrder('giulia.neri@example.com', 'venditore@negozio.it', @dummy);
+  CALL createOrder('cliente@negozio.it', 'venditore@negozio.it', @dummy);
+
+/* ─── Carrello di Anna Rossi ───────────────────────────── */
+INSERT INTO CARRELLO (idProdotto, idCliente, quantita) VALUES
+  (13, 'anna.rossi@example.com', 2),   -- es. videogioco
+  (26, 'anna.rossi@example.com', 1);   -- es. controller
+
+/* ─── Carrello di Giulia Neri ──────────────────────────── */
+INSERT INTO CARRELLO (idProdotto, idCliente, quantita) VALUES
+  ( 3, 'giulia.neri@example.com', 1),  -- es. console
+  (16, 'giulia.neri@example.com', 2),  -- es. videogioco
+  (33, 'giulia.neri@example.com', 1);  -- es. accessorio
+
+/* ─── Carrello del cliente generico ────────────────────── */
+INSERT INTO CARRELLO (idProdotto, idCliente, quantita) VALUES
+  ( 9, 'cliente@negozio.it', 1),  -- es. controller
+  (28, 'cliente@negozio.it', 2);  -- es. videogioco
+
+  CALL createOrder('anna.rossi@example.com', 'venditore@negozio.it', @dummy);
+  CALL createOrder('giulia.neri@example.com', 'venditore@negozio.it', @dummy);
+  CALL createOrder('cliente@negozio.it', 'venditore@negozio.it', @dummy);
+
+INSERT INTO RECENSIONE (descrizione, voto, idProdotto, idCliente) VALUES
+  -- ★ Prodotto 32 recensito da tutti
+  ('Ottimo gioco, consegna rapida!',           5, 32, 'anna.rossi@example.com'),
+  ('Bel prodotto, buon prezzo.',               4, 32, 'luca.bianchi@example.com'),
+  ('Perfetto, nulla da dire.',                 5, 32, 'marco.verdi@example.com'),
+  ('Proprio quello che cercavo!',              5, 32, 'giulia.neri@example.com'),
+  ('Va bene, ma packaging migliorabile.',      4, 32, 'cliente@negozio.it'),
+
+/* ─── Anna Rossi (prodotti 13, 26) ───────────────────── */
+  ('Ottimo videogioco; storia avvincente.',                5, 13, 'anna.rossi@example.com'),
+  ('Controller leggero e preciso: consigliato.',           4, 26, 'anna.rossi@example.com'),
+
+  /* ─── Giulia Neri (prodotti 3, 16, 33) ───────────────── */
+  ('Console silenziosa e veloce.',                         5,  3, 'giulia.neri@example.com'),
+  ('Gameplay coinvolgente, grafica curata.',               3, 16, 'giulia.neri@example.com'),
+  ('Accessorio utile, buon rapporto qualità‑prezzo.',      4, 33, 'giulia.neri@example.com'),
+
+  /* ─── Cliente generico (prodotti 9, 28) ──────────────── */
+  ('Controller base ma funziona bene.',                    4,  9, 'cliente@negozio.it'),
+  ('Videogioco divertente, perfetto per partite rapide.',  4, 28, 'cliente@negozio.it');
+
+INSERT INTO RECENSIONE (descrizione, voto, idProdotto, idCliente) VALUES
+  -- Luca Bianchi (2 prodotti → recensisce 1)
+  ('Console ben fatta, silenziosa e veloce.',       5, 5,  'luca.bianchi@example.com'),
+
+  -- Marco Verdi (3 prodotti → recensisce 2)
+  ('Controller leggero ma resistente.',             5, 9,  'marco.verdi@example.com'),
+  ('Ottimo accessorio per il multiplayer.',         3, 35, 'marco.verdi@example.com'),
+
+  -- Giulia Neri (2 prodotti → recensisce entrambi)
+  ('Console elegante e performante.',               5, 8,  'giulia.neri@example.com'),
+
+  -- Cliente generico (3 prodotti → recensisce 2)
+  ('Videogioco molto intuitivo.',                   4, 16, 'cliente@negozio.it');
