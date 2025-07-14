@@ -53,13 +53,13 @@ function generateMainContent(result) {
         img.src = utils.DB_RESOURCES_DIR + product['link'];
         img.alt = "Immagine Prodotto";
 
-        const p = document.createElement('p');
-        p.textContent = product['nome'];
+        const h2 = document.createElement('h2');
+        h2.textContent = product['nome'];
 
         const a = document.createElement('a');
         a.href = utils.PAGES_DIR + 'product.php?search=' + product['idProdotto'];
         a.appendChild(img);
-        a.appendChild(p);
+        a.appendChild(h2);
 
         li.appendChild(a);
 

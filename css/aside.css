@@ -11,13 +11,14 @@ aside > section {
     border-width: 1.5px;
     border-style: outset;
     border-radius: 30px;
-    margin: 2%;
+    margin: 3%;
     padding: 2%;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
 }
 
 aside > section > h2 {
     text-align: center;
+    font-size: x-large;
 }
 
 aside > section > form {
@@ -33,7 +34,7 @@ aside > section > form > button {
     padding: 1%;
     margin: 1%;
     width: 48%;
-    height: 175px;
+    height: 250px;
     overflow: hidden;
 }
 

@@ -21,7 +21,7 @@ function generateSignInContent(result) {
             <p></p>
             <ul>
                 <li>
-                    <label for="image">Foto profilo:</label><input type="file" name="image" accept="image/*"/>
+                    <label for="image">Foto profilo:</label><input type="file" id="image" name="image" accept="image/*"/>
                 </li><li>
                     <label for="name">Nome:</label><input type="text" id="name" name="name" required/>
                 </li><li>

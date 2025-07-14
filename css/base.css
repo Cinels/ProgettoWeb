@@ -14,7 +14,7 @@ body > header {
     align-items: center;
     background-image: linear-gradient(to right, black, darkblue);
     color: lightcyan;
-    padding: 2%;
+    padding: 3%;
 }
 
 body > header > h1 {
@@ -49,11 +49,11 @@ body > header > form {
     background-color: white;
     text-align: center;
     align-items: center;
-    margin-top: 0.5%;
+    margin-top: 3%;
 }
 
 body > header > form > img {
-    max-height: 20px;
+    max-height: 32px;
     padding: 1% 3%;
 }
 
@@ -62,12 +62,12 @@ body > header > form > input, header > form > input:focus {
     outline: none;
     font-size: large;
     width: 100%;
-    padding-right: 2%;
+    padding: 1% 2% 1% 0;
 }
 
 body > footer {
     background-image: linear-gradient(to right, black, darkblue);
     color: lightcyan;
-    padding: 2%;
+    padding: 3%;
     text-align: center;
 }
