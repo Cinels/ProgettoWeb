@@ -116,7 +116,7 @@ function generateMainContent(result) {
 
     const label2 = document.createElement('label');
     label2.setAttribute('for', 'price');
-    label2.textContent = 'Prezzo (€)';
+    label2.textContent = 'Prezzo (€):';
     const input2 = document.createElement('input');
     input2.type = 'number';
     input2.id = 'price';
