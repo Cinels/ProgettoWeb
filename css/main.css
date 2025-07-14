@@ -624,7 +624,9 @@ main > section > form > label, main > section > form > ul > li > label {
 }
 
 main > section > form > ul > li > label > img{
-    max-width: 100%;
+    max-width: 95%;
+    margin-right: 5%;
+    border-radius: 10px;
 }
 
 main > section > form > input, main > section > form > ul > li > input, main > section > form > select,
@@ -650,6 +652,7 @@ main > section > form {
 main > section > form > div > h2 {
     margin-bottom: 1%;
 }
+
 main > section > form > div > h2 ~ * {
     display: inline-block;
     width: 100%;
@@ -695,7 +698,8 @@ main > section > form > h2 {
 }
 
 main > section > form > label > img {
-    width: 100%;
+    width: 95%;
+    margin-right: 5%;
     border-radius: 10px;
 }
 
@@ -819,7 +823,7 @@ main > div > section > ul > li > button > img {
     main > div {
         display: grid;
         grid-template-columns: 1fr 2fr 1fr;
-        grid-template-rows: 2fr 1fr;
+        /* grid-template-rows: 2fr 1fr; */
     }
     
     main > div > a:first-of-type {
@@ -1005,5 +1009,22 @@ main > div > section > ul > li > button > img {
 
     main > section > ul > li > ul > li:not(:last-of-type) {
         margin-bottom: 2%;
+    }
+
+    main > section > form > div > h2 ~ * {
+        width: 80%;
+        margin-left: 10%;
+        margin-right: 10%;
+    }
+
+    main > div > section {
+        grid-column: 1 / 4;
+    }    
+    
+    main > div > button {
+        grid-column: 2;
+        grid-row: 2;
+        width: 40%;
+        justify-self: center;
     }
 }
