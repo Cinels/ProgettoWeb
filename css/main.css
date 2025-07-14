@@ -19,7 +19,7 @@ button:hover {
 
 ::file-selector-button {
     border-radius: 100px;
-    border: 1px outset #bbb;
+    border: 1px outset #737373;
 }
 
 ::file-selector-button:hover {
@@ -193,6 +193,7 @@ main > section > ul > li > a {
     color: black;
     vertical-align: top;
     display: inline-block;
+    width: 100%;
 }
 
 main > section > header + ul > li > a:first-of-type {
@@ -493,7 +494,6 @@ main > article > form > span {
     box-sizing: border-box;
     border-radius: 100px;
     border: 1px outset #737373;
-    /* padding: 2%; */
     vertical-align: middle;
 }
 
@@ -764,6 +764,7 @@ main > div > button {
     background-color: #FF6161;
     font-size: large;
     border: 1px outset #9e0000;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     display: inline-flex;
     justify-content: center;
     align-items: center;
@@ -817,4 +818,8 @@ main > div > section > ul > li > button:hover {
 
 main > div > section > ul > li > button > img {
     height: 32px;
+}
+
+@media screen and (min-width: 768px) {
+    
 }
