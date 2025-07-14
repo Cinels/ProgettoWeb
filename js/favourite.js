@@ -51,7 +51,7 @@ function generateInteractionForm(product, cartQuantity, available) {
     const form = document.createElement('form');
     
     const removeImage = document.createElement('img');
-    removeImage.src = utils.RESOURCES_DIR + 'cestino_B.png';
+    removeImage.src = utils.RESOURCES_DIR + 'cestino_W.png';
     removeImage.alt = '';
     
     const removeButton = document.createElement('button');

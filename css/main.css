@@ -186,6 +186,10 @@ main > section > ul > li > p, main > section > ul > li > form > select {
     text-align: center;
 }
 
+main > section > ul > li > form > select{
+    border: 1px outset #737373;
+}
+
 main > section > ul > li > span > p, main > section > ul > li > span > strong {
     display: inline-block;
     margin-right: 1%;
@@ -264,7 +268,7 @@ main > article > section > p {
 }
 
 main ins {
-    color: rgb(200, 0, 0);
+    color: #B30000;
     text-decoration: none;
     font-weight: bold;
 }
@@ -304,7 +308,7 @@ main > section > ul > li > form > span {
     margin: 0 5% 5% 0;
     padding: 2%;
     vertical-align: middle;
-    border: 1px outset white;
+    border: 1px outset #737373;
 }
 
 main > section > ul > li > form > span > input {
@@ -322,19 +326,20 @@ main > section > ul > li > form > span > button {
 }
 
 main > section button[name='cartRemove'], main > section button[name='favouriteRemove'] {
+    color: white;
     width: 100%;
     vertical-align: middle;
     display: inline-flex;
-    background-color: red;
+    background-color: #B30000;
     font-size: large;
     align-items: center;
     justify-content: center;
     margin-bottom: 3%;
-    border: 1px outset rgb(210, 0, 0);
+    border: 1px outset #9e0000;
 }
 
 main > section button[name='cartRemove']:hover, main > section button[name='favouriteRemove']:hover {
-    background-color: rgb(210, 0, 0);
+    background-color: red;
 }
 
 main > section button[name='cartRemove'] {
@@ -350,7 +355,7 @@ main form > button[name='favourite'], main form > button[name='cart'], main butt
     align-items: center;
     justify-content: center;
     margin-top: 3%;
-    border: 1px outset #ddd;
+    border: 1px outset #737373;
 }
 
 main form > button[name='favourite']:hover, main > article button[name='edit']:hover {
@@ -376,6 +381,7 @@ main > article > form > span {
     background-color: white;
     box-sizing: border-box;
     border-radius: 100px;
+    border: 1px outset #737373;
     padding: 2%;
     vertical-align: middle;
 }
@@ -437,7 +443,7 @@ main section[id='Reviews'] > form {
 
 main section[id='Reviews'] button {
     padding: 1% 2%;
-    border: 1px outset #ddd;
+    border: 1px outset #737373;
 }
 
 main section[id='Reviews'] label {
@@ -492,7 +498,7 @@ main section footer a {
 
 main > section > form > p {
     font-weight: bold;
-    color: red;
+    color: #B30000;
     margin-bottom: 1%;
 }
 
@@ -542,13 +548,13 @@ main > section > form > input, main > section > form > ul > li > input, main > s
     padding: 0 1%;
     margin-top: 1%;
     border-radius: 100px;
-    border: 1px solid #bbb;
+    border: 1px solid #737373;
 }
 
 main > section > form > ul > li > button, main > section > form button {
     padding: 1% 2%;
     margin: 1% 1% 0 ;
-    border: 1px outset #ddd;
+    border: 1px outset #737373;
 }
 
 main > section > form {
@@ -616,7 +622,7 @@ main > section > form > input[type='file'] {
 
 ::file-selector-button {
     border-radius: 10px;
-    border: 1px outset #bbb;
+    border: 1px outset #737373;
 }
 
 ::file-selector-button:hover {
@@ -631,7 +637,7 @@ main > section > form > textarea {
     margin-top: 1%;
     border-radius: 10px;
     vertical-align: top;
-    border: 1px solid #bbb;
+    border: 1px solid #737373;
     resize: none;
 }
 
@@ -672,13 +678,13 @@ main > div > section:first-of-type > button {
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px outset #ddd;
+    border: 1px outset #737373;
 }
 
 main > div > button {
-    background-color: red;
+    background-color: #B30000;
     font-size: large;
-    border: 1px outset rgb(210, 0, 0);
+    border: 1px outset #9e0000;
     display: inline-flex;
     justify-content: center;
     align-items: center;
@@ -690,7 +696,7 @@ main > div > button > img {
 }
 
 main > div > button:hover {
-    background-color: rgb(210, 0, 0);
+    background-color: red;
 }
 
 main > div > section > header > img {

@@ -28,7 +28,7 @@ aside > section > form {
 aside > section > form > button {
     text-align: center;
     background-color: white;
-    border: 1px outset #ddd;
+    border: 1px outset #737373;
     border-radius: 20px;
     padding: 1%;
     margin: 1%;
@@ -52,7 +52,7 @@ aside > section > form > button, aside > section > form > button > span {
 
 aside > section > form > button > ins {
     font-weight: bold;
-    color: rgb(200, 0, 0);
+    color: #b30000;
     text-decoration: none;
 }
 
