@@ -447,7 +447,8 @@ main > section button[name='cartRemove'] {
     width: 60%;
 }
 
-main form > button[name='favourite'], main form > button[name='cart'], main button[name='edit'] {
+main form > button[name='favourite'], main form > button[name='cart'], main section:not([id='Reviews']) button[name='edit'],
+main article button[name='edit'] {
     width: 80%;
     vertical-align: middle;
     display: inline-flex;
@@ -484,20 +485,21 @@ main > article > form {
 }
 
 main > article > form > span {
-    display: inline-block;
+    display: inline-flex;
     width: 50%;
     background-color: white;
     box-sizing: border-box;
     border-radius: 100px;
     border: 1px outset #737373;
     vertical-align: middle;
+    align-items: center;
 }
 
 main > article > form > span > label {
     display: inline-block;
     width: 50%;
     text-align: start;
-    padding-left: 2%;
+    padding-left: 4%;
 }
 
 main > article > form > span > input {
@@ -566,6 +568,11 @@ main section[id='Reviews'] input {
     width: 60%;
     margin: 1% 0;
     vertical-align: top;
+}
+
+main section[id='Reviews'] input[type='image'] {
+    width: 30%;
+    margin-right: 30%;
 }
 
 main section[id='Reviews'] textarea {
@@ -787,14 +794,13 @@ main > div > section > header > h2 {
 
 main > div > section > ul > li {
     display: grid;
-    grid-template-columns: auto auto 1fr;
-    grid-template-rows: auto 1fr;
+    grid-template-columns: auto 35px 35px;
 }
 
 main > div > section > ul > li > h3 {
     margin-top: 3%;
     margin-bottom: 0.5%;
-    grid-column: 1 / 5;
+    grid-column: 1 / 4;
 }
 
 main > div > section > ul > li > span, main > div > section > ul > li > strong {
@@ -812,7 +818,7 @@ main > div > section > ul > li > button:hover {
 }
 
 main > div > section > ul > li > button > img {
-    height: 32px;
+    max-height: 32px;
 }
 
 @media screen and (min-width: 768px) {
@@ -1026,5 +1032,11 @@ main > div > section > ul > li > button > img {
         grid-row: 2;
         width: 40%;
         justify-self: center;
+    }
+
+    main section[id='Reviews'] input[type='image'] {
+        width: 20%;
+        margin-right: 40%;
+        min-height: 18px;
     }
 }
