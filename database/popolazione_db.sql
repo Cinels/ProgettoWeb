@@ -147,15 +147,12 @@ VALUES
 -- Console
 INSERT INTO IMMAGINE VALUES
 ('nintendo_switch_1', 1, 1, 'Console/nintendo_switch_1.jpg'),
-('nintendo_switch_2', 1, 2, 'Console/nintendo_switch_2.jpg'),
 ('nintendo_switch_lite_1', 2, 1, 'Console/nintendo_switch_lite_1.jpg'),
-('nintendo_switch_lite_2', 2, 2, 'Console/nintendo_switch_lite_2.jpg'),
 ('nintendo_switch_oled_1', 3, 1, 'Console/nintendo_switch_oled_1.jpg'),
 ('nintendo_switch_oled_2', 3, 2, 'Console/nintendo_switch_oled_2.png'),
 ('ps5_1', 4, 1, 'Console/ps5_1.jpg'),
 ('ps5_2', 4, 2, 'Console/ps5_2.jpg'),
 ('ps5_pro_1', 5, 1, 'Console/ps5_pro_1.jpg'),
-('ps5_pro_2', 5, 2, 'Console/ps5_pro_2.jpg'),
 ('steam_deck_1', 8, 1, 'Console/steam_deck_1.jpg'),
 ('xbox_S_1', 6, 1, 'Console/xbox_S_1.jpg'),
 ('xbox_S_2', 6, 2, 'Console/xbox_S_2.jpg'),
