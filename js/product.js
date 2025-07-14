@@ -188,7 +188,7 @@ function generateInteractionForm(idProduct, isFavourite, user_type, cartQuantity
         const input = document.createElement('input');
         input.type = 'number';
         input.id = 'quantity';
-        input.min = 0;
+        input.min = 1;
         input.max = available;
         input.value = 1;
 
