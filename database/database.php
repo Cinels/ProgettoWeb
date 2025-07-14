@@ -512,7 +512,6 @@ class DatabaseHelper {
             $query = "INSERT INTO PRODOTTO (nome, prezzo, quantitaDisponibile, descrizione, proprieta, offerta, tipo, idVenditore) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             $stmt = $this->db->prepare($query);
             $uno = 1;
-            $due = 2;
             $stmt->bind_param('sdissiis', $nome, $prezzo, $quantita, $descrizione, $proprieta, $offerta, $tipo, $_SESSION["user"]['email']);
             $stmt->execute();
             $id = $stmt->insert_id;
@@ -520,14 +519,21 @@ class DatabaseHelper {
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('ii', $id, $piattaforma);
             $stmt->execute();
-            $query = "INSERT INTO IMMAGINE VALUES (?, ?, ?, ?), (?, ?, ?, ?)";
+            $query = "INSERT INTO IMMAGINE VALUES (?, ?, ?, ?)";
             $stmt = $this->db->prepare($query);
             $nomeimg1=$nome.'_1';
-            $nomeimg2=$nome.'_2';
             // var_dump($immagine1);
             // var_dump($immagine2);
-            $stmt->bind_param('siissiis', $nomeimg1, $id, $uno, $immagine1, $nomeimg2, $id, $due, $immagine2);
+            $stmt->bind_param('siis', $nomeimg1, $id, $uno, $immagine1);
             $stmt->execute();
+            if($immagine2 != null) {
+                $query = "INSERT INTO IMMAGINE VALUES (?, ?, ?, ?)";
+                $due = 2;
+                $nomeimg2=$nome.'_2';
+                $stmt = $this->db->prepare($query);
+                $stmt->bind_param('siis', $nomeimg2, $id, $due, $immagine2);
+                $stmt->execute();
+            }
             return $id;
         }
     }
@@ -636,11 +642,14 @@ class DatabaseHelper {
     }
 
     public function manageLowQuantity($product, $quantity) {
+        error_log("p".$product);
+        error_log("q".$quantity);
         $query = "SELECT idCliente FROM CARRELLO WHERE idProdotto = ? AND quantita >= ?";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('ii', $product, $quantity);
         $stmt->execute();
         $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        //error_log(print_r($result));
         foreach($result as $cliente) {
             if ($quantity == 0) {
                 $this->moveToFavourites($product, $cliente['idCliente']);
@@ -661,9 +670,10 @@ class DatabaseHelper {
     }
 
     public function updateImage($product, $n, $link) {
-        $query = "UPDATE IMMAGINE SET link = ? WHERE idProdotto = ? AND numeroProgressivo = ?";
+        $query = "INSERT INTO IMMAGINE (nome, idProdotto, numeroProgressivo, link) VALUES(?, ?, ?, ?) ON DUPLICATE KEY UPDATE link = ?";
         $stmt = $this->db->prepare($query);
-        $stmt->bind_param('sii', $link, $product, $n);
+        $imgname = $this->getProductName($product).'_'.$n;
+        $stmt->bind_param('siiss', $imgname, $product, $n, $link, $link);
         $stmt->execute();
     }
 

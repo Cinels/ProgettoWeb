@@ -1,7 +1,4 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 require_once("../database/init.php");
 
 $totalPrice = 0.00;
@@ -25,7 +22,7 @@ if(isset($_POST["card_number"]) && isset($_POST["expire_date"]) && isset($_POST[
     }
     $orderDetails=$dbh->getOrderDetails($idOrder);
     foreach($orderDetails as $product) {
-        $dbh->manageLowQuantity($product['idProdotto'], $dbh->getProduct($product)[0]['quantitaDisponibile']);
+        $dbh->manageLowQuantity($product['idProdotto'], $dbh->getProduct($product['idProdotto'])[0]['quantitaDisponibile']);
     }
     
 }
