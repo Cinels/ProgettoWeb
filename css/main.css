@@ -761,7 +761,7 @@ main > div > section:first-of-type > button {
 }
 
 main > div > button {
-    background-color: #B30000;
+    background-color: #FF6161;
     font-size: large;
     border: 1px outset #9e0000;
     display: inline-flex;
