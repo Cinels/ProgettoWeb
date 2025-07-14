@@ -155,8 +155,7 @@ main > article > section > form input[type="radio"]:checked + label > img {
 
 main > section > header + ul > li {
     display: grid;
-    grid-template-columns: 2fr 3fr;
-    grid-template-rows: auto auto;
+    grid-template-columns: 4fr 3fr 3fr;
 }
 
 main > section > ul > li > a {
@@ -167,9 +166,17 @@ main > section > ul > li > a {
     width: 100%;
 }
 
-main > section > header + ul > li > a:first-of-type {
-    grid-column: 1;
-    grid-row: 1 / 4;
+main > section > header + ul > li > a {
+    display: grid;
+    grid-template-columns: subgrid;
+    grid-template-rows: subgrid;
+    grid-column: 1 / 4;
+    grid-row: 1 / 8;
+}
+
+main > section > header + ul > li > form {
+    grid-column: 2 / 4;
+    grid-row: 5 / 8;
 }
 
 main > section > header + ul > li > a > img {
@@ -177,25 +184,30 @@ main > section > header + ul > li > a > img {
     margin-right: 10%;
     border-radius: 20px;
     align-self: center;
+    grid-column: 1;
+    grid-row: 1 / 7;
 }
 
 main > section > header + ul > li > a > p:first-of-type, main > section > header + ul > li > a > p:nth-of-type(2) {
     display: inline-block;
     font-weight: bold;
     margin-bottom: 4%;
-    width: 50%;
+    width: 100%;
     vertical-align: top;
     font-size: large;
+    grid-column: 2;
 }
 
 main > section > header + ul > li > a > p:nth-of-type(2) /*:not(:first-of-type)*/ {
     text-align: end;
+    grid-column: 3;
 }
 
 main > section > header + ul > li > a > p {
     display: inline-block;
     margin-bottom: 2%;
     width: 100%;
+    grid-column: 2 / 4;
 }
 
 main > section > ul > li > a > img {
@@ -241,7 +253,7 @@ main > section > ul > li > a + button:nth-child(even) {
     margin-right: 0;
 }
 
-main > section > ul > li > button:hover {
+main > section > ul > li > button:hover, main > section > ul > li > button > img:hover {
     background-color: #a0bfbf;
 }
 
@@ -358,11 +370,11 @@ p > img, main a[href='#Reviews'] > img, main section[id='Reviews'] img {
     vertical-align: middle;
 }
 
-main > section > header + ul > li > form {
+/*main > section > header + ul > li > form {
     justify-content: flex-end;
     grid-column: 2;
     grid-row: 2;
-}
+}*/
 
 input[type="number"] {
   -webkit-appearance: textfield;
@@ -375,7 +387,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 main > section > ul > li > form > span {
-    display: inline-block;
+    display: inline-flex;
     width: 35%;
     background-color: white;
     box-sizing: border-box;
@@ -384,6 +396,11 @@ main > section > ul > li > form > span {
     padding: 2%;
     vertical-align: middle;
     border: 1px outset #737373;
+}
+
+main > section > ul > li > form > span > label {
+    visibility: hidden;
+    font-size: 0;
 }
 
 main > section > ul > li > form > span > input {
@@ -397,7 +414,7 @@ main > section > ul > li > form > span > input {
 main > section > ul > li > form > span > button {
     width: 30%;
     font-size: medium;
-    aspect-ratio: 1 / 1;
+    /* aspect-ratio: 1 / 1; */
 }
 
 main > section button[name='cartRemove'], main > section button[name='favouriteRemove'] {
@@ -792,5 +809,175 @@ main > div > section > ul > li > button > img {
 }
 
 @media screen and (min-width: 768px) {
+    main > section, main > div {
+        margin: 1%;
+    }
+
+    main > div {
+        display: grid;
+        grid-template-columns: 1fr 2fr 1fr;
+        grid-template-rows: 2fr 1fr;
+    }
     
+    main > div > a:first-of-type {
+        grid-column: 2;
+        align-content: normal;
+        margin-top: 0;
+    }
+
+    main > div > a:nth-of-type(2) {
+        grid-column: 1;
+    }
+
+    main > div > a {
+        grid-row: -1 / -3;
+        align-content: end;
+        margin-top: 20%;
+    }
+
+    main > div > a:first-of-type > img {
+        width: 80%;
+    }
+
+    main > div > a > img {
+        width: 100%;
+    }
+
+    main > section > header, main > article, main > section > ul > li, main > section > form, main > div > section {
+        margin: 1% 0;
+        padding: 1%;
+    }
+
+    main > section > ul > li {
+        width: 24.25%;
+        margin-top: 0;
+        text-align: center;
+    }
+
+    main > section > ul > li:nth-last-of-type(-n + 4) {
+        margin-bottom: 0;
+    }
+
+    main > section > ul > li:not(:nth-of-type(4n)) {
+        margin-right: 1%;
+    }
+
+    main > article {
+        margin: 1%;
+    }
+
+    main > section > header > form > button {
+        padding: 1%;
+    }
+
+    main > section > header > form > button > img {
+        max-width: 10%;
+        max-height: 30px;
+    }
+
+    main > article {
+        display: grid;
+        grid-template-columns: 3fr 3fr 2fr;
+        grid-template-rows: repeat(10, auto);        
+    }
+
+    main > article > section {
+        display: grid;
+        grid-template-columns: subgrid;
+        grid-template-rows: subgrid;
+        grid-column: 1 / 4;
+        grid-row: 1 / 10;
+    }
+
+    main > article > form {
+        display: grid;
+        grid-template-columns: subgrid;
+        grid-template-rows: subgrid;
+        grid-column: 3;
+        grid-row: 6 / 10;
+    }
+
+    main > article > section > img {
+        grid-row: 1 / 8;
+        width: 95%;
+        margin-right: 5%;
+    }
+
+    main > article > section > form {
+        grid-column: 1;
+        grid-row: 8 / 10;
+    }
+
+    main > article > section > h2 {
+        width: 100%;
+    }
+
+    main > article > section > p:first-of-type {
+        grid-column: 3;
+        width: 100%;
+    }
+    
+    main > article > section > p, main > article > section > a {
+        grid-column: 3;
+    }
+
+    main > article > h3 {
+        grid-column: 2;
+        grid-row: 7;
+    }
+
+    main > article > p {
+        grid-column: 2;
+        grid-row: 8 / 10;
+    }
+
+    main > article > h3:first-of-type {
+        grid-row: 2;
+    }
+
+    main > article > p:first-of-type {
+        grid-row: 3 / 7;
+    }
+
+    main > article > form > span {
+        width: 100%;
+    }
+
+    main > article > form > button[name='cart'], main > article > form > button[name='favourite'], main > article > form > button[name='edit'] {
+        width: 100%;
+    }
+
+    main > article > section[id='Reviews'] {
+        display: block;
+        padding: 1%;
+        grid-column: 1 / 4;
+        grid-row: 10;
+    }
+
+    main > section > header + ul > li > a > p:nth-of-type(3) {
+        grid-column: 2;
+    }
+
+    main > section > header + ul > li > a > p:nth-of-type(4) {
+        grid-column: 3;
+    }
+
+    main > section > ul > li > form > span {
+        width: 20%;
+    }
+
+    main > section button[name='favouriteRemove'], main ul > li > form > button[name='cart'], 
+    main ul > li > form > button[name='favourite'], main > section button[name='edit'] {
+        width: 40%;
+        margin: 2% 5%;
+    }
+
+    main > section button[name='cartRemove'] {
+        width: 25%;
+        margin: 2% 0;
+    }
+
+    main > section > ul > li > form > span {
+        padding: 1%;
+    }
 }

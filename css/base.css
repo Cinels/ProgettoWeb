@@ -1,4 +1,4 @@
-body, header, footer, h1, h2, h3, h4, ul, p, fieldset {
+body, header, footer, h1, h2, h3, h4, ul, p, fieldset, legend {
     margin: 0;
     padding: 0;
     border: 0;

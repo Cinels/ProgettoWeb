@@ -83,11 +83,11 @@ aside > section > form > button > del {
         width: 24.25%;
     }
 
-    aside > section > form > button:not(:last-of-type, :nth-last-of-type(2)) {
+    aside > section > form > button:nth-last-of-type(-n + 4) {
         margin-bottom: 0;
     }
 
-    aside > section > form > button:not(:last-of-type) {
+    aside > section > form > button:not(:nth-of-type(4n)) {
         margin-right: 1%;
     }
 }
