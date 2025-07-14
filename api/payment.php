@@ -10,7 +10,7 @@ foreach ($dbh->getCart() as $product) {
     $totalPrice += ($product['prezzoScontato']) * $product['quantita'];
     $numberProducts += $product['quantita'];
 }
-$result['total'] = $totalPrice;
+$result['total'] = round($totalPrice,2);
 $result['num_products'] = $numberProducts;
 $result['hasOrdered'] = false;
 
