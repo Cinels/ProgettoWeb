@@ -344,3 +344,11 @@ INSERT INTO RECENSIONE (descrizione, voto, idProdotto, idCliente) VALUES
 
   -- Cliente generico (3 prodotti → recensisce 2)
   ('Videogioco molto intuitivo.',                   4, 16, 'cliente@negozio.it');
+
+INSERT INTO CARRELLO (idProdotto, idCliente, quantita) VALUES
+  (1, 'marco.verdi@example.com',  1);
+
+CALL createOrder('marco.verdi@example.com', 'venditore@negozio.it', @dummy);
+
+INSERT INTO RECENSIONE (descrizione, voto, idProdotto, idCliente) VALUES
+('Dai, molto bella',             4, 1,  'marco.verdi@example.com');
